@@ -53,6 +53,15 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
+      <Project>{234a3293-9f1f-452f-b1eb-eaeeabf0b5ab}</Project>
+      <Name>BFH.EADN.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
