@@ -15,11 +15,20 @@ namespace BFH.EADN.EF.Seed
             Topic programming = new Topic { Name = "Programming", Description = "All about programming" };
             Topic movies = new Topic { Name = "Movies", Description = "All about movies" };
             Topic actors = new Topic { Name = "Actors", Description = "All about actory" };
-           
-            Question programmingQuestion1 = new Question { Text = "Is the C# syntax similiar to C?" };
-            Question programmingQuestion2  = new Question { Text = "Is SQL an object oriented language" };
-            Question movieQuestion1 = new Question { Text =  "How many sequels does matrix have?" };
+
+            Question programmingQuestion1 = new Question { Text = "Is the C# syntax similiar to C?", IsYesOrNo = true };
+            Question programmingQuestion2 = new Question { Text = "Is SQL an object oriented language" };
+            Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
+
+            Answer programmingAnwers1Yes = new Answer { Text = "Yes", IsSolution = true };
+            Answer programmingAnwers1No = new Answer { Text = "No" };
+
+            Answer movieQuestion1first = new Answer { Text = "3" };
+            Answer movieQuestion1second = new Answer { Text = "10" };
+            Answer movieQuestion1third = new Answer { Text = "2", IsSolution = true };
+
+
 
             programming.Questions = new HashSet<Question>
             {
@@ -43,6 +52,12 @@ namespace BFH.EADN.EF.Seed
                 programming
             };
 
+            programmingQuestion1.Anwers = new HashSet<Answer>
+              {
+                  programmingAnwers1No,
+                  programmingAnwers1Yes
+              };
+
             programmingQuestion2.Topics = new HashSet<Topic>
             {
                 programming
@@ -53,6 +68,13 @@ namespace BFH.EADN.EF.Seed
                 movies
             };
 
+            movieQuestion1.Anwers = new HashSet<Answer>
+            {
+                movieQuestion1first,
+                movieQuestion1second,
+                movieQuestion1third
+            };
+
             movieActorQuestion1.Topics = new HashSet<Topic>
             {
                 movies,
@@ -61,7 +83,7 @@ namespace BFH.EADN.EF.Seed
 
             HashSet<Topic> topics = new HashSet<Topic>
             {
-                programming, movies                
+                programming, movies
             };
 
             Quiz quiz1 = new Quiz

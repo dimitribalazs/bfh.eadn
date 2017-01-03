@@ -13,6 +13,7 @@ namespace BFH.EADN.EF.Entities
         public Question()
         {
             Topics = new HashSet<Topic>();
+            Anwers = new HashSet<Answer>();
         }
 
         [Key]
@@ -21,6 +22,15 @@ namespace BFH.EADN.EF.Entities
         public string Text { get; set; }
         public string Hint { get; set; }
 
-        public ICollection<Topic> Topics { get; set; }
+        /// <summary>
+        /// If it is a yes or not question. If false, then its an multiple choice
+        /// </summary>
+        public bool IsYesOrNo { get; set; } = false;
+
+
+        public virtual ICollection<Topic> Topics { get; set; }
+        public virtual ICollection<Answer> Anwers { get; set; }
+
+       
     }
 }
