@@ -1,4 +1,4 @@
-﻿using BFH.EADN.EF.Entities;
+﻿using BFH.EADN.Persistence.EF.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BFH.EADN.EF.Seed
+namespace BFH.EADN.Persistence.EF.Seed
 {
-    public class QuizDBInitializer : DropCreateDatabaseAlways<QuizDataContext>
+    public class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {

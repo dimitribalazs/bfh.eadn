@@ -1,5 +1,5 @@
-﻿using BFH.EADN.EF;
-using BFH.EADN.EF.Entities;
+﻿using BFH.EADN.Persistence.EF;
+using BFH.EADN.Persistence.EF.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

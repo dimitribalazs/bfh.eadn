@@ -1,5 +1,5 @@
-﻿using BFH.EADN.EF.Entities;
-using BFH.EADN.EF.Seed;
+﻿using BFH.EADN.Persistence.EF.Entities;
+using BFH.EADN.Persistence.EF.Seed;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BFH.EADN.EF
+namespace BFH.EADN.Persistence.EF
 {
     public class QuizDataContext : DbContext
     {

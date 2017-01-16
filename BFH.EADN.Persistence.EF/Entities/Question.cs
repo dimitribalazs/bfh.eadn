@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BFH.EADN.EF.Entities
+namespace BFH.EADN.Persistence.EF.Entities
 {
     public class Question
     {

@@ -42,8 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="QuizManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BFH.EADN.Common.Types\BFH.EADN.Common.Types.csproj">
+      <Project>{ca74ddff-c18f-4250-b968-c324bd4e9f38}</Project>
+      <Name>BFH.EADN.Common.Types</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
+      <Project>{234a3293-9f1f-452f-b1eb-eaeeabf0b5ab}</Project>
+      <Name>BFH.EADN.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

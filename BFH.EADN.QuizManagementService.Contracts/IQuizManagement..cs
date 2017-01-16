@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Contracts
 {
     [ServiceContract]
-    public interface IQuizManagementServiceContract
+    public interface IQuizManagement
     {
         [OperationContract]
         string TestToUpper(string text);
