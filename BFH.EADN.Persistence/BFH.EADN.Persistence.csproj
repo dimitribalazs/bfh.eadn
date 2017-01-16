@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DDCAFAD3-E5F6-4D1D-A773-82EE3969ECE1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{E982591F-68F7-4187-AD1C-8FBC66FA1444}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BFH.EADN.QuizManagementService.Host</RootNamespace>
-    <AssemblyName>BFH.EADN.QuizManagementService.Host</AssemblyName>
+    <RootNamespace>BFH.EADN.Persistence</RootNamespace>
+    <AssemblyName>BFH.EADN.Persistence</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,39 +32,33 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QuizManagementServiceHost.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="QuizManagementServiceHost.Designer.cs">
-      <DependentUpon>QuizManagementServiceHost.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Models\QuizData.cs" />
+    <Compile Include="PersistenceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BFH.EADN.QuizManagementService.Contracts\BFH.EADN.QuizManagementService.Contracts.csproj">
-      <Project>{BFF9FE91-477C-46A2-8E01-22949334FE67}</Project>
-      <Name>BFH.EADN.QuizManagementService.Contracts</Name>
+    <ProjectReference Include="..\BFH.EADN.Common.Types\BFH.EADN.Common.Types.csproj">
+      <Project>{ca74ddff-c18f-4250-b968-c324bd4e9f38}</Project>
+      <Name>BFH.EADN.Common.Types</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BFH.EADN.QuizManagementService.Implementation\BFH.EADN.QuizManagementService.Implementation.csproj">
-      <Project>{e09f8756-7dfd-4bbc-bd1e-56241aefbe90}</Project>
-      <Name>BFH.EADN.QuizManagementService.Implementation</Name>
+    <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
+      <Project>{234a3293-9f1f-452f-b1eb-eaeeabf0b5ab}</Project>
+      <Name>BFH.EADN.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.Persistence.EF\BFH.EADN.Persistence.EF.csproj">
+      <Project>{64f82214-da38-400a-bded-c9354024ad62}</Project>
+      <Name>BFH.EADN.Persistence.EF</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

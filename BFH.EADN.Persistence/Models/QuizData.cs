@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BFH.EADN.QuizManagementService.Implementation
+namespace BFH.EADN.Persistence.Models
 {
-    public class Class1
+    public class QuizData
     {
     }
 }

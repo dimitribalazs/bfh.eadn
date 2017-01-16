@@ -62,9 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BFH.EADN.EF\BFH.EADN.EF.csproj">
+    <ProjectReference Include="..\BFH.EADN.Persistence.EF\BFH.EADN.Persistence.EF.csproj">
       <Project>{64f82214-da38-400a-bded-c9354024ad62}</Project>
-      <Name>BFH.EADN.EF</Name>
+      <Name>BFH.EADN.Persistence.EF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
