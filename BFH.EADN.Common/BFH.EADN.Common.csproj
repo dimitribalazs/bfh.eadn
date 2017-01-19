@@ -33,6 +33,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,12 +46,13 @@
     <Compile Include="Common.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Contracts\Quiz.cs" />
+    <Compile Include="Types\Enums\QuizType.cs" />
+    <Compile Include="Types\IFactoryPersistence.cs" />
+    <Compile Include="Types\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BFH.EADN.Common.Types\BFH.EADN.Common.Types.csproj">
-      <Project>{ca74ddff-c18f-4250-b968-c324bd4e9f38}</Project>
-      <Name>BFH.EADN.Common.Types</Name>
-    </ProjectReference>
+    <None Include="Types\app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

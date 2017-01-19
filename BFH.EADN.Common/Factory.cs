@@ -19,8 +19,10 @@ namespace BFH.EADN.Common
         /// <returns></returns>
         public static T CreateInstance<T>() where T : class
         {
-            var assembly = Assembly.LoadFrom(Common.GetConfigValue<string>("DLL"));
-            return (T)assembly.CreateInstance(Common.GetConfigValue<string>("TypeName"));
+            string dllPath = Common.GetConfigValue<string>("DLL");
+            string typeName = Common.GetConfigValue<string>("TypeName");
+            var assembly = Assembly.LoadFrom(dllPath);
+            return (T)assembly.CreateInstance(typeName);
         }
     }
 }

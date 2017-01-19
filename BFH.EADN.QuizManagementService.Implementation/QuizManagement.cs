@@ -15,7 +15,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         {
 
             IFactoryPersistence factory = Factory.CreateInstance<IFactoryPersistence>();
-            IRepository<Quiz, Guid> repo =  factory.CreateQuizRepo();
+            IRepository<Quiz, Guid> repo =  factory.CreateQuizRepository();
 
             //IRepository<QuizData, Guid> repo =  Persistence.PersistenceFactory<QuizData>.Create();
             repo.Create(quiz);

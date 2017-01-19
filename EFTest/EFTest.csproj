@@ -62,10 +62,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BFH.EADN.Common.Types\BFH.EADN.Common.Types.csproj">
-      <Project>{CA74DDFF-C18F-4250-B968-C324BD4E9F38}</Project>
-      <Name>BFH.EADN.Common.Types</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
       <Project>{234A3293-9F1F-452F-B1EB-EAEEABF0B5AB}</Project>
       <Name>BFH.EADN.Common</Name>

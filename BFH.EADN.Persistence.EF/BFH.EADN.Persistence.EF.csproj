@@ -64,14 +64,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContext.cs" />
+    <Compile Include="QuizDataContext.cs" />
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\Quiz.cs" />
     <Compile Include="Entities\Answer.cs" />
     <Compile Include="Entities\Topic.cs" />
     <Compile Include="FactoryEF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Quiz.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\QuizRepository.cs" />
     <Compile Include="Seed\QuizDBInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,9 +101,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BFH.EADN.Common.Types\BFH.EADN.Common.Types.csproj">
-      <Project>{ca74ddff-c18f-4250-b968-c324bd4e9f38}</Project>
-      <Name>BFH.EADN.Common.Types</Name>
+    <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
+      <Project>{234A3293-9F1F-452F-B1EB-EAEEABF0B5AB}</Project>
+      <Name>BFH.EADN.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.QuizManagementService.Contracts\BFH.EADN.QuizManagementService.Contracts.csproj">
+      <Project>{BFF9FE91-477C-46A2-8E01-22949334FE67}</Project>
+      <Name>BFH.EADN.QuizManagementService.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
