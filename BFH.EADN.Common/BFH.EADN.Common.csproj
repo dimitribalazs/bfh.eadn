@@ -46,7 +46,11 @@
     <Compile Include="Common.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Contracts\Anwer.cs" />
+    <Compile Include="Types\Contracts\IData.cs" />
+    <Compile Include="Types\Contracts\Question.cs" />
     <Compile Include="Types\Contracts\Quiz.cs" />
+    <Compile Include="Types\Contracts\User.cs" />
     <Compile Include="Types\Enums\QuizType.cs" />
     <Compile Include="Types\IFactoryPersistence.cs" />
     <Compile Include="Types\IRepository.cs" />
