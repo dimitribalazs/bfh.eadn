@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,8 @@ namespace BFH.EADN.Common
         /// <returns></returns>
         public static T CreateInstance<T>() where T : class
         {
-            return (T)Activator.CreateInstance("", "").Unwrap();
+            var assembly = Assembly.LoadFrom(Common.GetConfigValue<string>("DLL"));
+            return (T)assembly.CreateInstance(Common.GetConfigValue<string>("TypeName"));
         }
     }
 }
