@@ -41,7 +41,7 @@ namespace BFH.EADN.Common
             // Verschieben, raus aus dem UI Code
         }
 
-        private T GetService<T>() where T : IClientChannel
+        public T GetService<T>() where T : class
         {
             proxyName = typeof(T).Name;
             string serviceUrl = Common.GetConfigValue<string>(proxyName);

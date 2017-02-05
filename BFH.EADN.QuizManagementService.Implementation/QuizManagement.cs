@@ -47,6 +47,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
             throw new NotImplementedException();
         }
 
+        public void UpdateTopic(Topic topic)
+        {
+        }
+
         public Topic GetTopic(Guid id)
         {
             try
@@ -65,8 +69,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        public void UpdateTopic(Topic topic)
+        public List<Topic> GetTopics()
         {
+            IRepository<Topic, Guid> repository = _persistenceFactory.CreateTopicRepository();
+            return repository.GetAll();
         }
     }
 }

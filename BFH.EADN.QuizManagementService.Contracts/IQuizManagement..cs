@@ -1,6 +1,7 @@
 ﻿using BFH.EADN.Common;
 using BFH.EADN.Common.Types.Contracts;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 
@@ -40,6 +41,17 @@ namespace BFH.EADN.QuizManagementService.Contracts
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
         Topic GetTopic(Guid id);
+
+        /// <summary>
+        /// Gets all topics
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        List<Topic> GetTopics();
+        
+
+
         
         
     }
