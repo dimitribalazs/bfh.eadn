@@ -20,6 +20,6 @@ namespace BFH.EADN.Persistence.EF
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Answer> Anwers { get; set; }
+        public DbSet<Answer> Answers { get; set; }
     }
 }

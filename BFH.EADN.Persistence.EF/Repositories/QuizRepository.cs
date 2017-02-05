@@ -25,11 +25,18 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override CommonContracts.Quiz Get(Guid Id)
         {
-            return Context.Quizzes.Select(q => new CommonContracts.Quiz
+            Entities.Quiz quiz = Context.Quizzes.Find(Id);
+            if (quiz == null)
             {
-                Text = q.Text,
-                Type = q.Type
-            }).First();
+                //throw new excepiton 
+            }
+
+            return new CommonContracts.Quiz
+            {
+                Id = quiz.Id,
+                Text = quiz.Text,
+                Type = quiz.Type
+            };
         }
 
         public override void Update(CommonContracts.Quiz data)
