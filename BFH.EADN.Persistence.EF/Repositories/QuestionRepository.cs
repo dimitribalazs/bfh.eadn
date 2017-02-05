@@ -7,7 +7,7 @@ using CommonContracts = BFH.EADN.Common.Types.Contracts;
 namespace BFH.EADN.Persistence.EF.Repositories
 {
     //statt object data contract verwenden
-    public class QuestionRepository : BaseRepository<CommonContracts.Question, Guid>
+    public sealed class QuestionRepository : BaseRepository<CommonContracts.Question, Guid>
     {
         public override void Create(CommonContracts.Question data)
         {
@@ -45,7 +45,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override List<CommonContracts.Question> GetAll()
         {
-            var query = Context.Questions.Select(q => new CommonContracts.Question
+            IQueryable<CommonContracts.Question> query = Context.Questions.Select(q => new CommonContracts.Question
             {
                 Id = q.Id,
                 Hint = q.Hint,

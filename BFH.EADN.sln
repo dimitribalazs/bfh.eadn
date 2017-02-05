@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.Persistence.EF", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.QuizManagementService.ImplementationTests", "BFH.EADN.QuizManagementService.ImplementationTests\BFH.EADN.QuizManagementService.ImplementationTests.csproj", "{8B1D0626-D90B-433B-9162-DEDB090DBB3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.Persistence.EFTests", "BFH.EADN.Persistence.EFTests\BFH.EADN.Persistence.EFTests.csproj", "{9256E12B-17E5-489D-84C4-10B4D4E2A47F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{8B1D0626-D90B-433B-9162-DEDB090DBB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B1D0626-D90B-433B-9162-DEDB090DBB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B1D0626-D90B-433B-9162-DEDB090DBB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9256E12B-17E5-489D-84C4-10B4D4E2A47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9256E12B-17E5-489D-84C4-10B4D4E2A47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9256E12B-17E5-489D-84C4-10B4D4E2A47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9256E12B-17E5-489D-84C4-10B4D4E2A47F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

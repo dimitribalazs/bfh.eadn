@@ -15,7 +15,35 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
     [TestClass()]
     public class QuizManagementTests
     {
-        [TestMethod()]
+        private Guid topicGuid = Guid.NewGuid();
+
+        
+       
+        /// <summary>
+        /// If no exception occurs assert is true
+        /// </summary>
+        [TestMethod]
+        public void CreateTopicSuccess()
+        {
+            IFactoryPersistence _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
+            using (IRepository<Topic, Guid> repo = _persistenceFactory.CreateTopicRepository())
+            {
+                //create new topic
+                Topic topic = new Topic
+                {
+                    Id = topicGuid,
+                    Name = "Test Topic",
+                    Description = "This is a test topic description"
+                };
+
+                repo.Create(topic);
+            }
+            
+            Assert.IsTrue(true);
+        }
+
+
+        [TestMethod]
         public void GetTopicSuccess()
         {
             IFactoryPersistence _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
@@ -23,13 +51,12 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             List<Topic> topics = repo.GetAll();
 
             Topic firstTopic = topics.First();
-
             Topic topicById = repo.Get(firstTopic.Id);
-
             Assert.AreEqual(firstTopic.Id, topicById.Id);
+
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetTopicFailure()
         {
             IFactoryPersistence _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
@@ -43,7 +70,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             Assert.IsNull(topicById);
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(FaultException<ServiceFault>))]
         public void GetTopicException()
         {

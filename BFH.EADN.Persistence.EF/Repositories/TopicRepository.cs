@@ -22,6 +22,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Delete(Guid Id)
         {
             Context.Topics.Remove(Context.Topics.Single(q => q.Id == Id));
+            Context.SaveChanges();
         }
 
         public override CommonContracts.Topic Get(Guid Id)
@@ -42,7 +43,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override List<CommonContracts.Topic> GetAll()
         {
-            var query = Context.Topics.Select(t => new CommonContracts.Topic
+            IQueryable<CommonContracts.Topic> query = Context.Topics.Select(t => new CommonContracts.Topic
             {
                 Id = t.Id,
                 Description = t.Description,

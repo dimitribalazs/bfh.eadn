@@ -42,7 +42,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override List<CommonContracts.Quiz> GetAll()
         {
-            var query = Context.Quizzes.Select(q => new CommonContracts.Quiz
+            IQueryable<CommonContracts.Quiz> query = Context.Quizzes.Select(q => new CommonContracts.Quiz
             {
                 Id = q.Id,
                 Text = q.Text,

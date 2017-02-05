@@ -57,6 +57,7 @@
     <Compile Include="Types\Enums\QuizType.cs" />
     <Compile Include="Types\IFactoryPersistence.cs" />
     <Compile Include="Types\IRepository.cs" />
+    <Compile Include="WcfServiceFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
