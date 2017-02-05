@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizManagementService.Implementation
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagment")]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
     public class QuizManagement : IQuizManagement
     {
         private static IFactoryPersistence _persistenceFactory;

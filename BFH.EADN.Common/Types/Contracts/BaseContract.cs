@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Common.Types.Contracts
 {
-    [DataContract]
+    [DataContract(Namespace = Constants.XMLNamespace, Name = "BaseContract", IsReference = true)]
     public abstract class BaseContract
     {
         //todo not sure if id necessary, how to solve this without id

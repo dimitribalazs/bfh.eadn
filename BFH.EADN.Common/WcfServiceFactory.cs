@@ -10,9 +10,10 @@ namespace BFH.EADN.Common
 {
     public sealed class WcfServiceFactory : IDisposable
     {
-        private static Dictionary<string, IClientChannel> _proxies = new Dictionary<string, IClientChannel>();
+        private static Dictionary<string, object> _proxies = new Dictionary<string, object>();
 
         string proxyName = "";
+
 
         public void Dispose()
         {
@@ -46,10 +47,11 @@ namespace BFH.EADN.Common
             proxyName = typeof(T).Name;
             string serviceUrl = Common.GetConfigValue<string>(proxyName);
 
-            IClientChannel proxy;
-            if(_proxies.TryGetValue(proxyName, out proxy))
+            object proxy;
+            if(_proxies.TryGetValue(proxyName, out proxy) == false)
             {
-                proxy = GetProxy(proxy, new WSHttpBinding(), serviceUrl);
+                
+                proxy = GetProxy(proxy, new BasicHttpBinding(), serviceUrl);
                 _proxies.Add(proxyName, proxy);
             }
 

@@ -1,4 +1,5 @@
 ﻿using BFH.EADN.UI.Web.Models;
+using BFH.EADN.UI.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,8 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Topic
         public ActionResult Index()
         {
-            
-            return View(topics);
+            var service = new TopicService();
+            return View(service.GetTopics());
         }
 
         // GET: Topic/Details/5
