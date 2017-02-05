@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
+using System.Collections.Generic;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
@@ -19,6 +20,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
         }
 
         public override CommonContracts.User Get(Guid Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<CommonContracts.User> GetAll()
         {
             throw new NotImplementedException();
         }

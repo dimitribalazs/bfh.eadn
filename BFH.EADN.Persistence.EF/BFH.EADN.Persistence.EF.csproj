@@ -74,6 +74,7 @@
     <Compile Include="Repositories\AnswerRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\QuestionRepository.cs" />
+    <Compile Include="Repositories\TopicRepository.cs" />
     <Compile Include="Repositories\QuizRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Seed\QuizDBInitializer.cs" />

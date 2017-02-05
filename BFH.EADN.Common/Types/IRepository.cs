@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,8 +19,21 @@ namespace BFH.EADN.Common.Types
         /// Get entity by its id
         /// </summary>
         /// <param name="Id">Id of type K</param>
-        /// <returns>Entity of type T</returns>
+        /// <returns>Entity of type T or null</returns>
         T Get(K Id);
+
+        /// <summary>
+        /// Get entity by an expression
+        /// </summary>
+        /// <param name="Id">Id of type K</param>
+        /// <returns>Entity of type T</returns>
+        //T Get(Func<T, bool> expr);
+
+        /// <summary>
+        /// Get all entities
+        /// </summary>
+        /// <returns>List of entities of type T</returns>
+        List<T> GetAll();
 
         /// <summary>
         /// Update an entity

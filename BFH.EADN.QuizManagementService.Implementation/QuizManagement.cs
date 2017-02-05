@@ -1,25 +1,72 @@
 ﻿using BFH.EADN.Common;
 using BFH.EADN.Common.Types;
 using BFH.EADN.Common.Types.Contracts;
+using BFH.EADN.QuizManagementService.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizManagementService.Implementation
 {
-    public class QuizManagement
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagment")]
+    public class QuizManagement : IQuizManagement
     {
-        public void PersistenceTest(Quiz quiz)
+        private static IFactoryPersistence _persistenceFactory;
+
+        static QuizManagement()
         {
-
-            IFactoryPersistence factory = Factory.CreateInstance<IFactoryPersistence>();
-            IRepository<Quiz, Guid> repo =  factory.CreateQuizRepository();
-
-            //IRepository<QuizData, Guid> repo =  Persistence.PersistenceFactory<QuizData>.Create();
-            repo.Create(quiz);
+            if(_persistenceFactory == null)
+            { 
+                _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
+            }
         }
         
+        public void CreateTopic(Topic topic)
+        {
+            try
+            {
+                IRepository<Topic, Guid> repository = _persistenceFactory.CreateTopicRepository();
+                repository.Create(topic);
+            }
+            catch(Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error during creation of a new topic"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public void DeleteTopic(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Topic GetTopic(Guid id)
+        {
+            try
+            {
+                IRepository<Topic, Guid> repository = _persistenceFactory.CreateTopicRepository();
+                return repository.Get(id);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while getting topic"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public void UpdateTopic(Topic topic)
+        {
+        }
     }
 }

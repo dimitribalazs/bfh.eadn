@@ -50,6 +50,10 @@
       <Project>{234a3293-9f1f-452f-b1eb-eaeeabf0b5ab}</Project>
       <Name>BFH.EADN.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.QuizManagementService.Contracts\BFH.EADN.QuizManagementService.Contracts.csproj">
+      <Project>{bff9fe91-477c-46a2-8e01-22949334fe67}</Project>
+      <Name>BFH.EADN.QuizManagementService.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

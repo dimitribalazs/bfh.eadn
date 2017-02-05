@@ -1,5 +1,6 @@
 ﻿using BFH.EADN.Common.Types;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
@@ -28,7 +29,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Entities.Topic topic = Context.Topics.Find(Id);
             if (topic == null)
             {
-                //throw new excepiton 
+                return null;
             }
 
             return new CommonContracts.Topic
@@ -37,6 +38,17 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 Name = topic.Name,
                 Description = topic.Description
             };
+        }
+
+        public override List<CommonContracts.Topic> GetAll()
+        {
+            var query = Context.Topics.Select(t => new CommonContracts.Topic
+            {
+                Id = t.Id,
+                Description = t.Description,
+                Name = t.Name
+            });
+            return query.ToList();
         }
 
         public override void Update(CommonContracts.Topic data)

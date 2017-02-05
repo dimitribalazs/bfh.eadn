@@ -1,5 +1,7 @@
 ﻿using System;
 using BFH.EADN.Common.Types;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
@@ -9,6 +11,8 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public abstract void Create(T data);
         public abstract void Delete(K Id);
         public abstract T Get(K Id);
+        //public abstract T Get(Func<T, bool> expr);
+        public abstract List<T> GetAll();
         public abstract void Update(T data);
         public void Dispose()
         {

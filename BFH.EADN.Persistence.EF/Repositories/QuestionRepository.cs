@@ -1,5 +1,6 @@
 ﻿using BFH.EADN.Common.Types;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
@@ -30,7 +31,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Entities.Question question = Context.Questions.Find(Id);
             if (question == null)
             {
-                //throw new excepiton 
+                return null;
             }
 
             return new CommonContracts.Question
@@ -40,6 +41,20 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 Text = question.Text,
                 IsYesOrNo = question.IsYesOrNo                
             };
+        }
+
+        public override List<CommonContracts.Question> GetAll()
+        {
+            var query = Context.Questions.Select(q => new CommonContracts.Question
+            {
+                Id = q.Id,
+                Hint = q.Hint,
+                IsYesOrNo = q.IsYesOrNo,
+                Text = q.Text,
+                //todo type
+                //Type = q.            
+            });
+            return query.ToList();
         }
 
         public override void Update(CommonContracts.Question data)

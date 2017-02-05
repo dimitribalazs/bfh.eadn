@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
@@ -24,12 +26,12 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.Answers.Remove(Context.Answers.Single(a => a.Id == Id));
         }
 
-        public override CommonContracts.Answer Get(Guid Id)
+         public override CommonContracts.Answer Get(Guid Id)
         {
             Entities.Answer answer = Context.Answers.Find(Id);
             if(answer == null)
             {
-                //throw new excepiton 
+                return null;
             }
 
             return new CommonContracts.Answer
@@ -39,6 +41,19 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 Text = answer.Text,
                 //Type = answer.
             };
+        }
+
+        public override List<CommonContracts.Answer> GetAll()
+        {
+            var query = Context.Answers.Select(a => new CommonContracts.Answer
+            {
+                Id = a.Id,
+                IsSolution = a.IsSolution,
+                Text = a.Text,
+                //todo type
+                //Type = a.            
+            });
+            return query.ToList();
         }
 
         public override void Update(CommonContracts.Answer data)

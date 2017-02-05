@@ -1,5 +1,6 @@
 ﻿using BFH.EADN.Common.Types;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
@@ -28,7 +29,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Entities.Quiz quiz = Context.Quizzes.Find(Id);
             if (quiz == null)
             {
-                //throw new excepiton 
+                return null;
             }
 
             return new CommonContracts.Quiz
@@ -37,6 +38,17 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 Text = quiz.Text,
                 Type = quiz.Type
             };
+        }
+
+        public override List<CommonContracts.Quiz> GetAll()
+        {
+            var query = Context.Quizzes.Select(q => new CommonContracts.Quiz
+            {
+                Id = q.Id,
+                Text = q.Text,
+                Type = q.Type
+            });
+            return query.ToList();
         }
 
         public override void Update(CommonContracts.Quiz data)

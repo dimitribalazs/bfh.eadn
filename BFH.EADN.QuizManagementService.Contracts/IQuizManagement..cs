@@ -1,16 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BFH.EADN.Common;
+using BFH.EADN.Common.Types.Contracts;
+using System;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BFH.EADN.QuizManagementService.Contracts
 {
-    [ServiceContract]
+    [ServiceContract(Namespace = Constants.XMLNamespace, Name = "IQuizManagement")]
     public interface IQuizManagement
     {
+        /// <summary>
+        /// Creates a new topic
+        /// </summary>
+        /// <param name="topic">new topic</param>
         [OperationContract]
-        string TestToUpper(string text);
+        [FaultContract(typeof(ServiceFault))]
+        void CreateTopic(Topic topic);
+
+        /// <summary>
+        /// Updates an existing topic
+        /// </summary>
+        /// <param name="topic">existing topic with new data</param>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        void UpdateTopic(Topic topic);
+
+        /// <summary>
+        /// Deletes a topic
+        /// </summary>
+        /// <param name="id">id of a topic</param>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        void DeleteTopic(Guid id);
+
+        /// <summary>
+        /// Gets a topic by its id
+        /// </summary>
+        /// <param name="id">id of a topic</param>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        Topic GetTopic(Guid id);
+        
+        
     }
 }

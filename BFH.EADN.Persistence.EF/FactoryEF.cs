@@ -11,10 +11,9 @@ namespace BFH.EADN.Persistence.EF
 {
     public class FactoryEF : IFactoryPersistence
     {
-       
-        IRepository<Quiz, Guid> IFactoryPersistence.CreateQuizRepository()
-        {
-            return new QuizRepository();
-        }
+        public IRepository<Answer, Guid> CreateAnswerRepository() => new AnswerRepository();
+        public IRepository<Question, Guid> CreateQuestionRepository() => new QuestionRepository();
+        public IRepository<Topic, Guid> CreateTopicRepository() => new TopicRepository();     
+        IRepository<Quiz, Guid> IFactoryPersistence.CreateQuizRepository() => new QuizRepository();
     }
 }
