@@ -6,7 +6,7 @@ using CommonContracts = BFH.EADN.Common.Types.Contracts;
 namespace BFH.EADN.Persistence.EF.Repositories
 {
     //statt object data contract verwenden
-    public class QuizRepository : BaseRepository<CommonContracts.Quiz, Guid>
+    public sealed class QuizRepository : BaseRepository<CommonContracts.Quiz, Guid>
     {
         public override void Create(CommonContracts.Quiz data)
         {
@@ -20,7 +20,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override void Delete(Guid Id)
         {
-
+            Context.Quizzes.Remove(Context.Quizzes.Single(q => q.Id == Id));
         }
 
         public override CommonContracts.Quiz Get(Guid Id)
@@ -34,7 +34,12 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override void Update(CommonContracts.Quiz data)
         {
-            throw new NotImplementedException();
+            Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == data.Id);
+            //todo question references
+            //quiz.Questions = data.
+            quiz.Text = data.Text;
+            quiz.Type = data.Type;
+            Context.SaveChanges();
         }
     }
 }

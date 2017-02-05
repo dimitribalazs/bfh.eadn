@@ -1,6 +1,7 @@
 ﻿using BFH.EADN.Common.Types;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,6 +22,7 @@ namespace BFH.EADN.Common
         {
             string dllPath = Common.GetConfigValue<string>("DLL");
             string typeName = Common.GetConfigValue<string>("TypeName");
+            string fullPath = Path.GetFullPath(dllPath);
             var assembly = Assembly.LoadFrom(dllPath);
             return (T)assembly.CreateInstance(typeName);
         }

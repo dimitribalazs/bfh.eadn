@@ -27,15 +27,17 @@ namespace EFTest
             Console.WriteLine("Done with insert");
 
             IFactoryPersistence factory = Factory.CreateInstance<IFactoryPersistence>();
-            var repo = factory.CreateQuizRepository();
-            repo.Create(new BFH.EADN.Common.Types.Contracts.Quiz
+            using (var repo = factory.CreateQuizRepository())
             {
-                Text = "test1",
-                Type = BFH.EADN.Common.Types.Enums.QuizType.Dynamic
-            });
-            var result = repo.Get(Guid.NewGuid());
-            Console.WriteLine(result.Text);
-            Console.ReadKey();
+                repo.Create(new BFH.EADN.Common.Types.Contracts.Quiz
+                {
+                    Text = "test1",
+                    Type = BFH.EADN.Common.Types.Enums.QuizType.Dynamic
+                });
+                var result = repo.Get(Guid.NewGuid());
+                Console.WriteLine(result.Text);
+                Console.ReadKey();
+            }
         }
     }
 }

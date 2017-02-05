@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Common.Types
 {
-    public interface IRepository<T, K>
+    public interface IRepository<T, K> : IDisposable
     {
         /// <summary>
         /// Creates new entity

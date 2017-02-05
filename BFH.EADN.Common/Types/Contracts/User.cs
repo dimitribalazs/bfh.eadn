@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Common.Types.Contracts
 {
-    [DataContract]
-    public class User
+    [DataContract(Namespace = Constants.XMLNamespace, Name = "User", IsReference = true)]
+    public sealed class User : BaseContract
     {
+        [DataMember(Order = 0)]
         public string Text { get; set; }
+
+        [DataMember(Order = 0)]
         public QuizType Type { get; set; }
     }
 }

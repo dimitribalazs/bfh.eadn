@@ -11,5 +11,8 @@ namespace BFH.EADN.Common.Types
     {
         //todo change string to datacontract 
         IRepository<Quiz, Guid> CreateQuizRepository();
+        IRepository<Answer, Guid> CreateAnswerRepository();
+        IRepository<Question, Guid> CreateQuestionRepository();
+        IRepository<Topic, Guid> CreateTopicRepository();
     }
 }
