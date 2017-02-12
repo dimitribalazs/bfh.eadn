@@ -15,7 +15,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             {
                 Hint = data.Hint,
                 Text = data.Text,
-                IsYesOrNo = data.IsYesOrNo,
+                IsYesOrNo = data.IsMultipleChoise,
                 //todo add others
             });
             Context.SaveChanges();
@@ -39,7 +39,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 Id = question.Id,
                 Hint = question.Hint,
                 Text = question.Text,
-                IsYesOrNo = question.IsYesOrNo                
+                IsMultipleChoise = question.IsYesOrNo
             };
         }
 
@@ -49,7 +49,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             {
                 Id = q.Id,
                 Hint = q.Hint,
-                IsYesOrNo = q.IsYesOrNo,
+                IsMultipleChoise = q.IsYesOrNo,
                 Text = q.Text,
                 //todo type
                 //Type = q.            
@@ -57,11 +57,27 @@ namespace BFH.EADN.Persistence.EF.Repositories
             return query.ToList();
         }
 
+        public override List<CommonContracts.Question> GetListByIds(List<Guid> ids)
+        {
+            IQueryable<CommonContracts.Question> query = Context.Questions
+                .Where(q => ids.Contains(q.Id))
+                .Select(q => new CommonContracts.Question
+                {
+                    Id = q.Id,
+                    Hint = q.Hint,
+                    IsMultipleChoise = q.IsYesOrNo,
+                    Text = q.Text,
+                    //todo type
+                    //Type = q.            
+                });
+            return query.ToList();
+        }
+
         public override void Update(CommonContracts.Question data)
         {
             Entities.Question question = Context.Questions.Single(q => q.Id == data.Id);
             question.Hint = data.Hint;
-            question.IsYesOrNo = data.IsYesOrNo;
+            question.IsYesOrNo = data.IsMultipleChoise;
             question.Text = data.Text;
             Context.SaveChanges();
         }

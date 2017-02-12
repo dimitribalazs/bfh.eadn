@@ -25,7 +25,7 @@ namespace BFH.EADN.Persistence.EF.Entities
         /// <summary>
         /// If it is a yes or not question. If false, then its an multiple choice
         /// </summary>
-        public bool IsYesOrNo { get; set; } = false;
+        public bool IsYesOrNo { get; set; }
 
 
         public virtual ICollection<Topic> Topics { get; set; }

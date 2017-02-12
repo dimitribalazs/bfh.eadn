@@ -1,5 +1,6 @@
 ﻿using BFH.EADN.Common.Client;
 using BFH.EADN.QuizManagementService.Contracts;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace BFH.EADN.UI.Web.Services
@@ -7,23 +8,18 @@ namespace BFH.EADN.UI.Web.Services
     public abstract class BaseService
     {
         /// <summary>
-        /// Holds the proxy
+        /// Establishes a connection to the server
         /// </summary>
-        private static IQuizManagement _proxy;
-        protected IQuizManagement Proxy
+        /// <typeparam name="T">service type T</typeparam>
+        /// <returns>a service of type T</returns>
+        protected T GetProxy<T>() where T : class
         {
-            get
-            {
-                if (_proxy == null)
-                {
-                    WcfClient<IQuizManagement> service = WcfClientFactory.CreateClient<IQuizManagement>(
-                            new EndpointAddress("net.tcp://localhost:5002/QuizManagement"),
-                            new NetTcpBinding()
-                        );
-                    _proxy = service.GetProxy();
-                }
-                return _proxy;
-            }
+            string nameOfProxy = typeof(T).Name;
+            WcfClient<T> service = WcfClientFactory.CreateClient<T>(
+                        new EndpointAddress("net.tcp://localhost:5002/" + nameOfProxy.Substring(1)),
+                        new NetTcpBinding()
+                    );
+            return service.GetProxy();
         }
     }
 }

@@ -199,16 +199,22 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\Management\AnswerController.cs" />
     <Compile Include="Controllers\Management\TopicController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Management\Answer.cs" />
+    <Compile Include="Models\Management\Question.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Topic.cs" />
+    <Compile Include="Models\Management\Topic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\AnswerService.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Services\TopicService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -275,6 +281,11 @@
     <Content Include="Views\Topic\Details.cshtml" />
     <Content Include="Views\Topic\Edit.cshtml" />
     <Content Include="Views\Topic\Index.cshtml" />
+    <Content Include="Views\Answer\Create.cshtml" />
+    <Content Include="Views\Answer\Index.cshtml" />
+    <Content Include="Views\Answer\Details.cshtml" />
+    <Content Include="Views\Answer\Delete.cshtml" />
+    <Content Include="Views\Answer\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

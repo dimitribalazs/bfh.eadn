@@ -15,9 +15,8 @@ namespace BFH.EADN.Common.Types.Contracts
         public string Text { get; set; }
 
         [DataMember(Order = 0)]
-        public QuizType Type { get; set; }
-
-        [DataMember(Order = 0)]
         public bool IsSolution { get; set; }
+
+        public List<Topic> Topics { get; set; }
     }
 }

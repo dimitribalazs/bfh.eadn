@@ -51,6 +51,19 @@ namespace BFH.EADN.Persistence.EF.Repositories
             return query.ToList();
         }
 
+        public override List<CommonContracts.Quiz> GetListByIds(List<Guid> ids)
+        {
+            IQueryable<CommonContracts.Quiz> query = Context.Quizzes
+                .Where(q => ids.Contains(q.Id))
+                .Select(q => new CommonContracts.Quiz
+                {
+                    Id = q.Id,
+                    Text = q.Text,
+                    Type = q.Type
+                });
+            return query.ToList();
+        }
+
         public override void Update(CommonContracts.Quiz data)
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == data.Id);

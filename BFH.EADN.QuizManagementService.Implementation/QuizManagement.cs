@@ -12,16 +12,11 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    public class QuizManagement : IQuizManagement
+    public class QuizManagement : IAnswerManagement, ITopicManagement
     {
         private static IFactoryPersistence _persistenceFactory;
-
-        
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
-        
-
-
-
+        private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
 
         static QuizManagement()
         {
@@ -39,7 +34,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         public void CreateTopic(Topic topic)
         {
             try
-            { 
+            {
                 TopicRepository.Create(topic);
             }
             catch (Exception ex)
@@ -81,7 +76,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
                 ServiceFault fault = new ServiceFault
                 {
                     Message = ex.Message,
-                    Reason = "Error during creation of a new topic"
+                    Reason = "Error while updating a topic"
                 };
                 throw new FaultException<ServiceFault>(fault);
             }
@@ -91,7 +86,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         {
             try
             {
-               return TopicRepository.Get(id);
+                return TopicRepository.Get(id);
             }
             catch (Exception ex)
             {
@@ -116,6 +111,109 @@ namespace BFH.EADN.QuizManagementService.Implementation
                 {
                     Message = ex.Message,
                     Reason = "Error while getting topics"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public List<Topic> GetTopicsByIds(List<Guid> ids)
+        {
+            try
+            {
+                if (ids == null) { throw new ArgumentNullException(nameof(ids) + "cannot be null"); }
+                return TopicRepository.GetListByIds(ids);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while getting topics"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public void CreateAnswer(Answer answer)
+        {
+            try
+            {
+                AnswerRepository.Create(answer);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while creating answer"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public void UpdateAnswer(Answer answer)
+        {
+            try
+            {
+                AnswerRepository.Update(answer);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while updating answer"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public void DeleteAnswer(Guid id)
+        {
+            try
+            {
+                AnswerRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while updating answer"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public Answer GetAnswer(Guid id)
+        {
+            try
+            {
+                return AnswerRepository.Get(id);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while getting an answer"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public List<Answer> GetAnswers()
+        {
+            try
+            {
+                return AnswerRepository.GetAll();
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while getting answers"
                 };
                 throw new FaultException<ServiceFault>(fault);
             }

@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IQuizManagement..cs" />
+    <Compile Include="ITopicManagement.cs" />
+    <Compile Include="IAnswerManagement..cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

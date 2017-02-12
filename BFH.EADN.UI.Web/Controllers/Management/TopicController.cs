@@ -1,27 +1,22 @@
-﻿using BFH.EADN.UI.Web.Models;
+﻿using BFH.EADN.UI.Web.Models.Management;
 using BFH.EADN.UI.Web.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BFH.EADN.UI.Web.Controllers.Management
 {
     public class TopicController : Controller
     {
-        // GET: Topic
         private TopicService _service = new TopicService();
-
         public ActionResult Index()
         {
-            return View(_service.GetTopics());
+            return View(_service.GetList());
         }
 
         // GET: Topic/Details/5
         public ActionResult Details(Guid id)
         {
-            return View(_service.GetTopic(id));
+            return View(_service.Get(id));
         }
 
         // GET: Topic/Create
@@ -48,7 +43,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Topic/Edit/5
         public ActionResult Edit(Guid id)
         {
-            Topic topic = _service.GetTopic(id);
+            Topic topic = _service.Get(id);
             return View(topic);
         }
 
@@ -70,7 +65,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Topic/Delete/5
         public ActionResult Delete(Guid id)
         {
-            return View(_service.GetTopic(id));
+            return View(_service.Get(id));
         }
 
         // POST: Topic/Delete/5

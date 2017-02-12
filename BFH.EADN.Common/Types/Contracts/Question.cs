@@ -18,10 +18,7 @@ namespace BFH.EADN.Common.Types.Contracts
         public string Hint { get; set; }
 
         [DataMember(Order = 0)]
-        public bool IsYesOrNo { get; set; }
-
-        [DataMember(Order = 0)]
-        public QuizType Type { get; set; }
+        public bool IsMultipleChoise { get; set; }
 
     }
 }

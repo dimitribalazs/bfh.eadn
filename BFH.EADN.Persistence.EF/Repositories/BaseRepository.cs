@@ -13,6 +13,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public abstract T Get(K Id);
         //public abstract T Get(Func<T, bool> expr);
         public abstract List<T> GetAll();
+        public abstract List<T> GetListByIds(List<K> ids);            
         public abstract void Update(T data);
         public void Dispose()
         {

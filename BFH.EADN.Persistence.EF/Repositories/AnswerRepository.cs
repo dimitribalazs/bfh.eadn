@@ -16,7 +16,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             {
                 Text = data.Text,
                 IsSolution = data.IsSolution
-                
+
             });
             Context.SaveChanges();
         }
@@ -26,10 +26,10 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.Answers.Remove(Context.Answers.Single(a => a.Id == Id));
         }
 
-         public override CommonContracts.Answer Get(Guid Id)
+        public override CommonContracts.Answer Get(Guid Id)
         {
             Entities.Answer answer = Context.Answers.Find(Id);
-            if(answer == null)
+            if (answer == null)
             {
                 return null;
             }
@@ -56,6 +56,20 @@ namespace BFH.EADN.Persistence.EF.Repositories
             return query.ToList();
         }
 
+        public override List<CommonContracts.Answer> GetListByIds(List<Guid> ids)
+        {
+            IQueryable<CommonContracts.Answer> query = Context.Answers
+                .Where(a => ids.Contains(a.Id))
+                .Select(a => new CommonContracts.Answer
+                {
+                    Id = a.Id,
+                    IsSolution = a.IsSolution,
+                    Text = a.Text,
+                    //todo type           
+                });
+            return query.ToList();
+        }
+
         public override void Update(CommonContracts.Answer data)
         {
             Entities.Answer answer = Context.Answers.Single(a => a.Id == data.Id);
@@ -63,6 +77,12 @@ namespace BFH.EADN.Persistence.EF.Repositories
             //quiz.Questions = data.
             answer.Text = data.Text;
             answer.IsSolution = data.IsSolution;
+            answer.Topics = new HashSet<Entities.Topic>();
+    
+            List<Guid> topicIds = data.Topics.Select(t => t.Id).ToList();
+            List<Entities.Topic> topics = Context.Topics.Where(t => topicIds.Contains(t.Id)).ToList();
+            answer.Topics = topics;
+            
             Context.SaveChanges();
         }
     }

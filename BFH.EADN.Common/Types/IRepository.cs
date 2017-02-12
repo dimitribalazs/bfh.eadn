@@ -46,5 +46,12 @@ namespace BFH.EADN.Common.Types
         /// </summary>
         /// <param name="Id">Id of type K</param>
         void Delete(K Id);
+
+        /// <summary>
+        /// Get a list of elements by its ids
+        /// </summary>
+        /// <param name="ids">list of ids of the elements</param>
+        /// <returns>list of elements of type T</returns>
+        List<T> GetListByIds(List<K> ids);
     }
 }

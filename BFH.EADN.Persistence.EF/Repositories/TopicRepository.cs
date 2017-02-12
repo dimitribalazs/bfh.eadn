@@ -42,13 +42,26 @@ namespace BFH.EADN.Persistence.EF.Repositories
         }
 
         public override List<CommonContracts.Topic> GetAll()
-        {            
+        {
             IQueryable<CommonContracts.Topic> query = Context.Topics.Select(t => new CommonContracts.Topic
             {
                 Id = t.Id,
                 Description = t.Description,
                 Name = t.Name
             });
+            return query.ToList();
+        }
+
+        public override List<CommonContracts.Topic> GetListByIds(List<Guid> ids)
+        {
+            IQueryable<CommonContracts.Topic> query = Context.Topics
+                .Where(t => ids.Contains(t.Id))
+                .Select(t => new CommonContracts.Topic
+                {
+                    Id = t.Id,
+                    Description = t.Description,
+                    Name = t.Name
+                });
             return query.ToList();
         }
 

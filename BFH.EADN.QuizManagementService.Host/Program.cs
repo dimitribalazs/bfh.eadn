@@ -38,9 +38,9 @@ namespace BFH.EADN.QuizManagementService.Host
             BindingFlags.Instance | BindingFlags.NonPublic);
             foreach (ServiceBase service in servicesToRun)
             {
-                Console.Write("Starting {0}...", service.ServiceName);
+                Console.WriteLine("Starting {0}...", service.ServiceName);
                 onStartMethod.Invoke(service, new object[] { new string[] { } });
-                Console.Write("{0} Started", service.ServiceName);
+                Console.WriteLine("{0} Started", service.ServiceName);
             }
 
             Console.WriteLine("Press any key to stop the service ");
@@ -51,7 +51,7 @@ namespace BFH.EADN.QuizManagementService.Host
             BindingFlags.Instance | BindingFlags.NonPublic);
             foreach (ServiceBase service in servicesToRun)
             {
-                Console.Write("Stopping {0}...", service.ServiceName);
+                Console.WriteLine("Stopping {0}...", service.ServiceName);
                 onStopMethod.Invoke(service, null);
                 Console.WriteLine("{0} Stopped", service.ServiceName);
             }

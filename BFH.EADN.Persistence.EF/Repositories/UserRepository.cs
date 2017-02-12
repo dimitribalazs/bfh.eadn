@@ -29,6 +29,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
             throw new NotImplementedException();
         }
 
+        public override List<CommonContracts.User> GetListByIds(List<Guid> ids)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(CommonContracts.User data)
         {
             throw new NotImplementedException();
