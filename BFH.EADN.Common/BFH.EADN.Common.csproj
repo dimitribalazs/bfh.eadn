@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\WcfClient.cs" />
+    <Compile Include="Client\WcfClientBase.cs" />
+    <Compile Include="Client\WcfClientFactory.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Factory.cs" />
@@ -57,7 +60,7 @@
     <Compile Include="Types\Enums\QuizType.cs" />
     <Compile Include="Types\IFactoryPersistence.cs" />
     <Compile Include="Types\IRepository.cs" />
-    <Compile Include="WcfServiceFactory.cs" />
+    <Compile Include="Client\WcfServiceFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

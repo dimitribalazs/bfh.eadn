@@ -24,7 +24,7 @@ namespace BFH.EADN.QuizManagementService.Host
 
         protected override void OnStart(string[] args)
         {
-            _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("http://localhost:5001"));
+            _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("net.tcp://localhost:5002"));
             //_quizManagementHost.AddServiceEndpoint(
             //    typeof(IQuizManagement), 
             //    new BasicHttpBinding(), 

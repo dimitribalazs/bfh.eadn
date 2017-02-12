@@ -10,6 +10,11 @@ namespace BFH.EADN.QuizManagementService.Contracts
     [ServiceContract(Namespace = Constants.XMLNamespace, Name = "IQuizManagement")]
     public interface IQuizManagement
     {
+
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        string Test(string foo);
+
         /// <summary>
         /// Creates a new topic
         /// </summary>
@@ -49,10 +54,5 @@ namespace BFH.EADN.QuizManagementService.Contracts
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
         List<Topic> GetTopics();
-        
-
-
-        
-        
     }
 }

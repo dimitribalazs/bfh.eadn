@@ -10,27 +10,18 @@ namespace BFH.EADN.UI.Web.Controllers.Management
 {
     public class TopicController : Controller
     {
-        static List<Topic> topics = new List<Topic>
-            {
-                new Topic { Id = Guid.NewGuid(), Description = "Description 1", Name = "Name 1" },
-                new Topic { Id = Guid.NewGuid(), Description = "Description 2", Name = "Name 2" },
-                new Topic { Id = Guid.NewGuid(), Description = "Description 3", Name = "Name 3" },
-                new Topic { Id = Guid.NewGuid(), Description = "Description 4", Name = "Name 4" },
-                new Topic { Id = Guid.NewGuid(), Description = "Description 5", Name = "Name 5" },
-                new Topic { Id = Guid.NewGuid(), Description = "Description 6", Name = "Name 6" },
-                new Topic { Id = Guid.NewGuid(), Description = "Description 7", Name = "Name 7" },
-            };
         // GET: Topic
+        private TopicService _service = new TopicService();
+
         public ActionResult Index()
         {
-            var service = new TopicService();
-            return View(service.GetTopics());
+            return View(_service.GetTopics());
         }
 
         // GET: Topic/Details/5
         public ActionResult Details(Guid id)
         {
-            return View(topics.Find(t => t.Id == id));
+            return View(_service.GetTopic(id));
         }
 
         // GET: Topic/Create
@@ -45,12 +36,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         {
             try
             {
-                // TODO: Add insert logic here
-                if(topic.Id == default(Guid))
-                {
-                    topic.Id = Guid.NewGuid();
-                }
-                topics.Add(topic);
+                _service.Create(topic);
                 return RedirectToAction("Index");
             }
             catch
@@ -62,7 +48,8 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Topic/Edit/5
         public ActionResult Edit(Guid id)
         {
-            return View(topics.Find(t => t.Id == id));
+            Topic topic = _service.GetTopic(id);
+            return View(topic);
         }
 
         // POST: Topic/Edit/5
@@ -71,10 +58,8 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         {
             try
             {
-                // TODO: Add update logic here
-                topics.Remove(topics.Find(t => t.Id == id));
-                topics.Add(topic);
-                return RedirectToAction("Index");
+                _service.Edit(id, topic);
+                return RedirectToAction("Details", new { id = id });
             }
             catch
             {
@@ -85,7 +70,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Topic/Delete/5
         public ActionResult Delete(Guid id)
         {
-            return View(topics.Find(t => t.Id == id));
+            return View(_service.GetTopic(id));
         }
 
         // POST: Topic/Delete/5
@@ -94,8 +79,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         {
             try
             {
-                // TODO: Add delete logic here
-                topics.Remove(topics.Find(t => t.Id == id));
+                _service.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

@@ -16,22 +16,33 @@ namespace BFH.EADN.QuizManagementService.Implementation
     {
         private static IFactoryPersistence _persistenceFactory;
 
+        
+        private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
+        
+
+
+
+
         static QuizManagement()
         {
-            if(_persistenceFactory == null)
-            { 
+            if (_persistenceFactory == null)
+            {
                 _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
             }
         }
-        
+
+        public string Test(string foo)
+        {
+            return foo;
+        }
+
         public void CreateTopic(Topic topic)
         {
             try
-            {
-                IRepository<Topic, Guid> repository = _persistenceFactory.CreateTopicRepository();
-                repository.Create(topic);
+            { 
+                TopicRepository.Create(topic);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ServiceFault fault = new ServiceFault
                 {
@@ -44,19 +55,43 @@ namespace BFH.EADN.QuizManagementService.Implementation
 
         public void DeleteTopic(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TopicRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error during deletion of a topic"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
         }
 
         public void UpdateTopic(Topic topic)
         {
+            try
+            {
+                TopicRepository.Update(topic);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error during creation of a new topic"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
         }
 
         public Topic GetTopic(Guid id)
         {
             try
             {
-                IRepository<Topic, Guid> repository = _persistenceFactory.CreateTopicRepository();
-                return repository.Get(id);
+               return TopicRepository.Get(id);
             }
             catch (Exception ex)
             {
@@ -71,8 +106,19 @@ namespace BFH.EADN.QuizManagementService.Implementation
 
         public List<Topic> GetTopics()
         {
-            IRepository<Topic, Guid> repository = _persistenceFactory.CreateTopicRepository();
-            return repository.GetAll();
+            try
+            {
+                return TopicRepository.GetAll();
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error while getting topics"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
         }
     }
 }
