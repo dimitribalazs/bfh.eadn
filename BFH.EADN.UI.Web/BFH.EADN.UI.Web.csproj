@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Management\AnswerController.cs" />
+    <Compile Include="Controllers\Management\QuestionController.cs" />
     <Compile Include="Controllers\Management\TopicController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -219,6 +220,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\AnswerService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\QuestionService.cs" />
     <Compile Include="Services\TopicService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -291,6 +293,11 @@
     <Content Include="Views\Answer\Details.cshtml" />
     <Content Include="Views\Answer\Delete.cshtml" />
     <Content Include="Views\Answer\Edit.cshtml" />
+    <Content Include="Views\Question\Index.cshtml" />
+    <Content Include="Views\Question\Create.cshtml" />
+    <Content Include="Views\Question\Edit.cshtml" />
+    <Content Include="Views\Question\Details.cshtml" />
+    <Content Include="Views\Question\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

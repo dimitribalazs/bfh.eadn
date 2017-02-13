@@ -12,11 +12,13 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    public class QuizManagement : IAnswerManagement, ITopicManagement
+    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement
     {
         private static IFactoryPersistence _persistenceFactory;
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
         private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
+        private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
+
 
         static QuizManagement()
         {
@@ -217,6 +219,36 @@ namespace BFH.EADN.QuizManagementService.Implementation
                 };
                 throw new FaultException<ServiceFault>(fault);
             }
+        }
+
+        public void CreateQuestion(Question question)
+        {
+            QuestionRepository.Create(question);
+        }
+
+        public void UpdateQuestion(Question question)
+        {
+            QuestionRepository.Update(question);
+        }
+
+        public void DeleteQuestion(Guid id)
+        {
+            QuestionRepository.Delete(id);
+        }
+
+        public Question GetQuestion(Guid id)
+        {
+            return QuestionRepository.Get(id);
+        }
+
+        public List<Question> GetQuestions()
+        {
+            return QuestionRepository.GetAll();
+        }
+
+        public List<Question> GetQuestionsByIds(List<Guid> ids)
+        {
+            return QuestionRepository.GetListByIds(ids);
         }
     }
 }
