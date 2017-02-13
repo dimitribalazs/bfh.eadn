@@ -20,5 +20,8 @@ namespace BFH.EADN.Common.Types.Contracts
         [DataMember(Order = 0)]
         public bool IsMultipleChoise { get; set; }
 
+        [DataMember(Order = 0)]
+        public List<Answer> Answers { get; set; }
+
     }
 }

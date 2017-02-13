@@ -1,4 +1,5 @@
-﻿using BFH.EADN.Common.Types;
+﻿using AutoMapper;
+using BFH.EADN.Common.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,8 @@ namespace BFH.EADN.Persistence.EF.Repositories
     {
         public override void Create(CommonContracts.Quiz data)
         {
-            Context.Quizzes.Add(new Entities.Quiz
-            {
-                Text = data.Text,
-                Type = data.Type
-            });
+            Entities.Quiz newQuiz = Mapper.Map<Entities.Quiz>(data);
+            Context.Quizzes.Add(newQuiz);
             Context.SaveChanges();
         }
 
@@ -32,36 +30,19 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 return null;
             }
 
-            return new CommonContracts.Quiz
-            {
-                Id = quiz.Id,
-                Text = quiz.Text,
-                Type = quiz.Type
-            };
+            return Mapper.Map<CommonContracts.Quiz>(quiz);
         }
 
         public override List<CommonContracts.Quiz> GetAll()
         {
-            IQueryable<CommonContracts.Quiz> query = Context.Quizzes.Select(q => new CommonContracts.Quiz
-            {
-                Id = q.Id,
-                Text = q.Text,
-                Type = q.Type
-            });
-            return query.ToList();
+            List<Entities.Quiz> quizzes = Context.Quizzes.ToList();
+            return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
         }
 
         public override List<CommonContracts.Quiz> GetListByIds(List<Guid> ids)
         {
-            IQueryable<CommonContracts.Quiz> query = Context.Quizzes
-                .Where(q => ids.Contains(q.Id))
-                .Select(q => new CommonContracts.Quiz
-                {
-                    Id = q.Id,
-                    Text = q.Text,
-                    Type = q.Type
-                });
-            return query.ToList();
+            List<Entities.Quiz> quizzes = Context.Quizzes.Where(q => ids.Contains(q.Id)).ToList();
+            return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
         }
 
         public override void Update(CommonContracts.Quiz data)
