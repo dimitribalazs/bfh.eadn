@@ -23,7 +23,7 @@ namespace BFH.EADN.Common
             string dllPath = Common.GetConfigValue<string>("DLL");
             string typeName = Common.GetConfigValue<string>("TypeName");
             string fullPath = Path.GetFullPath(dllPath);
-            var assembly = Assembly.LoadFrom(dllPath);
+            var assembly = Assembly.LoadFrom(fullPath);
             return (T)assembly.CreateInstance(typeName);
         }
     }

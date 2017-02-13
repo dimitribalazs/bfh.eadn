@@ -6,6 +6,7 @@ using BFH.EADN.UI.Web.Models.Management;
 using ContractTypes = BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.QuizManagementService.Contracts;
 using System.Web.Mvc;
+using AutoMapper;
 
 namespace BFH.EADN.UI.Web.Services
 {
@@ -18,11 +19,8 @@ namespace BFH.EADN.UI.Web.Services
         public List<Answer> GetList()
         {
             List<ContractTypes.Answer> answers = GetProxy<IAnswerManagement>().GetAnswers();
-            return answers.Select(a => new Answer{
-                Id = a.Id,
-                IsSolution = a.IsSolution,
-                Text = a.Text
-            }).ToList();
+            List<Answer> mappedList = Mapper.Map<List<ContractTypes.Answer>, List<Answer>>(answers);
+            return mappedList;
         }
 
         /// <summary>
@@ -33,36 +31,35 @@ namespace BFH.EADN.UI.Web.Services
         public Answer Get(Guid id)
         {
             ContractTypes.Answer answer = GetProxy<IAnswerManagement>().GetAnswer(id);
+           
             //get topics for selection
             List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopics();
 
+            //used for select
             List<SelectListItem> modelTopics = topics.Select(t => new SelectListItem
             {
                 Text = t.Name,
                 Value = t.Id.ToString()
             }).ToList();
 
-            return new Answer
-            {
-                Id = answer.Id,
-                IsSolution = answer.IsSolution,
-                Text = answer.Text,
-                Topics = modelTopics
-            };
+            Answer returnAnswer = Mapper.Map<Answer>(answer);
+            returnAnswer.Topics = modelTopics;
+
+            return returnAnswer; 
         }
 
         /// <summary>
         /// Creates a new topic
         /// </summary>
         /// <param name="newTopic"></param>
-        public void Create(Answer newTopic)
+        public void Create(Answer newAnswer)
         {
-            if (newTopic.Id == default(Guid))
+            if (newAnswer.Id == default(Guid))
             {
-                newTopic.Id = Guid.NewGuid();
+                newAnswer.Id = Guid.NewGuid();
             }
-            ContractTypes.Answer contracItem = new ContractTypes.Answer();
-            //Proxy.Create(contracItem);
+            ContractTypes.Answer contractAnswer = Mapper.Map<ContractTypes.Answer>(newAnswer);
+            GetProxy<IAnswerManagement>().CreateAnswer(contractAnswer);
         }
 
         /// <summary>
@@ -73,11 +70,11 @@ namespace BFH.EADN.UI.Web.Services
         public void Edit(Guid id, Answer answer)
         {
             ContractTypes.Answer contractAnswer = GetProxy<IAnswerManagement>().GetAnswer(id);
-            contractAnswer.Id = answer.Id;
-            contractAnswer.Topics = GetProxy<ITopicManagement>().GetTopicsByIds(answer.SelectedTopicIds.ToList());
-            contractAnswer.IsSolution = answer.IsSolution;
-            contractAnswer.Text = answer.Text;
-            
+            contractAnswer = Mapper.Map<ContractTypes.Answer>(contractAnswer);
+
+            List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopicsByIds(answer.SelectedTopicIds.ToList());
+            contractAnswer.Topics = topics;
+
             GetProxy<IAnswerManagement>().UpdateAnswer(contractAnswer);
         }
 

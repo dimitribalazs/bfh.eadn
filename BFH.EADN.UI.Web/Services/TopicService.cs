@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
-
 using BFH.EADN.UI.Web.Models.Management;
 using ContractTypes = BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.QuizManagementService.Contracts;
+using AutoMapper;
 
 namespace BFH.EADN.UI.Web.Services
 {
@@ -17,13 +17,8 @@ namespace BFH.EADN.UI.Web.Services
         public List<Topic> GetList()
         {
             List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopics();
-
-            return topics.Select(t => new Topic
-            {
-                Id = t.Id,
-                Description = t.Description,
-                Name = t.Name
-            }).ToList();
+            List<Topic> mappedList = Mapper.Map<List<ContractTypes.Topic>, List<Topic>>(topics);
+            return mappedList;
         }
 
         /// <summary>
@@ -34,12 +29,7 @@ namespace BFH.EADN.UI.Web.Services
         public Topic Get(Guid id)
         {
             ContractTypes.Topic topic = GetProxy<ITopicManagement>().GetTopic(id);
-            return new Topic
-            {
-                Id = topic.Id,
-                Description = topic.Description,
-                Name = topic.Name
-            };
+            return Mapper.Map<Topic>(topic);
         }
 
         /// <summary>
@@ -52,12 +42,7 @@ namespace BFH.EADN.UI.Web.Services
             {
                 newTopic.Id = Guid.NewGuid();
             }
-            ContractTypes.Topic contractTopic = new ContractTypes.Topic
-            {
-                Id = newTopic.Id,
-                Description = newTopic.Description,
-                Name = newTopic.Name
-            };
+            ContractTypes.Topic contractTopic = Mapper.Map<ContractTypes.Topic>(newTopic);
             GetProxy<ITopicManagement>().CreateTopic(contractTopic);
         }
 
@@ -67,12 +52,9 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="id">id of an existing topic</param>
         /// <param name="topic">topic with the new values</param>
         public void Edit(Guid id, Topic topic)
-        {
+        { 
             ContractTypes.Topic contractTopic = GetProxy<ITopicManagement>().GetTopic(id);
-            contractTopic.Id = topic.Id;
-            contractTopic.Name = topic.Name;
-            contractTopic.Description = topic.Description;
-
+            contractTopic = Mapper.Map<ContractTypes.Topic>(topic);
             GetProxy<ITopicManagement>().UpdateTopic(contractTopic);
         }
 
