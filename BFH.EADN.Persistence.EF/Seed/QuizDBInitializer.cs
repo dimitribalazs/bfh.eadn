@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Seed
 {
-    public class QuizDBInitializer : DropCreateDatabaseAlways<QuizDataContext>
+    public class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {
@@ -27,8 +27,6 @@ namespace BFH.EADN.Persistence.EF.Seed
             Answer movieQuestion1first = new Answer { Text = "3" };
             Answer movieQuestion1second = new Answer { Text = "10" };
             Answer movieQuestion1third = new Answer { Text = "2", IsSolution = true };
-
-
 
             programming.Questions = new HashSet<Question>
             {

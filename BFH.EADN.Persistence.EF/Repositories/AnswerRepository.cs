@@ -4,6 +4,7 @@ using System.Linq;
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
@@ -12,12 +13,8 @@ namespace BFH.EADN.Persistence.EF.Repositories
     {
         public override void Create(CommonContracts.Answer data)
         {
-            Context.Answers.Add(new Entities.Answer
-            {
-                Text = data.Text,
-                IsSolution = data.IsSolution
-
-            });
+            Entities.Answer newAnswer = Mapper.Map<Entities.Answer>(data);
+            Context.Answers.Add(newAnswer);
             Context.SaveChanges();
         }
 
@@ -34,40 +31,19 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 return null;
             }
 
-            return new CommonContracts.Answer
-            {
-                Id = answer.Id,
-                IsSolution = answer.IsSolution,
-                Text = answer.Text,
-                //Type = answer.
-            };
+            return Mapper.Map<CommonContracts.Answer>(answer);
         }
 
         public override List<CommonContracts.Answer> GetAll()
         {
-            IQueryable<CommonContracts.Answer> query = Context.Answers.Select(a => new CommonContracts.Answer
-            {
-                Id = a.Id,
-                IsSolution = a.IsSolution,
-                Text = a.Text,
-                //todo type
-                //Type = a.            
-            });
-            return query.ToList();
+            List<Entities.Answer> answers = Context.Answers.ToList();
+            return Mapper.Map<List<Entities.Answer>, List<CommonContracts.Answer>>(answers);
         }
 
         public override List<CommonContracts.Answer> GetListByIds(List<Guid> ids)
         {
-            IQueryable<CommonContracts.Answer> query = Context.Answers
-                .Where(a => ids.Contains(a.Id))
-                .Select(a => new CommonContracts.Answer
-                {
-                    Id = a.Id,
-                    IsSolution = a.IsSolution,
-                    Text = a.Text,
-                    //todo type           
-                });
-            return query.ToList();
+            List<Entities.Answer> answers = Context.Answers.Where(a => ids.Contains(a.Id)).ToList();
+            return Mapper.Map<List<Entities.Answer>, List<CommonContracts.Answer>>(answers);
         }
 
         public override void Update(CommonContracts.Answer data)

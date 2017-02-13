@@ -24,6 +24,8 @@ namespace BFH.EADN.Persistence.EF.Entities
         public bool IsSolution { get; set; }
 
         public ICollection<Topic> Topics { get; set; }
+
+        public int Quark { get; set; }
     }
 
 

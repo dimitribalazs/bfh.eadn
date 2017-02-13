@@ -1,4 +1,5 @@
-﻿using BFH.EADN.Common.Types;
+﻿using AutoMapper;
+using BFH.EADN.Common.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,8 @@ namespace BFH.EADN.Persistence.EF.Repositories
     {
         public override void Create(CommonContracts.Topic data)
         {
-            Context.Topics.Add(new Entities.Topic
-            {
-                Name = data.Name,
-                Description = data.Description
-            });
+            Entities.Topic newTopic = Mapper.Map<Entities.Topic>(data);
+            Context.Topics.Add(newTopic);
             Context.SaveChanges();
         }
 
@@ -33,36 +31,19 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 return null;
             }
 
-            return new CommonContracts.Topic
-            {
-                Id = topic.Id,
-                Name = topic.Name,
-                Description = topic.Description
-            };
+            return Mapper.Map<CommonContracts.Topic>(topic);
         }
 
         public override List<CommonContracts.Topic> GetAll()
         {
-            IQueryable<CommonContracts.Topic> query = Context.Topics.Select(t => new CommonContracts.Topic
-            {
-                Id = t.Id,
-                Description = t.Description,
-                Name = t.Name
-            });
-            return query.ToList();
+            List<Entities.Topic> topics = Context.Topics.ToList();
+            return Mapper.Map<List<Entities.Topic>, List<CommonContracts.Topic>>(topics);
         }
 
         public override List<CommonContracts.Topic> GetListByIds(List<Guid> ids)
         {
-            IQueryable<CommonContracts.Topic> query = Context.Topics
-                .Where(t => ids.Contains(t.Id))
-                .Select(t => new CommonContracts.Topic
-                {
-                    Id = t.Id,
-                    Description = t.Description,
-                    Name = t.Name
-                });
-            return query.ToList();
+            List<Entities.Topic> topic = Context.Topics.Where(t => ids.Contains(t.Id)).ToList();
+            return Mapper.Map<List<Entities.Topic>, List<CommonContracts.Topic>>(topic);
         }
 
         public override void Update(CommonContracts.Topic data)
