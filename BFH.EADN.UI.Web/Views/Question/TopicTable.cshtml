@@ -1,0 +1,40 @@
+﻿@model BFH.EADN.UI.Web.Models.Management.Question
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Is selected</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var topic in Model.Topics)
+                {
+                    <tr>
+                        @if (Model.TopicIsSelected(topic.Id))
+                        {
+                            <td><input type="checkbox" name="SelectedTopicIds[]" value="@topic.Id" checked="checked" /></td>
+                        }
+                        else
+                        {
+                            <td><input type="checkbox" name="SelectedTopicIds[]" value="@topic.Id" /></td>
+                        }
+                        <td>@topic.Name</td>
+                        <td>@topic.Description</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { controller = "Topic", id = topic.Id }) |
+                            @Html.ActionLink("Details", "Details", new { controller = "Topic", id = topic.Id }) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.ActionLink("Create new topic", "Create", "Topic")
+    </div>
+</div>

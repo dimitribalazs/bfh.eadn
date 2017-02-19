@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement
+    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement
     {
         private static IFactoryPersistence _persistenceFactory;
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
         private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
         private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
+        private IRepository<Quiz, Guid> QuizRepository => _persistenceFactory.CreateQuizRepository();
 
 
         static QuizManagement()
@@ -249,6 +250,48 @@ namespace BFH.EADN.QuizManagementService.Implementation
         public List<Question> GetQuestionsByIds(List<Guid> ids)
         {
             return QuestionRepository.GetListByIds(ids);
+        }
+
+        public void CreateQuiz(Quiz quiz)
+        {
+            try
+            {
+                QuizRepository.Create(quiz);
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = new ServiceFault
+                {
+                    Message = ex.Message,
+                    Reason = "Error during deletion of a topic"
+                };
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        public void UpdateQuiz(Quiz quiz)
+        {
+            QuizRepository.Update(quiz);
+        }
+
+        public void DeleteQuiz(Guid id)
+        {
+            QuizRepository.Delete(id);
+        }
+
+        public Quiz GetQuiz(Guid id)
+        {
+            return QuizRepository.Get(id);
+        }
+
+        public List<Quiz> GetQuizzes()
+        {
+            return QuizRepository.GetAll();
+        }
+
+        public List<Quiz> GetQuizzesByIds(List<Guid> ids)
+        {
+            return QuizRepository.GetListByIds(ids);
         }
     }
 }

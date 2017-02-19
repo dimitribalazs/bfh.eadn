@@ -47,11 +47,23 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override void Update(CommonContracts.Quiz data)
         {
-            Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == data.Id);
-            //todo question references
-            //quiz.Questions = data.
+            Entities.Quiz quiz = Context.Quizzes.Find(data.Id);
             quiz.Text = data.Text;
             quiz.Type = data.Type;
+            
+            List<Guid> guids = data.Questions.Select(q => q.Id).ToList();
+            foreach(var question in Context.Questions.ToList())
+            {
+                if(guids.Contains(question.Id) == false)
+                {
+                    quiz.Questions.Remove(question);
+                }
+                else
+                {
+                    quiz.Questions.Add(question);
+                }
+            }
+
             Context.SaveChanges();
         }
     }

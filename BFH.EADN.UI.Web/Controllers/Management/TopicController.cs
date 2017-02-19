@@ -65,7 +65,8 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Topic/Delete/5
         public ActionResult Delete(Guid id)
         {
-            return View(_service.Get(id));
+            Topic topic = _service.Get(id);
+            return View(topic);
         }
 
         // POST: Topic/Delete/5

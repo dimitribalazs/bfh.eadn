@@ -52,13 +52,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             //todo question references
             //quiz.Questions = data.
             answer.Text = data.Text;
-            answer.IsSolution = data.IsSolution;
-            answer.Topics = new HashSet<Entities.Topic>();
-    
-            List<Guid> topicIds = data.Topics.Select(t => t.Id).ToList();
-            List<Entities.Topic> topics = Context.Topics.Where(t => topicIds.Contains(t.Id)).ToList();
-            answer.Topics = topics;
-            
+            answer.IsSolution = data.IsSolution;   
             Context.SaveChanges();
         }
     }

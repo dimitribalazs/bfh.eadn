@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IQuestionManagement.cs" />
+    <Compile Include="IQuizManagement.cs" />
     <Compile Include="ITopicManagement.cs" />
     <Compile Include="IAnswerManagement..cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

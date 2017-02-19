@@ -36,14 +36,14 @@ namespace BFH.EADN.UI.Web.Services
             List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopics();
 
             //used for select
-            List<SelectListItem> modelTopics = topics.Select(t => new SelectListItem
-            {
-                Text = t.Name,
-                Value = t.Id.ToString()
-            }).ToList();
+            //List<SelectListItem> modelTopics = topics.Select(t => new SelectListItem
+            //{
+            //    Text = t.Name,
+            //    Value = t.Id.ToString()
+            //}).ToList();
 
             Answer returnAnswer = Mapper.Map<Answer>(answer);
-            returnAnswer.Topics = modelTopics;
+            //returnAnswer.Topics = modelTopics;
 
             return returnAnswer; 
         }
@@ -71,10 +71,7 @@ namespace BFH.EADN.UI.Web.Services
         {
             ContractTypes.Answer contractAnswer = GetProxy<IAnswerManagement>().GetAnswer(id);
             contractAnswer = Mapper.Map<ContractTypes.Answer>(contractAnswer);
-
-            List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopicsByIds(answer.SelectedTopicIds.ToList());
-            contractAnswer.Topics = topics;
-
+            
             GetProxy<IAnswerManagement>().UpdateAnswer(contractAnswer);
         }
 

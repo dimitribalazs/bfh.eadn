@@ -1,4 +1,4 @@
-﻿using BFH.EADN.Common.Types.Contracts;
+﻿using BFH.EADN.UI.Web.Models.Management;
 using BFH.EADN.UI.Web.Services;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Questions/Create
         public ActionResult Create()
         {
-            return View();
+            return View(_service.Get());
         }
 
         // POST: Questions/Create
@@ -35,7 +35,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             try
             {
                 // TODO: Add insert logic here
-
+                _service.Create(question);
                 return RedirectToAction("Index");
             }
             catch
@@ -47,18 +47,18 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Questions/Edit/5
         public ActionResult Edit(Guid id)
         {
-            return View();
+            Question question = _service.Get(id);
+            return View(question);
         }
 
         // POST: Questions/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, Question question)
+        public ActionResult Edit(Guid id, Question question)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                _service.Edit(id, question);
+                return RedirectToAction("Details", new { id = id });
             }
             catch
             {
@@ -69,22 +69,23 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Questions/Delete/5
         public ActionResult Delete(Guid id)
         {
-            return View();
+            Question question = _service.Get(id);
+            return View(question);
         }
 
         // POST: Questions/Delete/5
         [HttpPost]
-        public ActionResult Delete(Guid id, Question collection)
+        public ActionResult Delete(Guid id, Question question)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                _service.Delete(id);
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(question);
             }
         }
     }

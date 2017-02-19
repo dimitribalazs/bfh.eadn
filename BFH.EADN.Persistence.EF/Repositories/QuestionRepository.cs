@@ -51,6 +51,33 @@ namespace BFH.EADN.Persistence.EF.Repositories
             question.Hint = data.Hint;
             question.IsYesOrNo = data.IsMultipleChoise;
             question.Text = data.Text;
+            
+            List<Guid> guids = data.Topics.Select(t => t.Id).ToList();
+            foreach (var topic in Context.Topics.ToList())
+            {
+                if (guids.Contains(topic.Id) == false)
+                {
+                    question.Topics.Remove(topic);
+                }
+                else
+                {
+                    question.Topics.Add(topic);
+                }
+            }
+
+            guids = data.Answers.Select(t => t.Id).ToList();
+            foreach (var answer in Context.Answers.ToList())
+            {
+                if (guids.Contains(answer.Id) == false)
+                {
+                    question.Anwers.Remove(answer);
+                }
+                else
+                {
+                    question.Anwers.Add(answer);
+                }
+            }
+
             Context.SaveChanges();
         }
     }

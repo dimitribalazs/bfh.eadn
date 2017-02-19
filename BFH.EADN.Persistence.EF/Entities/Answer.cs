@@ -10,11 +10,6 @@ namespace BFH.EADN.Persistence.EF.Entities
 {
     public class Answer
     {
-        public Answer()
-        {
-            Topics = new HashSet<Topic>();
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -22,10 +17,6 @@ namespace BFH.EADN.Persistence.EF.Entities
         public string Text { get; set; }
 
         public bool IsSolution { get; set; }
-
-        public ICollection<Topic> Topics { get; set; }
-
-        public int Quark { get; set; }
     }
 
 

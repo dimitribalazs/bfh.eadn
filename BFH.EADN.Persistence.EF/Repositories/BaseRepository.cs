@@ -19,15 +19,23 @@ namespace BFH.EADN.Persistence.EF.Repositories
                  cfg.CreateMap<Entities.Answer, ContractTypes.Answer>();
                  cfg.CreateMap<ContractTypes.Answer, Entities.Answer>();
 
-                 cfg.CreateMap<Entities.Quiz, ContractTypes.Quiz>();
+                 //Quiz
+                 cfg.CreateMap<Entities.Quiz, ContractTypes.Quiz>()
+                    .ForMember(
+                        dest => dest.Questions,
+                        opt => opt.MapFrom(src => src.Questions));
                  cfg.CreateMap<ContractTypes.Quiz, Entities.Quiz>();
 
-             cfg.CreateMap<Entities.Question, ContractTypes.Question>()
-                .ForMember(
-                    dest => dest.Answers,
-                    opt => opt.MapFrom(src => src.Anwers));
+                 //Questions
+                 cfg.CreateMap<Entities.Question, ContractTypes.Question>()
+                    .ForMember(
+                        dest => dest.Answers,
+                        opt => opt.MapFrom(src => src.Anwers))
+                    .ForMember(
+                        dest => dest.Topics,
+                        opt => opt.MapFrom(src => src.Topics));
                  cfg.CreateMap<ContractTypes.Question, Entities.Question>();
-                 
+
 
                  cfg.CreateMap<Entities.Topic, ContractTypes.Topic>();
                  cfg.CreateMap<ContractTypes.Topic, Entities.Topic>();
@@ -45,6 +53,5 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             Context?.Dispose();
         }
-
     }
 }

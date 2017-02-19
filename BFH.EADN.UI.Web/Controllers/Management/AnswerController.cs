@@ -82,7 +82,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             }
             catch
             {
-                return View();
+                return View(answer);
             }
         }
     }

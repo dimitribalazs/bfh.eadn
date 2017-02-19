@@ -26,6 +26,10 @@ namespace BFH.EADN.UI.Web
                 //question area
                 cfg.CreateMap<Question, ContractTypes.Question>();
                 cfg.CreateMap<ContractTypes.Question, Question>();
+
+                //question area
+                cfg.CreateMap<Quiz, ContractTypes.Quiz>();
+                cfg.CreateMap<ContractTypes.Quiz, Quiz>();
             });
         }
 	}

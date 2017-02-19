@@ -11,11 +11,10 @@ namespace BFH.EADN.UI.Web.Models.Management
     public class Answer : BaseModel
     {
         [Required]
+        public Guid QuestionId { get; set; }
+        [Required]
         public string Text { get; set; }
         [Required]
         public bool IsSolution { get; set; }
-        
-        public Guid[] SelectedTopicIds { get; set; }
-        public List<SelectListItem> Topics { get; set; }
     }
 }

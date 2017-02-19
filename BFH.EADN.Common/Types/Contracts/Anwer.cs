@@ -16,7 +16,5 @@ namespace BFH.EADN.Common.Types.Contracts
 
         [DataMember(Order = 0)]
         public bool IsSolution { get; set; }
-
-        public List<Topic> Topics { get; set; }
     }
 }
