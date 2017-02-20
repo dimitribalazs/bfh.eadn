@@ -26,7 +26,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         // GET: Quiz/Create
         public ActionResult Create()
         {
-            return View();
+            return View(_service.Get());
         }
 
         // POST: Quiz/Create
@@ -61,9 +61,11 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                 _service.Edit(id, quiz);
                 return RedirectToAction("Details", new { id = id });
             }
-            catch
+            catch(Exception ex)
             {
-                return View(quiz);
+                Quiz dbQuiz = _service.Get(id);
+                dbQuiz.Text = quiz.Text;
+                return View(dbQuiz);
             }
         }
 

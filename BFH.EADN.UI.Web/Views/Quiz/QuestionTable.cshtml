@@ -14,24 +14,36 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var question in Model.Questions)
+                @if(Model.Questions == null || Model.Questions.Count == 0)
                 {
                     <tr>
-                        @if (Model.QuestionIsSelected(question.Id))
-                        {
-                            <td><input type="checkbox" name="SelectedQuestionIds[]" value="@question.Id" checked="checked" /></td>
-                        }
-                        else
-                        {
-                            <td><input type="checkbox" name="SelectedQuestionIds[]" value="@question.Id" /></td>
-                        }
-                        <td>@question.Text</td>
-                        <td>@question.Hint</td>
-                        <td>@question.IsMultipleChoise</td>
-                        <td>@Html.ActionLink("Edit", "Edit", new { controller = "Question", id = question.Id })</td>
+                        <td colspan="5" >
+                            No questions exists!
+                        </td>
                     </tr>
                 }
+                else
+                {
+                    foreach (var question in Model.Questions)
+                    {
+                            <tr>
+                                @if (Model.QuestionIsSelected(question.Id))
+                                {
+                                    <td><input type="checkbox" name="SelectedQuestionIds[]" value="@question.Id" checked="checked" /></td>
+                                }
+                                else
+                                {
+                                    <td><input type="checkbox" name="SelectedQuestionIds[]" value="@question.Id" /></td>
+                                }
+                                <td>@question.Text</td>
+                                <td>@question.Hint</td>
+                                <td>@question.IsMultipleChoise</td>
+                                <td>@Html.ActionLink("Edit", "Edit", new { controller = "Question", id = question.Id })</td>
+                            </tr>
+                        }
+                }
+
+                
             </tbody>
         </table>
         @Html.ActionLink("Create new question", "Create", "Question")

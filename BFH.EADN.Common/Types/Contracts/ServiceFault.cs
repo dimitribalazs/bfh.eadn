@@ -16,5 +16,8 @@ namespace BFH.EADN.Common.Types.Contracts
         [DataMember]
         public string Message { get; set; }
 
+        [DataMember]
+        public Exception InnerException { get; set; }
+
     }
 }

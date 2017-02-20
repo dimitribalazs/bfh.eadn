@@ -1,5 +1,4 @@
 ﻿@model BFH.EADN.UI.Web.Models.Management.Question
-
 <div class="form-group">
     @Html.LabelFor(model => model.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
@@ -13,25 +12,35 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var topic in Model.Topics)
+                @if (Model.Topics == null || Model.Topics.Count == 0)
                 {
                     <tr>
-                        @if (Model.TopicIsSelected(topic.Id))
-                        {
-                            <td><input type="checkbox" name="SelectedTopicIds[]" value="@topic.Id" checked="checked" /></td>
-                        }
-                        else
-                        {
-                            <td><input type="checkbox" name="SelectedTopicIds[]" value="@topic.Id" /></td>
-                        }
-                        <td>@topic.Name</td>
-                        <td>@topic.Description</td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { controller = "Topic", id = topic.Id }) |
-                            @Html.ActionLink("Details", "Details", new { controller = "Topic", id = topic.Id }) 
+                        <td colspan="5">
+                            No topics exists!
                         </td>
                     </tr>
+                }
+                else
+                {
+                    foreach (var topic in Model.Topics)
+                    {
+                        <tr>
+                            @if (Model.TopicIsSelected(topic.Id))
+                            {
+                                <td><input type="checkbox" name="SelectedTopicIds[]" value="@topic.Id" checked="checked" /></td>
+                            }
+                            else
+                            {
+                                <td><input type="checkbox" name="SelectedTopicIds[]" value="@topic.Id" /></td>
+                            }
+                            <td>@topic.Name</td>
+                            <td>@topic.Description</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { controller = "Topic", id = topic.Id }) |
+                                @Html.ActionLink("Details", "Details", new { controller = "Topic", id = topic.Id })
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

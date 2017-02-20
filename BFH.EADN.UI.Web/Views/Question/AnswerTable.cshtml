@@ -1,5 +1,4 @@
 ﻿@model BFH.EADN.UI.Web.Models.Management.Question
-
 <div class="form-group">
     @Html.LabelFor(model => model.Answers, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
@@ -12,22 +11,33 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var answer in Model.Answers)
-                {
-                    @Html.HiddenFor(model => answer.Id, new { name = "SelectedAnswerIds[]" });
-                }
-                @foreach (var answer in Model.Answers)
+                @if (Model.Answers == null || Model.Answers.Count == 0)
                 {
                     <tr>
-                        <td>@answer.Text</td>
-                        <td>@answer.IsSolution</td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { controller = "Answer", id = answer.Id }) |
-                            @Html.ActionLink("Details", "Details", new { controller = "Answer", id = answer.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { controller = "Answer", id = answer.Id })
-
+                        <td colspan="5">
+                            No answers exists!
                         </td>
                     </tr>
+                }
+                else
+                {
+
+                    foreach (var answer in Model.Answers)
+                    {
+                        @Html.HiddenFor(model => answer.Id, new { name = "SelectedAnswerIds[]" });
+                    }
+                    foreach (var answer in Model.Answers)
+                    {
+                        <tr>
+                            <td>@answer.Text</td>
+                            <td>@answer.IsSolution</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { controller = "Answer", id = answer.Id }) |
+                                @Html.ActionLink("Details", "Details", new { controller = "Answer", id = answer.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { controller = "Answer", id = answer.Id })
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
