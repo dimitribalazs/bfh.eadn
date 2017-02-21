@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomBehavior.cs" />
     <Compile Include="QuizManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceMessageInspector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">

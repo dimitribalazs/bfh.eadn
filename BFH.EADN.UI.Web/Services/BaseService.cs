@@ -1,6 +1,4 @@
-﻿using BFH.EADN.Common.Client;
-using BFH.EADN.QuizManagementService.Contracts;
-using System.Collections.Generic;
+﻿using BFH.EADN.Common.Wcf.Client;
 using System.ServiceModel;
 
 namespace BFH.EADN.UI.Web.Services

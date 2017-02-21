@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement
+    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement, ISession
     {
         private static IFactoryPersistence _persistenceFactory;
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
@@ -292,6 +292,35 @@ namespace BFH.EADN.QuizManagementService.Implementation
         public List<Quiz> GetQuizzesByIds(List<Guid> ids)
         {
             return QuizRepository.GetListByIds(ids);
+        }
+
+        public bool Test(bool test)
+        {
+            return test;
+        }
+
+        private static Dictionary<string, string> loginSessions = new Dictionary<string, string>();
+        public void LogIn(string name, string password)
+        {
+            if(true)
+            {
+                string sessionId = OperationContext.Current.SessionId;
+                loginSessions.Add(sessionId, name);
+            }
+        }
+
+        public void LogOut()
+        {
+            string sessionId = OperationContext.Current.SessionId;
+            if (IsLoggedIn(sessionId))
+            {
+                loginSessions.Remove(sessionId);
+            }
+        }
+
+        public static bool IsLoggedIn(string key)
+        {
+            return loginSessions.ContainsKey(key);
         }
     }
 }

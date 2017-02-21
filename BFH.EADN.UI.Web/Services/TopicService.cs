@@ -16,6 +16,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>list of topics</returns>
         public List<Topic> GetList()
         {
+            //var test = GetProxy<ISession>().Test(true);
             List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopics();
             List<Topic> mappedList = Mapper.Map<List<ContractTypes.Topic>, List<Topic>>(topics);
             return mappedList;

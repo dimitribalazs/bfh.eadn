@@ -1,4 +1,5 @@
-﻿using BFH.EADN.QuizManagementService.Contracts;
+﻿using BFH.EADN.Common.Wcf;
+using BFH.EADN.QuizManagementService.Contracts;
 using BFH.EADN.QuizManagementService.Implementation;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +31,14 @@ namespace BFH.EADN.QuizManagementService.Host
             //    typeof(IQuizManagement), 
             //    new BasicHttpBinding(), 
             //    "QuizManagement");
+            //ServiceEndpoint endpoint = _quizManagementHost.AddServiceEndpoint(typeof(ISession), new NetTcpBinding(), "Session");
+            //endpoint.EndpointBehaviors.Add(new CustomBehavior());
+            foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
+            {
+                endpoint.EndpointBehaviors.Add(new CustomBehavior());
+            }
+
+            
             _quizManagementHost.Open();
         }
 
