@@ -16,8 +16,7 @@ namespace BFH.EADN.QuizManagementService.Host
         /// </summary>
         static void Main()
         {
-            ServiceBase[] servicesToRun;
-            servicesToRun = new ServiceBase[]
+            ServiceBase[] servicesToRun = new ServiceBase[]
             {
                 new QuizManagementServiceHost()
             };

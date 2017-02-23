@@ -207,6 +207,7 @@
     <Compile Include="Controllers\Management\QuestionController.cs" />
     <Compile Include="Controllers\Management\QuizController.cs" />
     <Compile Include="Controllers\Management\TopicController.cs" />
+    <Compile Include="Controllers\Play\PlayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -218,7 +219,9 @@
     <Compile Include="Models\Management\Quiz.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Management\Topic.cs" />
+    <Compile Include="Models\Play\Overview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PlayService.cs" />
     <Compile Include="Services\QuizService.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\AnswerService.cs" />
@@ -309,6 +312,7 @@
     <Content Include="Views\Quiz\QuestionTable.cshtml" />
     <Content Include="Views\Question\TopicTable.cshtml" />
     <Content Include="Views\Question\AnswerTable.cshtml" />
+    <Content Include="Views\Play\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -329,6 +333,10 @@
     <ProjectReference Include="..\BFH.EADN.QuizManagementService.Contracts\BFH.EADN.QuizManagementService.Contracts.csproj">
       <Project>{BFF9FE91-477C-46A2-8E01-22949334FE67}</Project>
       <Name>BFH.EADN.QuizManagementService.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.QuizService.Contracts\BFH.EADN.QuizService.Contracts.csproj">
+      <Project>{CF4E5F29-6D02-42F9-A7C9-1A9237C88A80}</Project>
+      <Name>BFH.EADN.QuizService.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

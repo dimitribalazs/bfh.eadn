@@ -1,0 +1,19 @@
+﻿@model IEnumerable<BFH.EADN.UI.Web.Models.Play.Overview>
+
+@foreach (var item in Model)
+{
+    <h2>
+        @item.TopicName
+    </h2>
+    <table class="table">
+        <tbody>
+            @for(var i = 0; i < item.QuizItems.Count; i++)
+            {
+                <tr>
+                    <td>@item.QuizItems[i].Text</td>
+                    <td>@Html.ActionLink("Play", "Play", @item.QuizItems[i].Id)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E47AC279-9EE1-4E81-B276-75B95B4D62CC}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BFH.EADN.QuizService.Host</RootNamespace>
     <AssemblyName>BFH.EADN.QuizService.Host</AssemblyName>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -67,6 +70,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BFH.EADN.QuizService.Contracts\BFH.EADN.QuizService.Contracts.csproj">
+      <Project>{cf4e5f29-6d02-42f9-a7c9-1a9237c88a80}</Project>
+      <Name>BFH.EADN.QuizService.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.QuizService.Implementation\BFH.EADN.QuizService.Implementation.csproj">
       <Project>{605960d4-6c05-4064-86c9-9c9337ddc258}</Project>
       <Name>BFH.EADN.QuizService.Implementation</Name>

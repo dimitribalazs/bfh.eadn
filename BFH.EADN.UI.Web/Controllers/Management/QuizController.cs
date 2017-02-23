@@ -1,16 +1,12 @@
 ﻿using BFH.EADN.UI.Web.Models.Management;
-using BFH.EADN.UI.Web.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BFH.EADN.UI.Web.Controllers.Management
 {
     public class QuizController : Controller
     {
-        private QuizService _service = new QuizService();
+        private Services.QuizService _service = new Services.QuizService();
         // GET: Quiz
         public ActionResult Index()
         {

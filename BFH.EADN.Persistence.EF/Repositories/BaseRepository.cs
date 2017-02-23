@@ -36,7 +36,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
                         opt => opt.MapFrom(src => src.Topics));
                  cfg.CreateMap<ContractTypes.Question, Entities.Question>();
 
-
                  cfg.CreateMap<Entities.Topic, ContractTypes.Topic>();
                  cfg.CreateMap<ContractTypes.Topic, Entities.Topic>();
              });

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Types\Contracts\Play\QuizSelection.cs" />
     <Compile Include="Wcf\Client\ClientMessageInspector.cs" />
     <Compile Include="Wcf\Client\CustomBehavior.cs" />
     <Compile Include="Wcf\Client\WcfClient.cs" />
@@ -52,13 +53,13 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Contracts\Answer.cs" />
+    <Compile Include="Types\Contracts\Management\Answer.cs" />
     <Compile Include="Types\Contracts\BaseContract.cs" />
     <Compile Include="Types\Contracts\ServiceFault.cs" />
-    <Compile Include="Types\Contracts\Question.cs" />
-    <Compile Include="Types\Contracts\Quiz.cs" />
-    <Compile Include="Types\Contracts\Topic.cs" />
-    <Compile Include="Types\Contracts\User.cs" />
+    <Compile Include="Types\Contracts\Management\Question.cs" />
+    <Compile Include="Types\Contracts\Management\Quiz.cs" />
+    <Compile Include="Types\Contracts\Management\Topic.cs" />
+    <Compile Include="Types\Contracts\Management\User.cs" />
     <Compile Include="Types\Enums\QuizType.cs" />
     <Compile Include="Types\IFactoryPersistence.cs" />
     <Compile Include="Types\IRepository.cs" />

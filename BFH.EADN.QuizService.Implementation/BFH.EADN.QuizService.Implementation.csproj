@@ -45,6 +45,16 @@
     <Compile Include="QuizService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
+      <Project>{234A3293-9F1F-452F-B1EB-EAEEABF0B5AB}</Project>
+      <Name>BFH.EADN.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.QuizService.Contracts\BFH.EADN.QuizService.Contracts.csproj">
+      <Project>{CF4E5F29-6D02-42F9-A7C9-1A9237C88A80}</Project>
+      <Name>BFH.EADN.QuizService.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

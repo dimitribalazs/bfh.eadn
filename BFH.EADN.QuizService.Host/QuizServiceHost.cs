@@ -15,7 +15,7 @@ namespace BFH.EADN.QuizService.Host
 {
     public partial class QuizServiceHost : ServiceBase
     {
-        ServiceHost serviceHost = null;
+        ServiceHost _quizHost;
         public QuizServiceHost()
         {
             InitializeComponent();
@@ -25,7 +25,8 @@ namespace BFH.EADN.QuizService.Host
         {
             try
             {
-                serviceHost = new ServiceHost(typeof(Implementation.QuizService));
+                _quizHost = new ServiceHost(typeof(Implementation.QuizService));
+                _quizHost.Open();
             }
             catch(Exception ex)
             {
@@ -35,7 +36,7 @@ namespace BFH.EADN.QuizService.Host
 
         protected override void OnStop()
         {
-            serviceHost?.Close();
+            _quizHost?.Close();
         }
     }
 }

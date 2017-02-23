@@ -26,24 +26,30 @@ namespace BFH.EADN.QuizManagementService.Host
 
         protected override void OnStart(string[] args)
         {
-            _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("net.tcp://localhost:5002"));
-            //_quizManagementHost.AddServiceEndpoint(
-            //    typeof(IQuizManagement), 
-            //    new BasicHttpBinding(), 
-            //    "QuizManagement");
-            //ServiceEndpoint endpoint = _quizManagementHost.AddServiceEndpoint(typeof(ISession), new NetTcpBinding(), "Session");
-            //endpoint.EndpointBehaviors.Add(new CustomBehavior());
-            foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
+            try
             {
-                endpoint.EndpointBehaviors.Add(new CustomBehavior());
+                _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("net.tcp://localhost:5002"));
+                //_quizManagementHost.AddServiceEndpoint(
+                //    typeof(IQuizManagement), 
+                //    new BasicHttpBinding(), 
+                //    "QuizManagement");
+                //ServiceEndpoint endpoint = _quizManagementHost.AddServiceEndpoint(typeof(ISession), new NetTcpBinding(), "Session");
+                //endpoint.EndpointBehaviors.Add(new CustomBehavior());
+                foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
+                {
+                    endpoint.EndpointBehaviors.Add(new CustomBehavior());
+                }
+                _quizManagementHost.Open();
             }
-
-            
-            _quizManagementHost.Open();
+            catch (Exception ex)
+            {
+                OnStop();
+            }
         }
 
         protected override void OnStop()
         {
+            _quizManagementHost?.Close();
         }
     }
 }
