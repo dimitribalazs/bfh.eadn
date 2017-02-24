@@ -14,6 +14,7 @@ namespace BFH.EADN.UI.Web.Models.Play
     public class QuizItem
     {
         public string Text { get; set; }
-        public Guid Id { get; set; }
+        public Guid QuestionId { get; set; }
+        public Guid QuizId { get; set; }
     }   
 }

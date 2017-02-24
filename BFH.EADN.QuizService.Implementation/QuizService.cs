@@ -26,6 +26,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+
         public Quiz GetQuiz(Guid id)
         {
             return QuizRepository.Get(id);
@@ -34,6 +35,11 @@ namespace BFH.EADN.QuizService.Implementation
         public List<Quiz> GetQuizzes()
         {
             return QuizRepository.GetAll();
+        }
+
+        public Question GetQuestion(Guid id)
+        {
+            return QuestionRepository.Get(id);
         }
     }
 }

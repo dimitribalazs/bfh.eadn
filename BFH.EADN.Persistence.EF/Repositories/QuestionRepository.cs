@@ -49,7 +49,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             Entities.Question question = Context.Questions.Single(q => q.Id == data.Id);
             question.Hint = data.Hint;
-            question.IsYesOrNo = data.IsMultipleChoise;
+            question.IsYesOrNo = data.IsMultipleChoice;
             question.Text = data.Text;
             
             List<Guid> guids = data.Topics.Select(t => t.Id).ToList();

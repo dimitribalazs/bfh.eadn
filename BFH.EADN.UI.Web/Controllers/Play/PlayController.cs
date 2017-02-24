@@ -14,5 +14,10 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         {
             return View(_service.GetOverview());
         }
+
+        public ActionResult Play(Guid quizId, Guid questionId)
+        {
+            return View(_service.GetQuestion(quizId, questionId));
+        }
     }
 }

@@ -1,0 +1,36 @@
+﻿@model BFH.EADN.UI.Web.Models.Play.Question
+
+@{
+    ViewBag.Title = "Play";
+}
+
+<h2>Play</h2>
+
+@Html.DisplayFor(m => m.Text);
+@Html.DisplayFor(m => m.Hint)¨;
+
+@if(Model.IsMultipleChoice)
+{
+    foreach(var item in Model.Answers)
+    {
+       @:<label><input type="checkbox" name="" value="" />@item.Text</label> <br />
+    }
+}
+else
+{
+    foreach (var item in Model.Answers)
+    {
+        @:<label><input type="radio" name="answers" value="" />@item.Text</label> <br />
+    }
+}
+
+@if(Model.PreviousQuestion.HasValue)
+{ 
+    @Html.ActionLink("Previous", "Play", new { quizId = Model.QuizId, questionId = Model.PreviousQuestion.Value})
+}
+
+@if (Model.NextQuestion.HasValue)
+{
+    @Html.ActionLink("Next", "Play", new { quizId = Model.QuizId, questionId = Model.NextQuestion.Value })
+}
+

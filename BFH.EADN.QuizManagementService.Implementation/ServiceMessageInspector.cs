@@ -23,7 +23,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             bool isLoggedIn = QuizManagement.IsLoggedIn("");
             if(isLoggedIn == false)
             {
-                request.Close();
+               // request.Close();
             }
             
             Console.WriteLine("Hello Request");

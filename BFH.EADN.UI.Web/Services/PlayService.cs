@@ -27,7 +27,8 @@ namespace BFH.EADN.UI.Web.Services
                         topicQuizzes[topic.Name].TopicName = topic.Name;
                         QuizItem item = new QuizItem
                         {
-                            Id = question.Id,
+                            QuizId = quiz.Id,
+                            QuestionId = question.Id,
                             Text = question.Text
                         };
                         topicQuizzes[topic.Name].QuizItems.Add(item);
@@ -36,6 +37,53 @@ namespace BFH.EADN.UI.Web.Services
             }
 
             return topicQuizzes.Values.ToList();
+        }
+
+        public Question GetQuestion(Guid quizId, Guid questionId)
+        {
+            ContractTypes.Quiz quiz = GetQuizProxy<IPlay>().GetQuiz(quizId);
+            List<ContractTypes.Question> questions = quiz.Questions.OrderBy(q => q.Id).ToList();
+
+            ContractTypes.Question currentQuestion = null;
+            Guid? previousQuestion = null;
+            Guid? nextQuestion = null;
+            for(int i = 0; i < questions.Count; i++)
+            {
+                if(questions[i].Id == questionId)
+                {
+                    currentQuestion = questions[i];
+                    if(i > 0)
+                    {
+                        previousQuestion = questions[i - 1].Id;
+                    }
+
+                    if(i + 1 <= questions.Count - 1)
+                    {
+                        nextQuestion = questions[i + 1].Id;
+                    }
+                }
+            }
+            
+            Question retQuestion = new Question
+            {
+                Hint = currentQuestion.Hint,
+                Text = currentQuestion.Text,
+                IsMultipleChoice = currentQuestion.IsMultipleChoice,
+            };
+
+            retQuestion.Answers = new List<Answer>(currentQuestion.Answers.Count);
+            foreach(ContractTypes.Answer answer in currentQuestion.Answers)
+            {
+                Answer answerItem = new Answer
+                {
+                    Id = answer.Id,
+                    Text = answer.Text,
+                    IsSolution = answer.IsSolution
+                };
+                retQuestion.Answers.Add(answerItem);
+            }
+
+            return retQuestion;
         }
     }
 }

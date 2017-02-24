@@ -11,7 +11,7 @@
             {
                 <tr>
                     <td>@item.QuizItems[i].Text</td>
-                    <td>@Html.ActionLink("Play", "Play", @item.QuizItems[i].Id)</td>
+                    <td>@Html.ActionLink("Play", "Play", new { quizId = @item.QuizItems[i].QuizId, questionId = @item.QuizItems[i].QuestionId })</td>
                 </tr>
             }
         </tbody>

@@ -220,6 +220,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Management\Topic.cs" />
     <Compile Include="Models\Play\Overview.cs" />
+    <Compile Include="Models\Play\Question.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PlayService.cs" />
     <Compile Include="Services\QuizService.cs" />
@@ -313,6 +314,7 @@
     <Content Include="Views\Question\TopicTable.cshtml" />
     <Content Include="Views\Question\AnswerTable.cshtml" />
     <Content Include="Views\Play\Index.cshtml" />
+    <Content Include="Views\Play\Play.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

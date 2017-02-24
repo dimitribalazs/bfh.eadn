@@ -16,6 +16,8 @@ namespace BFH.EADN.QuizService.Contracts
         List<Quiz> GetQuizzes();
         [OperationContract(Name = "GetQuiz")]
         Quiz GetQuiz(Guid id);
+        [OperationContract(Name = "GetQuestion")]
+        Question GetQuestion(Guid id);
     }
             
 }

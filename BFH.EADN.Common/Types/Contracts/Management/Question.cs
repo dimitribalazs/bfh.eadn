@@ -18,7 +18,7 @@ namespace BFH.EADN.Common.Types.Contracts
         public string Hint { get; set; }
 
         [DataMember(Order = 0)]
-        public bool IsMultipleChoise { get; set; }
+        public bool IsMultipleChoice { get; set; }
 
         [DataMember(Order = 0)]
         public List<Topic> Topics { get; set; }
