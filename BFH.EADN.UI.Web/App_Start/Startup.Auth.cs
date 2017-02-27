@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using BFH.EADN.UI.Web.Models;
+using BFH.EADN.UI.Web.Identity;
 
 namespace BFH.EADN.UI.Web
 {
@@ -14,7 +15,17 @@ namespace BFH.EADN.UI.Web
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString($"/Session/Logon")
+            });
+
+            /*
+
             // Configure the db context, user manager and signin manager to use a single instance per request
+
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
@@ -63,6 +74,7 @@ namespace BFH.EADN.UI.Web
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+            */
         }
     }
 }
