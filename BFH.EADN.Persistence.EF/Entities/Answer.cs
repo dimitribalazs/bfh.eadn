@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
-    public class Answer
+    public class Answer : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
         public string Text { get; set; }
 
         public bool IsSolution { get; set; }

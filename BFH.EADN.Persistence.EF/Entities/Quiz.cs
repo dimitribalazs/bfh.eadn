@@ -10,11 +10,8 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
-    public class Quiz
+    public class Quiz : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
         public string Text { get; set; }
         public QuizType Type { get; set; }
 

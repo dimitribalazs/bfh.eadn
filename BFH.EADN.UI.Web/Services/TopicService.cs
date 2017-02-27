@@ -5,6 +5,8 @@ using BFH.EADN.UI.Web.Models.Management;
 using ContractTypes = BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.QuizManagementService.Contracts;
 using AutoMapper;
+using System.Security.Principal;
+using System.Threading;
 
 namespace BFH.EADN.UI.Web.Services
 {
@@ -29,6 +31,9 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>the concrete topic</returns>
         public Topic Get(Guid id)
         {
+            GenericIdentity identity = new GenericIdentity("foo", "bar");
+            GenericPrincipal gprincipal = new GenericPrincipal(identity, new[] { "QuizAdmin" });
+            Thread.CurrentPrincipal = gprincipal;
             ContractTypes.Topic topic = GetProxy<ITopicManagement>().GetTopic(id);
             return Mapper.Map<Topic>(topic);
         }

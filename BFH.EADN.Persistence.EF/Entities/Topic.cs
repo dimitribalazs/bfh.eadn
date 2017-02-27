@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
-    public class Topic
+    public class Topic : BaseEntity
     {
         public Topic()
         {
             Questions = new HashSet<Question>();
         }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="QuizDataContext.cs" />
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\Quiz.cs" />

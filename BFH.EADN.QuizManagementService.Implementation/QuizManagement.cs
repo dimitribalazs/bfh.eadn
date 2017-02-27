@@ -5,6 +5,7 @@ using BFH.EADN.QuizManagementService.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             try
             {
                 TopicRepository.Create(topic);
+                TopicRepository.Dispose();
             }
             catch (Exception ex)
             {
@@ -56,6 +58,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             try
             {
                 TopicRepository.Delete(id);
+                TopicRepository.Dispose();
             }
             catch (Exception ex)
             {
@@ -73,6 +76,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             try
             {
                 TopicRepository.Update(topic);
+                TopicRepository.Dispose();
             }
             catch (Exception ex)
             {
@@ -85,11 +89,14 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Topic GetTopic(Guid id)
         {
             try
             {
-                return TopicRepository.Get(id);
+                Topic topic = TopicRepository.Get(id);
+                TopicRepository.Dispose();
+                return topic;
             }
             catch (Exception ex)
             {
@@ -106,7 +113,9 @@ namespace BFH.EADN.QuizManagementService.Implementation
         {
             try
             {
-                return TopicRepository.GetAll();
+                List<Topic> topics = TopicRepository.GetAll();
+                TopicRepository.Dispose();
+                return topics;
             }
             catch (Exception ex)
             {

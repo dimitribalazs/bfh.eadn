@@ -37,8 +37,10 @@ namespace BFH.EADN.QuizManagementService.Host
                 //endpoint.EndpointBehaviors.Add(new CustomBehavior());
                 foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
                 {
+                   
                     endpoint.EndpointBehaviors.Add(new CustomBehavior());
                 }
+                //_quizManagementHost.
                 _quizManagementHost.Open();
             }
             catch (Exception ex)

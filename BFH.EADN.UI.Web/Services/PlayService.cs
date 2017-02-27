@@ -12,8 +12,6 @@ namespace BFH.EADN.UI.Web.Services
     {
         public List<Overview> GetOverview()
         {
-
-
             List<ContractTypes.Quiz> quizzes = GetQuizProxy<IPlay>().GetQuizzes();
             Dictionary<string, Overview> topicQuizzes = new Dictionary<string, Overview>();
             foreach (ContractTypes.Quiz quiz in quizzes)
@@ -26,13 +24,17 @@ namespace BFH.EADN.UI.Web.Services
                         {
                             topicQuizzes.Add(topic.Name, new Overview());
                         }
+
                         topicQuizzes[topic.Name].TopicName = topic.Name;
-                        QuizItem item = new QuizItem
+                        if (topicQuizzes[topic.Name].QuizItems.Any(qi => qi.QuizId == quiz.Id) == false)
                         {
-                            QuizId = quiz.Id,
-                            Text = quiz.Text
-                        };
-                        topicQuizzes[topic.Name].QuizItems.Add(item);
+                            QuizItem item = new QuizItem
+                            {
+                                QuizId = quiz.Id,
+                                Text = quiz.Text
+                            };
+                            topicQuizzes[topic.Name].QuizItems.Add(item);
+                        }
                     }
                 }
             }
@@ -73,7 +75,7 @@ namespace BFH.EADN.UI.Web.Services
 
             return retQuestion;
         }
-        
+
         public Question GetQuestion(Guid quizId, Guid questionId)
         {
             ContractTypes.PlayQuestion question = GetQuizProxy<IPlay>().GetQuestion(quizId, questionId);

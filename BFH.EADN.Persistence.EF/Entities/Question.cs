@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
-    public class Question
+    public class Question : BaseEntity
     {
         public Question()
         {
@@ -16,9 +16,6 @@ namespace BFH.EADN.Persistence.EF.Entities
             Anwers = new HashSet<Answer>();
         }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
         public string Text { get; set; }
         public string Hint { get; set; }
 

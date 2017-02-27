@@ -4,10 +4,11 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using AutoMapper;
 using ContractTypes = BFH.EADN.Common.Types.Contracts;
+using BFH.EADN.Persistence.EF.Entities;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
-    public abstract class BaseRepository<T, K> : IRepository<T, K>
+    public abstract class BaseRepository<T, K> : IRepository<T, K>, IDisposable
     {
         /// <summary>
         /// Initiliaze mappings from contract data to entity data (ef)
