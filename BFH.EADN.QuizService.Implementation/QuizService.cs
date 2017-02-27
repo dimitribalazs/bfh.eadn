@@ -36,10 +36,60 @@ namespace BFH.EADN.QuizService.Implementation
         {
             return QuizRepository.GetAll();
         }
-
-        public Question GetQuestion(Guid id)
+        
+        public PlayQuestion GetFirstQuestion(Guid quizId)
         {
-            return QuestionRepository.Get(id);
+            List<Question> questions = QuizRepository.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+            return GetQuestion(quizId, questions.First().Id);
+        }
+            
+
+        public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
+        {
+            List<Question> questions = QuizRepository.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+
+            Question currentQuestion = null;
+            Guid? previousQuestion = null;
+            Guid? nextQuestion = null;
+            for (int i = 0; i < questions.Count; i++)
+            {
+                if (questions[i].Id == questionId)
+                {
+                    if(i <= questions.Count - 1)
+                    {
+                        currentQuestion = questions[i];
+                    }
+                    
+                    if (i > 0)
+                    {
+                        previousQuestion = questions[i - 1].Id;
+                    }
+
+                    if (i + 1 <= questions.Count - 1)
+                    {
+                        nextQuestion = questions[i + 1].Id;
+                    }
+                }
+            }
+
+            PlayQuestion playQuestion = new PlayQuestion
+            {
+                Id = currentQuestion.Id,
+                Answers = currentQuestion.Answers,
+                Hint = currentQuestion.Hint,
+                IsMultipleChoice = currentQuestion.IsMultipleChoice,
+                Text = currentQuestion.Text,
+                NextQuestion = nextQuestion,
+                PreviousQuestion = previousQuestion
+            };
+            return playQuestion;
+        }
+
+        public bool CheckAnswers(Guid questionId, List<Guid> answers)
+        {
+            Question question = QuestionRepository.Get(questionId);
+            List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
+            return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
         }
     }
 }

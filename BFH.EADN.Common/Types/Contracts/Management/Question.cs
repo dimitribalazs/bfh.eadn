@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BFH.EADN.Common.Types.Contracts
 {
     [DataContract(Namespace = Constants.XMLNamespace, Name = "Question", IsReference = true)]
-    public sealed class Question : BaseContract
+    public class Question : BaseContract
     {
         [DataMember(Order = 0)]
         public string Text { get; set; }

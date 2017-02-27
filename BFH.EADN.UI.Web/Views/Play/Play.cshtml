@@ -5,32 +5,55 @@
 }
 
 <h2>Play</h2>
-
-@Html.DisplayFor(m => m.Text);
-@Html.DisplayFor(m => m.Hint)¨;
-
-@if(Model.IsMultipleChoice)
+@using (Html.BeginForm("Check", "Play", FormMethod.Post))
 {
-    foreach(var item in Model.Answers)
+
+    @Html.DisplayFor(m => m.Text)
+    @Html.DisplayFor(m => m.Hint)
+
+    if (Model.IsMultipleChoice)
     {
-       @:<label><input type="checkbox" name="" value="" />@item.Text</label> <br />
+        foreach (var item in Model.Answers)
+        {
+
+            <br />
+            @:<label><input type="checkbox" name="answers[]" value="@item.Id" /> @item.Text</label>
+        }
     }
-}
-else
-{
-    foreach (var item in Model.Answers)
+    else
     {
-        @:<label><input type="radio" name="answers" value="" />@item.Text</label> <br />
+        foreach (var item in Model.Answers)
+        {
+            <br />
+            @:<label><input type="radio" name="answers" value="@item.Id" /> @item.Text</label>
+        }
     }
-}
+    <div class="quiz-validation">
+        @Html.ValidationMessageFor(m => m.Answers)
+    </div>
 
-@if(Model.PreviousQuestion.HasValue)
-{ 
-    @Html.ActionLink("Previous", "Play", new { quizId = Model.QuizId, questionId = Model.PreviousQuestion.Value})
-}
+    <div class="quiz-navigation">
+        @if (Model.PreviousQuestion.HasValue)
+        {
+            @Html.ActionLink("Previous", "Play", new { quizId = Model.QuizId, questionId = Model.PreviousQuestion.Value }, new { @class = "btn btn-default" })
+        }
+        else
+        {
+            @:Previous
+        } 
+    
+        @Html.HiddenFor(m => m.QuizId)
+        @Html.HiddenFor(m => m.QuestionId)
+        @if (Model.NextQuestion.HasValue)
+        {
+            @Html.Hidden("nextQuestionId", Model.NextQuestion)
 
-@if (Model.NextQuestion.HasValue)
-{
-    @Html.ActionLink("Next", "Play", new { quizId = Model.QuizId, questionId = Model.NextQuestion.Value })
+            <input type="submit" value="Next" , class="btn btn-primary" />
+        }
+        else
+        {
+            <input type="submit" value="Complete Quiz" , class="btn btn-success" />
+        }
+    </div>
 }
 

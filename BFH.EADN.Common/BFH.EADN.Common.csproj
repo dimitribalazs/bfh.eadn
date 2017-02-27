@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Types\Contracts\Play\PlayQuestion.cs" />
     <Compile Include="Types\Contracts\Play\QuizSelection.cs" />
     <Compile Include="Wcf\Client\ClientMessageInspector.cs" />
     <Compile Include="Wcf\Client\CustomBehavior.cs" />

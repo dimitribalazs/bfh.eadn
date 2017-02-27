@@ -16,13 +16,23 @@ namespace BFH.EADN.Persistence.EF.Seed
             Topic movies = new Topic { Name = "Movies", Description = "All about movies" };
             Topic actors = new Topic { Name = "Actors", Description = "All about actory" };
 
-            Question programmingQuestion1 = new Question { Text = "Is the C# syntax similiar to C?", IsYesOrNo = true };
+            Question programmingQuestion1 = new Question { Text = "Is the C# syntax similiar to C?", IsMultipleChoice = false };
             Question programmingQuestion2 = new Question { Text = "Is SQL an object oriented language" };
+            Question programmingQuestion3 = new Question { Text = "Which are a linux system?", IsMultipleChoice = true };
             Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
 
             Answer programmingAnwers1Yes = new Answer { Text = "Yes", IsSolution = true };
             Answer programmingAnwers1No = new Answer { Text = "No" };
+
+            Answer programmingAnwers2Yes = new Answer { Text = "Yes", IsSolution = true };
+            Answer programmingAnwers2No = new Answer { Text = "No" };
+
+            Answer programmingAnwers3Ubuntu = new Answer { Text = "Ubuntu", IsSolution = true };
+            Answer programmingAnwers3Windows = new Answer { Text = "Windows", IsSolution = false };
+            Answer programmingAnwers3Arch = new Answer { Text = "Arch", IsSolution = true };
+            Answer programmingAnwers3Debian = new Answer { Text = "Debian", IsSolution = true };
+
 
             Answer movieQuestion1first = new Answer { Text = "3" };
             Answer movieQuestion1second = new Answer { Text = "10" };
@@ -31,7 +41,8 @@ namespace BFH.EADN.Persistence.EF.Seed
             programming.Questions = new HashSet<Question>
             {
                 programmingQuestion1,
-                programmingQuestion2
+                //programmingQuestion2,
+                programmingQuestion3
             };
 
             movies.Questions = new HashSet<Question>
@@ -59,6 +70,19 @@ namespace BFH.EADN.Persistence.EF.Seed
             programmingQuestion2.Topics = new HashSet<Topic>
             {
                 programming
+            };
+
+            programmingQuestion3.Topics = new HashSet<Topic>
+            {
+                programming
+            };
+
+            programmingQuestion3.Anwers = new HashSet<Answer>
+            {
+                programmingAnwers3Arch,
+                programmingAnwers3Debian,
+                programmingAnwers3Windows,
+                programmingAnwers3Ubuntu
             };
 
             movieQuestion1.Topics = new HashSet<Topic>
@@ -90,7 +114,8 @@ namespace BFH.EADN.Persistence.EF.Seed
                 Questions = new HashSet<Question>
                 {
                     programmingQuestion1,
-                    programmingQuestion2,
+                    //programmingQuestion2,
+                    programmingQuestion3
                 }
             };
 

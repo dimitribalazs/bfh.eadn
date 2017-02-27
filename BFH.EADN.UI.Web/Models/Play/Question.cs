@@ -8,6 +8,7 @@ namespace BFH.EADN.UI.Web.Models.Play
     public class Question
     {
         public Guid QuizId;
+        public Guid QuestionId;
         public Guid? NextQuestion { get; set; }
         public Guid? PreviousQuestion { get; set; } 
         public bool IsMultipleChoice { get; set; }

@@ -315,6 +315,7 @@
     <Content Include="Views\Question\AnswerTable.cshtml" />
     <Content Include="Views\Play\Index.cshtml" />
     <Content Include="Views\Play\Play.cshtml" />
+    <Content Include="Views\Play\Completed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
