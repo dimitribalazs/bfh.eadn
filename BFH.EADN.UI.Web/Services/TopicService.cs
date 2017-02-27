@@ -31,9 +31,6 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>the concrete topic</returns>
         public Topic Get(Guid id)
         {
-            GenericIdentity identity = new GenericIdentity("foo", "bar");
-            GenericPrincipal gprincipal = new GenericPrincipal(identity, new[] { "QuizAdmin" });
-            Thread.CurrentPrincipal = gprincipal;
             ContractTypes.Topic topic = GetProxy<ITopicManagement>().GetTopic(id);
             return Mapper.Map<Topic>(topic);
         }

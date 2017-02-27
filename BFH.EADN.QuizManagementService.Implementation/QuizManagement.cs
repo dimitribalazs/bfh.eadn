@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement
+    //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement//, ISession
     {
         private static IFactoryPersistence _persistenceFactory;
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
@@ -30,11 +31,13 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public string Test(string foo)
         {
             return foo;
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateTopic(Topic topic)
         {
             try
@@ -53,6 +56,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteTopic(Guid id)
         {
             try
@@ -71,6 +75,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
         public void UpdateTopic(Topic topic)
         {
             try
@@ -89,7 +94,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
         public Topic GetTopic(Guid id)
         {
             try
@@ -109,6 +114,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Topic> GetTopics()
         {
             try
@@ -128,6 +134,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Topic> GetTopicsByIds(List<Guid> ids)
         {
             try
@@ -146,6 +153,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateAnswer(Answer answer)
         {
             try
@@ -163,6 +171,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateAnswer(Answer answer)
         {
             try
@@ -180,6 +189,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteAnswer(Guid id)
         {
             try
@@ -197,6 +207,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Answer GetAnswer(Guid id)
         {
             try
@@ -214,6 +225,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Answer> GetAnswers()
         {
             try
@@ -231,36 +243,43 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuestion(Question question)
         {
             QuestionRepository.Create(question);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuestion(Question question)
         {
             QuestionRepository.Update(question);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuestion(Guid id)
         {
             QuestionRepository.Delete(id);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Question GetQuestion(Guid id)
         {
             return QuestionRepository.Get(id);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestions()
         {
             return QuestionRepository.GetAll();
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestionsByIds(List<Guid> ids)
         {
             return QuestionRepository.GetListByIds(ids);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuiz(Quiz quiz)
         {
             try
@@ -278,47 +297,59 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuiz(Quiz quiz)
         {
             QuizRepository.Update(quiz);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuiz(Guid id)
         {
             QuizRepository.Delete(id);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Quiz GetQuiz(Guid id)
         {
             return QuizRepository.Get(id);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Quiz> GetQuizzes()
         {
             return QuizRepository.GetAll();
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Quiz> GetQuizzesByIds(List<Guid> ids)
         {
             return QuizRepository.GetListByIds(ids);
         }
 
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public bool Test(bool test)
         {
             return test;
         }
 
         private static Dictionary<string, string> loginSessions = new Dictionary<string, string>();
-        public void LogIn(string name, string password)
+        private static Dictionary<string, string> adminLogins = new Dictionary<string, string>()
         {
-            if(true)
-            {
+            { "admin", "admin" }
+        };
+
+        public static void LogIn(string name, string password)
+        {
+            if(adminLogins.ContainsKey(name) && adminLogins[name].Equals(password))
+            { 
                 string sessionId = OperationContext.Current.SessionId;
                 loginSessions.Add(sessionId, name);
             }
         }
 
-        public void LogOut()
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        public static void LogOut()
         {
             string sessionId = OperationContext.Current.SessionId;
             if (IsLoggedIn(sessionId))
@@ -327,6 +358,8 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        //
+        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public static bool IsLoggedIn(string key)
         {
             return loginSessions.ContainsKey(key);

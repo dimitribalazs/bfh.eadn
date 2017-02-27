@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizManagementService.Implementation
@@ -20,15 +22,21 @@ namespace BFH.EADN.QuizManagementService.Implementation
             //OperationContext.Current.SessionId
 
 
-            bool isLoggedIn = QuizManagement.IsLoggedIn("");
-            if(isLoggedIn == false)
-            {
-               // request.Close();
-            }
-            
-            Console.WriteLine("Hello Request");
+            //bool isLoggedIn = QuizManagement.IsLoggedIn("");
+            //if(isLoggedIn == false)
+            //{
+            // request.Close();
+            //}
+
+            //Console.WriteLine("Hello Request");
+            //return null;
+
+            GenericIdentity identity = new GenericIdentity("foo", "bar");
+            GenericPrincipal gprincipal = new GenericPrincipal(identity, new[] { "QuizAdmin" });
+            Thread.CurrentPrincipal = gprincipal;
+
             return null;
-           
+
         }
 
         public void BeforeSendReply(ref Message reply, object correlationState)

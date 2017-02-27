@@ -15,7 +15,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         bool Test(bool test);
 
         [OperationContract]
-        void LogIn();
+        void LogIn(string name, string password);
 
         [OperationContract]
         void LogOut();
