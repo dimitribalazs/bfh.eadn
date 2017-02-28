@@ -1,5 +1,6 @@
 ﻿using BFH.EADN.QuizService.Contracts;
 using BFH.EADN.UI.Web.Models.Play;
+using BFH.EADN.UI.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace BFH.EADN.UI.Web.Services
     {
         public List<Overview> GetOverview()
         {
-            List<ContractTypes.Quiz> quizzes = GetQuizProxy<IPlay>().GetQuizzes();
+            List<ContractTypes.Quiz> quizzes = ClientProxy.GetQuizProxy<IPlay>().GetQuizzes();
             Dictionary<string, Overview> topicQuizzes = new Dictionary<string, Overview>();
             foreach (ContractTypes.Quiz quiz in quizzes)
             {
@@ -44,12 +45,12 @@ namespace BFH.EADN.UI.Web.Services
 
         internal bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
-            return GetQuizProxy<IPlay>().CheckAnswers(questionId, answers);
+            return ClientProxy.GetQuizProxy<IPlay>().CheckAnswers(questionId, answers);
         }
 
         public Question GetFirstQuestion(Guid quizId)
         {
-            ContractTypes.PlayQuestion question = GetQuizProxy<IPlay>().GetFirstQuestion(quizId);
+            ContractTypes.PlayQuestion question = ClientProxy.GetQuizProxy<IPlay>().GetFirstQuestion(quizId);
 
             Question retQuestion = new Question
             {
@@ -78,7 +79,7 @@ namespace BFH.EADN.UI.Web.Services
 
         public Question GetQuestion(Guid quizId, Guid questionId)
         {
-            ContractTypes.PlayQuestion question = GetQuizProxy<IPlay>().GetQuestion(quizId, questionId);
+            ContractTypes.PlayQuestion question = ClientProxy.GetQuizProxy<IPlay>().GetQuestion(quizId, questionId);
 
             Question retQuestion = new Question
             {

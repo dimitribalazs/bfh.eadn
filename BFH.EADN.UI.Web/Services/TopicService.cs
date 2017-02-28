@@ -7,6 +7,7 @@ using BFH.EADN.QuizManagementService.Contracts;
 using AutoMapper;
 using System.Security.Principal;
 using System.Threading;
+using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
@@ -19,7 +20,7 @@ namespace BFH.EADN.UI.Web.Services
         public List<Topic> GetList()
         {
             //var test = GetProxy<ISession>().Test(true);
-            List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopics();
+            List<ContractTypes.Topic> topics = ClientProxy.GetProxy<ITopicManagement>().GetTopics();
             List<Topic> mappedList = Mapper.Map<List<ContractTypes.Topic>, List<Topic>>(topics);
             return mappedList;
         }
@@ -31,7 +32,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>the concrete topic</returns>
         public Topic Get(Guid id)
         {
-            ContractTypes.Topic topic = GetProxy<ITopicManagement>().GetTopic(id);
+            ContractTypes.Topic topic = ClientProxy.GetProxy<ITopicManagement>().GetTopic(id);
             return Mapper.Map<Topic>(topic);
         }
 
@@ -46,7 +47,7 @@ namespace BFH.EADN.UI.Web.Services
                 newTopic.Id = Guid.NewGuid();
             }
             ContractTypes.Topic contractTopic = Mapper.Map<ContractTypes.Topic>(newTopic);
-            GetProxy<ITopicManagement>().CreateTopic(contractTopic);
+            ClientProxy.GetProxy<ITopicManagement>().CreateTopic(contractTopic);
         }
 
         /// <summary>
@@ -56,9 +57,9 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="topic">topic with the new values</param>
         public void Edit(Guid id, Topic topic)
         { 
-            ContractTypes.Topic contractTopic = GetProxy<ITopicManagement>().GetTopic(id);
+            ContractTypes.Topic contractTopic = ClientProxy.GetProxy<ITopicManagement>().GetTopic(id);
             contractTopic = Mapper.Map<ContractTypes.Topic>(topic);
-            GetProxy<ITopicManagement>().UpdateTopic(contractTopic);
+            ClientProxy.GetProxy<ITopicManagement>().UpdateTopic(contractTopic);
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="id">id of the topic which should be deleted</param>
         public void Delete(Guid id)
         {
-            GetProxy<ITopicManagement>().DeleteTopic(id);
+            ClientProxy.GetProxy<ITopicManagement>().DeleteTopic(id);
         }
     }
 }

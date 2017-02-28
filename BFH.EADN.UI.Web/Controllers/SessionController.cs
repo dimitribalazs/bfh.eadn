@@ -53,6 +53,10 @@ namespace BFH.EADN.UI.Web.Controllers
                     identity.AddClaim(new Claim(ClaimTypes.Role, "QuizAdmin"));
 
                     AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = logonData.RememberMe }, identity);
+                    if(string.IsNullOrEmpty(returnUrl))
+                    {
+                        returnUrl = "/Topic/Index";
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 else

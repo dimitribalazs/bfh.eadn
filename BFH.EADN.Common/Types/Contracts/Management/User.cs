@@ -12,9 +12,9 @@ namespace BFH.EADN.Common.Types.Contracts
     public sealed class User : BaseContract
     {
         [DataMember(Order = 0)]
-        public string Text { get; set; }
+        public string Name { get; set; }
 
         [DataMember(Order = 0)]
-        public QuizType Type { get; set; }
+        public string Password { get; set; }
     }
 }

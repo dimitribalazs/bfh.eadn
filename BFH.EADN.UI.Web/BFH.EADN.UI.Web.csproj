@@ -232,6 +232,7 @@
     <Compile Include="Services\QuestionService.cs" />
     <Compile Include="Services\TopicService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\ClientProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

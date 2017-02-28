@@ -7,6 +7,7 @@ using ContractTypes = BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.QuizManagementService.Contracts;
 using System.Web.Mvc;
 using AutoMapper;
+using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
@@ -18,7 +19,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>list of topics</returns>
         public List<Answer> GetList()
         {
-            List<ContractTypes.Answer> answers = GetProxy<IAnswerManagement>().GetAnswers();
+            List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswers();
             List<Answer> mappedList = Mapper.Map<List<ContractTypes.Answer>, List<Answer>>(answers);
             return mappedList;
         }
@@ -30,10 +31,10 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>the concrete topic</returns>
         public Answer Get(Guid id)
         {
-            ContractTypes.Answer answer = GetProxy<IAnswerManagement>().GetAnswer(id);
+            ContractTypes.Answer answer = ClientProxy.GetProxy<IAnswerManagement>().GetAnswer(id);
            
             //get topics for selection
-            List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopics();
+            List<ContractTypes.Topic> topics = ClientProxy.GetProxy<ITopicManagement>().GetTopics();
 
             //used for select
             //List<SelectListItem> modelTopics = topics.Select(t => new SelectListItem
@@ -59,7 +60,7 @@ namespace BFH.EADN.UI.Web.Services
                 newAnswer.Id = Guid.NewGuid();
             }
             ContractTypes.Answer contractAnswer = Mapper.Map<ContractTypes.Answer>(newAnswer);
-            GetProxy<IAnswerManagement>().CreateAnswer(contractAnswer);
+            ClientProxy.GetProxy<IAnswerManagement>().CreateAnswer(contractAnswer);
         }
 
         /// <summary>
@@ -69,10 +70,10 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="topic">topic with the new values</param>
         public void Edit(Guid id, Answer answer)
         {
-            ContractTypes.Answer contractAnswer = GetProxy<IAnswerManagement>().GetAnswer(id);
+            ContractTypes.Answer contractAnswer = ClientProxy.GetProxy<IAnswerManagement>().GetAnswer(id);
             contractAnswer = Mapper.Map<ContractTypes.Answer>(contractAnswer);
-            
-            GetProxy<IAnswerManagement>().UpdateAnswer(contractAnswer);
+
+            ClientProxy.GetProxy<IAnswerManagement>().UpdateAnswer(contractAnswer);
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="id">id of the topic which should be deleted</param>
         public void Delete(Guid id)
         {
-            GetProxy<IAnswerManagement>().DeleteAnswer(id);
+            ClientProxy.GetProxy<IAnswerManagement>().DeleteAnswer(id);
         }
     }
 }

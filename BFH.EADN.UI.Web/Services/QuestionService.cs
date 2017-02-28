@@ -6,6 +6,7 @@ using ContractTypes = BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.QuizManagementService.Contracts;
 using AutoMapper;
 using System.Web.Mvc;
+using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
@@ -17,7 +18,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>list of questions</returns>
         public List<Question> GetList()
         {
-            List<ContractTypes.Question> questions = GetProxy<IQuestionManagement>().GetQuestions();
+            List<ContractTypes.Question> questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestions();
             List<Question> mappedList = Mapper.Map<List<ContractTypes.Question>, List<Question>>(questions);
             return mappedList;
         }
@@ -29,8 +30,8 @@ namespace BFH.EADN.UI.Web.Services
         public Question Get()
         {
             Question questionModel = new Question();
-            questionModel.Answers = GetProxy<IAnswerManagement>().GetAnswers();
-            questionModel.Topics = GetProxy<ITopicManagement>().GetTopics();
+            questionModel.Answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswers();
+            questionModel.Topics = ClientProxy.GetProxy<ITopicManagement>().GetTopics();
             
             return questionModel;
         }
@@ -42,11 +43,11 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>the concrete question</returns>
         public Question Get(Guid id)
         {
-            ContractTypes.Question question = GetProxy<IQuestionManagement>().GetQuestion(id);
+            ContractTypes.Question question = ClientProxy.GetProxy<IQuestionManagement>().GetQuestion(id);
             Question questionModel = Mapper.Map<Question>(question);
             questionModel.SelectedTopicIds = questionModel.Topics.Select(q => q.Id).ToArray();
             //get whole list for selection
-            questionModel.Topics = GetProxy<ITopicManagement>().GetTopics();
+            questionModel.Topics = ClientProxy.GetProxy<ITopicManagement>().GetTopics();
                         
             questionModel.SelectedAnswerIds = questionModel.Answers.Select(a => a.Id).ToArray();
             questionModel.Answers = questionModel.Answers;
@@ -64,7 +65,7 @@ namespace BFH.EADN.UI.Web.Services
                 newQuestion.Id = Guid.NewGuid();
             }
             ContractTypes.Question contractQuestion = Mapper.Map<ContractTypes.Question>(newQuestion);
-            GetProxy<IQuestionManagement>().CreateQuestion(contractQuestion);
+            ClientProxy.GetProxy<IQuestionManagement>().CreateQuestion(contractQuestion);
         }
 
         /// <summary>
@@ -74,11 +75,11 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="question">question with the new values</param>
         public void Edit(Guid id, Question question)
         { 
-            ContractTypes.Question contractQuestion = GetProxy<IQuestionManagement>().GetQuestion(id);
+            ContractTypes.Question contractQuestion = ClientProxy.GetProxy<IQuestionManagement>().GetQuestion(id);
             contractQuestion = Mapper.Map<ContractTypes.Question>(question);
-            List<ContractTypes.Topic> topics = GetProxy<ITopicManagement>().GetTopicsByIds(question.SelectedTopicIds.ToList());
+            List<ContractTypes.Topic> topics = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(question.SelectedTopicIds.ToList());
             contractQuestion.Topics = topics;
-            GetProxy<IQuestionManagement>().UpdateQuestion(contractQuestion);
+            ClientProxy.GetProxy<IQuestionManagement>().UpdateQuestion(contractQuestion);
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="id">id of the question which should be deleted</param>
         public void Delete(Guid id)
         {
-            GetProxy<IQuestionManagement>().DeleteQuestion(id);
+            ClientProxy.GetProxy<IQuestionManagement>().DeleteQuestion(id);
         }
     }
 }

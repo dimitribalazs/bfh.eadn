@@ -1,4 +1,5 @@
 ﻿using BFH.EADN.Common;
+using BFH.EADN.Common.Types.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,16 @@ namespace BFH.EADN.QuizManagementService.Contracts
         [OperationContract]
         bool Test(bool test);
 
-        [OperationContract]
-        void LogIn(string name, string password);
+        //[OperationContract]
+        //void LogIn(string name, string password);
+
+        //[OperationContract]
+        //void LogOut();
 
         [OperationContract]
-        void LogOut();
+        User GetUserByName(string name);
+
+        [OperationContract]
+        User GetUserById(Guid id);
     }
 }

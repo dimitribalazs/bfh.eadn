@@ -17,23 +17,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         private string _sessionId;
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
-            //check if already signed in
-            //request.
-            //OperationContext.Current.SessionId
-
-
-            //bool isLoggedIn = QuizManagement.IsLoggedIn("");
-            //if(isLoggedIn == false)
-            //{
-            // request.Close();
-            //}
-
-            //Console.WriteLine("Hello Request");
-            //return null;
-
-            GenericIdentity identity = new GenericIdentity("foo", "bar");
-            GenericPrincipal gprincipal = new GenericPrincipal(identity, new[] { "QuizAdmin" });
-            Thread.CurrentPrincipal = gprincipal;
+            //Guid token = request.Headers.GetHeader<Guid>("token", Constants.XMLNamespace);
 
             return null;
 
@@ -41,7 +25,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
 
         public void BeforeSendReply(ref Message reply, object correlationState)
         {
-            MessageHeader header = MessageHeader.CreateHeader("WcfSessionId", Constants.XMLNamespace, OperationContext.Current.SessionId);
+            MessageHeader header = MessageHeader.CreateHeader("token", Constants.XMLNamespace, OperationContext.Current.SessionId);
             reply.Headers.Add(header);
             Console.WriteLine("Bye reply");
         }
