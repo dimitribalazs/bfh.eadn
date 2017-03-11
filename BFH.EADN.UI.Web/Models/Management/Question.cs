@@ -26,7 +26,7 @@ namespace BFH.EADN.UI.Web.Models.Management
                 Selected = SelectedTopicIds != null && SelectedTopicIds.Contains(t.Id)
             }).ToList();
 
-        [Required]
+        
         public Guid[] SelectedAnswerIds { get; set; }
 
         public List<ContractTypes.Answer> Answers { get; set; }

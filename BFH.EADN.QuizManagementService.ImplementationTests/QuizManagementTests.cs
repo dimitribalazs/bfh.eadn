@@ -9,6 +9,7 @@ using System.ServiceModel;
 using BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.Common;
 using BFH.EADN.Common.Types;
+using BFH.EADN.QuizManagementService.Contracts;
 
 namespace BFH.EADN.QuizManagementService.Implementation.Tests
 {
@@ -17,8 +18,8 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
     {
         private Guid topicGuid = Guid.NewGuid();
 
-        
-       
+
+
         /// <summary>
         /// If no exception occurs assert is true
         /// </summary>
@@ -38,7 +39,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
 
                 repo.Create(topic);
             }
-            
+
             Assert.IsTrue(true);
         }
 

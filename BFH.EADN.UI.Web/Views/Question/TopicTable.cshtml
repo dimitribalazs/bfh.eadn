@@ -2,6 +2,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.Topics, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
+        @Html.ValidationMessageFor(model => model.SelectedTopicIds, "", new { @class = "text-danger" })
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>

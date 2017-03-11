@@ -13,6 +13,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Create(CommonContracts.Quiz data)
         {
             Entities.Quiz newQuiz = Mapper.Map<Entities.Quiz>(data);
+            if(data.Questions != null && data.Questions.Count > 0)
+            {
+                List<Guid> questionIds = data.Questions.Select(dq => dq.Id).ToList();
+                newQuiz.Questions = Context.Questions.Where(q => questionIds.Contains(q.Id)).ToList();
+            }
             Context.Quizzes.Add(newQuiz);
             Context.SaveChanges();
         }
@@ -50,6 +55,8 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Entities.Quiz quiz = Context.Quizzes.Find(data.Id);
             quiz.Text = data.Text;
             quiz.Type = data.Type;
+            quiz.MaxQuestionCount = data.MaxQuestionCount;
+            quiz.MinQuestionCount = data.MinQuestionCount;
             
             List<Guid> guids = data.Questions.Select(q => q.Id).ToList();
             foreach(var question in Context.Questions.ToList())

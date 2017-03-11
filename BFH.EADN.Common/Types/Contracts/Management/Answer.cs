@@ -12,6 +12,9 @@ namespace BFH.EADN.Common.Types.Contracts
     public sealed class Answer : BaseContract
     {
         [DataMember(Order = 0)]
+        public Guid QuestionId { get; set; }
+
+        [DataMember(Order = 0)]
         public string Text { get; set; }
 
         [DataMember(Order = 0)]

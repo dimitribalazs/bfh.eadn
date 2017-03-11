@@ -13,20 +13,18 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             return View(_service.GetList());
         }
 
-        // GET: Topic/Details/5
         public ActionResult Details(Guid id)
         {
             return View(_service.Get(id));
         }
 
-        // GET: Topic/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Topic/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Topic topic)
         {
             try
@@ -40,15 +38,14 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             }
         }
 
-        // GET: Topic/Edit/5
         public ActionResult Edit(Guid id)
         {
             Topic topic = _service.Get(id);
             return View(topic);
         }
 
-        // POST: Topic/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Topic topic)
         {
             try
@@ -62,15 +59,14 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             }
         }
 
-        // GET: Topic/Delete/5
         public ActionResult Delete(Guid id)
         {
             Topic topic = _service.Get(id);
             return View(topic);
         }
 
-        // POST: Topic/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id, Topic topic)
         {
             try

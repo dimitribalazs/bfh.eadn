@@ -30,9 +30,7 @@ namespace BFH.EADN.UI.Web.Services
         public Question Get()
         {
             Question questionModel = new Question();
-            questionModel.Answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswers();
             questionModel.Topics = ClientProxy.GetProxy<ITopicManagement>().GetTopics();
-            
             return questionModel;
         }
 
@@ -60,12 +58,15 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="newQuestion"></param>
         public void Create(Question newQuestion)
         {
-            if (newQuestion.Id == default(Guid))
-            {
-                newQuestion.Id = Guid.NewGuid();
-            }
+            //if (newQuestion.Id == default(Guid))
+            //{
+            //    newQuestion.Id = Guid.NewGuid();
+            //}
             ContractTypes.Question contractQuestion = Mapper.Map<ContractTypes.Question>(newQuestion);
+            List<ContractTypes.Topic> topics  = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(newQuestion.SelectedTopicIds.ToList());
+            contractQuestion.Topics = topics;
             ClientProxy.GetProxy<IQuestionManagement>().CreateQuestion(contractQuestion);
+
         }
 
         /// <summary>
@@ -76,7 +77,8 @@ namespace BFH.EADN.UI.Web.Services
         public void Edit(Guid id, Question question)
         { 
             ContractTypes.Question contractQuestion = ClientProxy.GetProxy<IQuestionManagement>().GetQuestion(id);
-            contractQuestion = Mapper.Map<ContractTypes.Question>(question);
+            contractQuestion = Mapper.Map(question, contractQuestion);
+
             List<ContractTypes.Topic> topics = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(question.SelectedTopicIds.ToList());
             contractQuestion.Topics = topics;
             ClientProxy.GetProxy<IQuestionManagement>().UpdateQuestion(contractQuestion);

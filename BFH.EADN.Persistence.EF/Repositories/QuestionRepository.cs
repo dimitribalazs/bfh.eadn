@@ -13,6 +13,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Create(CommonContracts.Question data)
         {
             Entities.Question newQuestion = Mapper.Map<Entities.Question>(data);
+            if (data.Topics != null && data.Topics.Count > 0)
+            {
+                List<Guid> topicIds = data.Topics.Select(dq => dq.Id).ToList();
+                newQuestion.Topics = Context.Topics.Where(q => topicIds.Contains(q.Id)).ToList();
+            }
             Context.Questions.Add(newQuestion);
             Context.SaveChanges();
         }
@@ -70,11 +75,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
             {
                 if (guids.Contains(answer.Id) == false)
                 {
-                    question.Anwers.Remove(answer);
+                    question.Answers.Remove(answer);
                 }
                 else
                 {
-                    question.Anwers.Add(answer);
+                    question.Answers.Add(answer);
                 }
             }
 

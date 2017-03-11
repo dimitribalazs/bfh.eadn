@@ -17,68 +17,78 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             return View(_service.GetList());
         }
 
-        // GET: Answer/Details/5
-        public ActionResult Details(Guid id)
+        public ActionResult Details(Guid id, Guid questionId)
         {
+            ViewBag.QuestionId = questionId;
             return View(_service.Get(id));
         }
 
-        // GET: Answer/Create
-        public ActionResult Create()
-        {   
+        public ActionResult Create(Guid questionId)
+        {
+            ViewBag.QuestionId = questionId;
             return View();
         }
 
-        // POST: Answer/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Answer answer)
         {
-            try
+            _service.Validation(ModelState, answer);
+            if (ModelState.IsValid)
             {
-                _service.Create(answer);
-                return RedirectToAction("Index");
+                try
+                {
+                    _service.Create(answer);
+                    return RedirectToAction("Edit", "Question", new { id = answer.QuestionId });
+                }
+                catch
+                {
+                    //todo log stuff
+                }
             }
-            catch
-            {
-                return View(answer);
-            }
+            return View(answer);
         }
 
-        // GET: Answer/Edit/5
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(Guid id, Guid questionId)
         {
+            ViewBag.QuestionId = questionId;
             return View(_service.Get(id));
         }
 
-        // POST: Answer/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Answer answer)
         {
-            try
+            _service.Validation(ModelState, answer);
+            if (ModelState.IsValid)
             {
-                _service.Edit(id, answer);
-                return RedirectToAction("Index");
+                try
+                {
+                    _service.Edit(id, answer);
+                    return RedirectToAction("Edit", new { id = answer.QuestionId });
+                }
+                catch
+                {
+                    //todo log stuff
+                }
             }
-            catch
-            {
-                return View(answer);
-            }
+            return View(answer);
         }
 
-        // GET: Answer/Delete/5
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, Guid questionId)
         {
+            ViewBag.QuestionId = questionId;
             return View(_service.Get(id));
         }
 
-        // POST: Answer/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id, Answer answer)
         {
             try
             {
                 _service.Delete(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Question", new { id = answer.QuestionId });
             }
             catch
             {

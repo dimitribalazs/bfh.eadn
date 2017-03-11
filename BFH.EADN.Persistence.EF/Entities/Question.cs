@@ -13,12 +13,12 @@ namespace BFH.EADN.Persistence.EF.Entities
         public Question()
         {
             Topics = new HashSet<Topic>();
-            Anwers = new HashSet<Answer>();
+            Answers = new HashSet<Answer>();
         }
 
         public string Text { get; set; }
         public string Hint { get; set; }
-
+        public DateTime? LastUsed { get; set; }
         /// <summary>
         /// If it is a yes or not question. If false, then its an multiple choice
         /// </summary>
@@ -26,8 +26,6 @@ namespace BFH.EADN.Persistence.EF.Entities
 
 
         public virtual ICollection<Topic> Topics { get; set; }
-        public virtual ICollection<Answer> Anwers { get; set; }
-
-       
+        public virtual ICollection<Answer> Answers { get; set; }  
     }
 }

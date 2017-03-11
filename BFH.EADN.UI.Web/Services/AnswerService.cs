@@ -55,10 +55,6 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="newTopic"></param>
         public void Create(Answer newAnswer)
         {
-            if (newAnswer.Id == default(Guid))
-            {
-                newAnswer.Id = Guid.NewGuid();
-            }
             ContractTypes.Answer contractAnswer = Mapper.Map<ContractTypes.Answer>(newAnswer);
             ClientProxy.GetProxy<IAnswerManagement>().CreateAnswer(contractAnswer);
         }
@@ -71,7 +67,7 @@ namespace BFH.EADN.UI.Web.Services
         public void Edit(Guid id, Answer answer)
         {
             ContractTypes.Answer contractAnswer = ClientProxy.GetProxy<IAnswerManagement>().GetAnswer(id);
-            contractAnswer = Mapper.Map<ContractTypes.Answer>(contractAnswer);
+            contractAnswer = Mapper.Map(answer, contractAnswer);
 
             ClientProxy.GetProxy<IAnswerManagement>().UpdateAnswer(contractAnswer);
         }
@@ -83,6 +79,19 @@ namespace BFH.EADN.UI.Web.Services
         public void Delete(Guid id)
         {
             ClientProxy.GetProxy<IAnswerManagement>().DeleteAnswer(id);
+        }
+
+        public void Validation(ModelStateDictionary state, Answer answer)
+        {
+            ContractTypes.Question question = ClientProxy.GetProxy<IQuestionManagement>().GetQuestion(answer.QuestionId);
+            if(answer.IsSolution && question.IsMultipleChoice == false)
+            {
+                //already an answer which is the solution
+                if(question.Answers.Any(a => a.IsSolution))
+                {
+                    state.AddModelError("IsSolution", "There is already and answer which is the solution");
+                }
+            }
         }
     }
 }

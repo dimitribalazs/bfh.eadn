@@ -19,6 +19,6 @@ namespace BFH.EADN.Persistence.EF.Entities
 
         public string Description { get; set; }
 
-        public ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
     }
 }

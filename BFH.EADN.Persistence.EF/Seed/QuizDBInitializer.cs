@@ -1,4 +1,5 @@
-﻿using BFH.EADN.Persistence.EF.Entities;
+﻿using BFH.EADN.Common.Types.Enums;
+using BFH.EADN.Persistence.EF.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Seed
 {
-    public class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
+    public class QuizDBInitializer : DropCreateDatabaseAlways<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {
@@ -61,7 +62,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 programming
             };
 
-            programmingQuestion1.Anwers = new HashSet<Answer>
+            programmingQuestion1.Answers = new HashSet<Answer>
               {
                   programmingAnwers1No,
                   programmingAnwers1Yes
@@ -77,7 +78,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 programming
             };
 
-            programmingQuestion3.Anwers = new HashSet<Answer>
+            programmingQuestion3.Answers = new HashSet<Answer>
             {
                 programmingAnwers3Arch,
                 programmingAnwers3Debian,
@@ -90,7 +91,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 movies
             };
 
-            movieQuestion1.Anwers = new HashSet<Answer>
+            movieQuestion1.Answers = new HashSet<Answer>
             {
                 movieQuestion1first,
                 movieQuestion1second,
@@ -111,6 +112,7 @@ namespace BFH.EADN.Persistence.EF.Seed
             Quiz quiz1 = new Quiz
             {
                 Text = "Programming quiz",
+                Type = QuizType.Fix,
                 Questions = new HashSet<Question>
                 {
                     programmingQuestion1,
@@ -121,7 +123,8 @@ namespace BFH.EADN.Persistence.EF.Seed
 
             Quiz quiz2 = new Quiz
             {
-                Text = "Quiz about movies and actory",
+                Text = "Quiz about movies and actors variable",
+                Type = QuizType.Variable,
                 Questions = new HashSet<Question>
                 {
                     movieQuestion1,
@@ -129,11 +132,22 @@ namespace BFH.EADN.Persistence.EF.Seed
                 }
             };
 
+            Quiz quiz3 = new Quiz
+            {
+                Text = "Quiz about movies and actors dynamic",
+                Type = QuizType.Dynamic,
+                Questions = new HashSet<Question>
+                {
+                    movieQuestion1,
+                    movieActorQuestion1
+                }
+            };
 
             List<Quiz> quizzes = new List<Quiz>
             {
                 quiz1,
-                quiz2
+                quiz2,
+                quiz3
             };
 
             foreach (Quiz quiz in quizzes)

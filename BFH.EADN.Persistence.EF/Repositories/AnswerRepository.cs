@@ -14,6 +14,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Create(CommonContracts.Answer data)
         {
             Entities.Answer newAnswer = Mapper.Map<Entities.Answer>(data);
+            newAnswer.Question = Context.Questions.Single(q => q.Id == data.QuestionId);
             Context.Answers.Add(newAnswer);
             Context.SaveChanges();
         }
@@ -21,6 +22,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Delete(Guid Id)
         {
             Context.Answers.Remove(Context.Answers.Single(a => a.Id == Id));
+            Context.SaveChanges();
         }
 
         public override CommonContracts.Answer Get(Guid Id)

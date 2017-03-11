@@ -61,6 +61,8 @@ namespace BFH.EADN.UI.Web.Services
                 newQuiz.Id = Guid.NewGuid();
             }
             ContractTypes.Quiz contractQuiz = Mapper.Map<ContractTypes.Quiz>(newQuiz);
+            List<ContractTypes.Question> questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestionsByIds(newQuiz.SelectedQuestionIds.ToList());
+            contractQuiz.Questions = questions;
             ClientProxy.GetProxy<IQuizManagement>().CreateQuiz(contractQuiz);
         }
 
@@ -73,8 +75,8 @@ namespace BFH.EADN.UI.Web.Services
         public void Edit(Guid id, Quiz quiz)
         {
             ContractTypes.Quiz contractQuiz = ClientProxy.GetProxy<IQuizManagement>().GetQuiz(id);
-            contractQuiz = Mapper.Map<ContractTypes.Quiz>(quiz);
-
+            contractQuiz = Mapper.Map(quiz, contractQuiz);
+            
             //update the question of this quiz
             List<ContractTypes.Question> questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestionsByIds(quiz.SelectedQuestionIds.ToList());
             contractQuiz.Questions = questions;

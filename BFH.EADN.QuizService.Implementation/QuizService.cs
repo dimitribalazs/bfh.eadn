@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BFH.EADN.Common.Types.Contracts;
 using BFH.EADN.Common.Types;
+using BFH.EADN.Common.Types.Enums;
 
 namespace BFH.EADN.QuizService.Implementation
 {
@@ -29,20 +30,61 @@ namespace BFH.EADN.QuizService.Implementation
 
         public Quiz GetQuiz(Guid id)
         {
-            return QuizRepository.Get(id);
+            Quiz quiz = QuizRepository.Get(id);
+            //fix always same questions and same order
+            if (quiz.Type == QuizType.Fix)
+            {
+                List<Question> questions = quiz.Questions.OrderBy(q => q.Id).Take(quiz.MaxQuestionCount).ToList();
+                quiz.Questions = questions;
+                return quiz;
+            }
+            else if (quiz.Type == QuizType.Variable)
+            {
+                List<Question> questions = quiz.Questions.Take(quiz.MaxQuestionCount).ToList();
+                Random random = new Random();
+                List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
+
+                while (questions.Count > 0)
+                {
+                    int next = random.Next(quiz.MaxQuestionCount);
+                    Question question = questions[next];
+                    randomizedList.Add(question);
+                    questions.Remove(question);
+                }
+
+                quiz.Questions = randomizedList;
+                return quiz;
+            }
+            else
+            {
+                List<Question> questions = quiz.Questions.ToList();
+                List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
+
+                Random random = new Random();
+                while (randomizedList.Count <= quiz.MaxQuestionCount || questions.Any())
+                {
+                    int next = random.Next(questions.Count);
+                    Question question = questions[next];
+                    randomizedList.Add(question);
+                    questions.Remove(question);
+                }
+
+                quiz.Questions = randomizedList;
+                return quiz;
+            }
         }
 
         public List<Quiz> GetQuizzes()
         {
             return QuizRepository.GetAll();
         }
-        
+
         public PlayQuestion GetFirstQuestion(Guid quizId)
         {
             List<Question> questions = QuizRepository.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
             return GetQuestion(quizId, questions.First().Id);
         }
-            
+
 
         public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
         {
@@ -55,11 +97,11 @@ namespace BFH.EADN.QuizService.Implementation
             {
                 if (questions[i].Id == questionId)
                 {
-                    if(i <= questions.Count - 1)
+                    if (i <= questions.Count - 1)
                     {
                         currentQuestion = questions[i];
                     }
-                    
+
                     if (i > 0)
                     {
                         previousQuestion = questions[i - 1].Id;

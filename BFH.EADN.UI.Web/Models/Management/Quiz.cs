@@ -14,6 +14,12 @@ namespace BFH.EADN.UI.Web.Models.Management
         [Required]
         public string Text { get; set; }
         [Required]
+        [Range(ushort.MinValue, ushort.MaxValue)]
+        public ushort MinQuestionCount { get; set; }
+        [Required]
+        [Range(ushort.MinValue, ushort.MaxValue)]
+        public ushort MaxQuestionCount { get; set; }
+        [Required]
         public QuizType Type { get; set; }
         [Required]
         public Guid[] SelectedQuestionIds { get; set; }

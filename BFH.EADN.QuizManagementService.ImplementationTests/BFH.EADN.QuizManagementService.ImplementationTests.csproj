@@ -69,6 +69,10 @@
       <Project>{234A3293-9F1F-452F-B1EB-EAEEABF0B5AB}</Project>
       <Name>BFH.EADN.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BFH.EADN.QuizManagementService.Contracts\BFH.EADN.QuizManagementService.Contracts.csproj">
+      <Project>{BFF9FE91-477C-46A2-8E01-22949334FE67}</Project>
+      <Name>BFH.EADN.QuizManagementService.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.QuizManagementService.Implementation\BFH.EADN.QuizManagementService.Implementation.csproj">
       <Project>{E09F8756-7DFD-4BBC-BD1E-56241AEFBE90}</Project>
       <Name>BFH.EADN.QuizManagementService.Implementation</Name>

@@ -16,43 +16,43 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             return View(_service.GetList());
         }
 
-        // GET: Questions/Details/5
         public ActionResult Details(Guid id)
         {
             return View(_service.Get(id));
         }
 
-        // GET: Questions/Create
         public ActionResult Create()
         {
             return View(_service.Get());
         }
 
-        // POST: Questions/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Question question)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-                _service.Create(question);
-                return RedirectToAction("Index");
+                try
+                {
+                    _service.Create(question);
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View(_service.Get());
         }
 
-        // GET: Questions/Edit/5
         public ActionResult Edit(Guid id)
         {
             Question question = _service.Get(id);
             return View(question);
         }
 
-        // POST: Questions/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Question question)
         {
             try
@@ -66,20 +66,18 @@ namespace BFH.EADN.UI.Web.Controllers.Management
             }
         }
 
-        // GET: Questions/Delete/5
         public ActionResult Delete(Guid id)
         {
             Question question = _service.Get(id);
             return View(question);
         }
 
-        // POST: Questions/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id, Question question)
         {
             try
             {
-                // TODO: Add delete logic here
                 _service.Delete(id);
                 return RedirectToAction("Index");
             }

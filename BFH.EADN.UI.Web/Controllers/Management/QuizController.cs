@@ -7,78 +7,88 @@ namespace BFH.EADN.UI.Web.Controllers.Management
     public class QuizController : Controller
     {
         private Services.QuizService _service = new Services.QuizService();
-        // GET: Quiz
+
         public ActionResult Index()
         {
             return View(_service.GetList());
         }
 
-        // GET: Quiz/Details/5
         public ActionResult Details(Guid id)
         {
             return View(_service.Get(id));
         }
 
-        // GET: Quiz/Create
         public ActionResult Create()
         {
             return View(_service.Get());
         }
 
-        // POST: Quiz/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Quiz quiz)
         {
-            try
+            if (quiz.MinQuestionCount > quiz.MaxQuestionCount)
             {
-                // TODO: Add insert logic here
-                _service.Create(quiz);
-                return RedirectToAction("Index");
+                ModelState.AddModelError("MinQuestionCount", "Cannot be bigger than MaxQuestionCount");
             }
-            catch
+            if (ModelState.IsValid)
             {
-                return View(quiz);
+                try
+                {
+                    _service.Create(quiz);
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    
+                }
             }
+            return View(quiz);
         }
 
-        // GET: Quiz/Edit/5
         public ActionResult Edit(Guid id)
         {
             Quiz quiz = _service.Get(id);
             return View(quiz);
         }
 
-        // POST: Quiz/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Quiz quiz)
         {
-            try
+            if (quiz.MinQuestionCount > quiz.MaxQuestionCount)
             {
-                _service.Edit(id, quiz);
-                return RedirectToAction("Details", new { id = id });
+                ModelState.AddModelError("MinQuestionCount", "Cannot be bigger than MaxQuestionCount");
             }
-            catch(Exception ex)
+            if (ModelState.IsValid)
             {
-                Quiz dbQuiz = _service.Get(id);
-                dbQuiz.Text = quiz.Text;
-                return View(dbQuiz);
+                try
+                {
+                    _service.Edit(id, quiz);
+                    return RedirectToAction("Details", new { id = id });
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
+            Quiz dbQuiz = _service.Get(id);
+            dbQuiz.Text = quiz.Text;
+            return View(dbQuiz);
         }
 
-        // GET: Quiz/Delete/5
         public ActionResult Delete(Guid id)
         {
             Quiz quiz = _service.Get(id);
             return View(quiz);
         }
 
-        // POST: Quiz/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id, Quiz quiz)
         {
             try
-            {
-                // TODO: Add delete logic here
+            { 
                 _service.Delete(id);
                 return RedirectToAction("Index");
             }

@@ -58,7 +58,7 @@ namespace BFH.EADN.UI.Web.Services
         public void Edit(Guid id, Topic topic)
         { 
             ContractTypes.Topic contractTopic = ClientProxy.GetProxy<ITopicManagement>().GetTopic(id);
-            contractTopic = Mapper.Map<ContractTypes.Topic>(topic);
+            contractTopic = Mapper.Map(topic, contractTopic);
             ClientProxy.GetProxy<ITopicManagement>().UpdateTopic(contractTopic);
         }
 

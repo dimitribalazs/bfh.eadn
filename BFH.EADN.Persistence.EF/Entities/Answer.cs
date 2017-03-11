@@ -10,8 +10,8 @@ namespace BFH.EADN.Persistence.EF.Entities
 {
     public class Answer : BaseEntity
     {
+        public virtual Question Question { get; set; }
         public string Text { get; set; }
-
         public bool IsSolution { get; set; }
     }
 

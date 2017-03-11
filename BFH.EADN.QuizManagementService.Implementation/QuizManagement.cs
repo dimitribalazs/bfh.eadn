@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizManagementService.Implementation
@@ -31,19 +33,21 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public string Test(string foo)
         {
             return foo;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateTopic(Topic topic)
         {
             try
             {
-                TopicRepository.Create(topic);
-                TopicRepository.Dispose();
+                using (IRepository<Topic, Guid> repo = TopicRepository)
+                {
+                    repo.Create(topic);
+                }                
             }
             catch (Exception ex)
             {
@@ -56,13 +60,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteTopic(Guid id)
         {
             try
             {
-                TopicRepository.Delete(id);
-                TopicRepository.Dispose();
+                using (IRepository<Topic, Guid> repo = TopicRepository)
+                {
+                    repo.Delete(id);
+                }
             }
             catch (Exception ex)
             {
@@ -75,13 +81,16 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
         public void UpdateTopic(Topic topic)
         {
             try
             {
-                TopicRepository.Update(topic);
-                TopicRepository.Dispose();
+                using (IRepository<Topic, Guid> repo = TopicRepository)
+                {
+                    repo.Update(topic);
+                }
+
             }
             catch (Exception ex)
             {
@@ -94,14 +103,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
         public Topic GetTopic(Guid id)
         {
             try
             {
-                Topic topic = TopicRepository.Get(id);
-                TopicRepository.Dispose();
-                return topic;
+                using (IRepository<Topic, Guid> repo = TopicRepository)
+                {
+                    return repo.Get(id);
+                }
             }
             catch (Exception ex)
             {
@@ -114,14 +124,16 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Topic> GetTopics()
         {
             try
             {
-                List<Topic> topics = TopicRepository.GetAll();
-                TopicRepository.Dispose();
-                return topics;
+                using (IRepository<Topic,Guid> repo = TopicRepository)
+                {
+                    List<Topic> topics = repo.GetAll();
+                    return topics;
+                }
             }
             catch (Exception ex)
             {
@@ -134,13 +146,17 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Topic> GetTopicsByIds(List<Guid> ids)
         {
             try
             {
                 if (ids == null) { throw new ArgumentNullException(nameof(ids) + "cannot be null"); }
-                return TopicRepository.GetListByIds(ids);
+
+                using (IRepository<Topic, Guid> repo = TopicRepository)
+                {
+                    return repo.GetListByIds(ids);
+                }
             }
             catch (Exception ex)
             {
@@ -153,12 +169,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateAnswer(Answer answer)
         {
             try
             {
-                AnswerRepository.Create(answer);
+                using (IRepository<Answer, Guid> repo = AnswerRepository)
+                {
+                    repo.Create(answer);
+                }
             }
             catch (Exception ex)
             {
@@ -171,12 +190,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateAnswer(Answer answer)
         {
             try
             {
-                AnswerRepository.Update(answer);
+                using (IRepository<Answer, Guid> repo = AnswerRepository)
+                {
+                    repo.Update(answer);
+                }
             }
             catch (Exception ex)
             {
@@ -189,12 +211,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteAnswer(Guid id)
         {
             try
             {
-                AnswerRepository.Delete(id);
+                using (IRepository<Answer, Guid> repo = AnswerRepository)
+                {
+                    repo.Delete(id);
+                }
             }
             catch (Exception ex)
             {
@@ -207,12 +232,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Answer GetAnswer(Guid id)
         {
             try
             {
-                return AnswerRepository.Get(id);
+                using (IRepository<Answer, Guid> repo = AnswerRepository)
+                {
+                    return repo.Get(id);
+                }
             }
             catch (Exception ex)
             {
@@ -225,12 +253,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Answer> GetAnswers()
         {
             try
             {
-                return AnswerRepository.GetAll();
+                using (IRepository<Answer, Guid> repo = AnswerRepository)
+                {
+                    return repo.GetAll();
+                }
             }
             catch (Exception ex)
             {
@@ -243,48 +274,69 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuestion(Question question)
         {
-            QuestionRepository.Create(question);
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                repo.Create(question);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuestion(Question question)
         {
-            QuestionRepository.Update(question);
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                repo.Update(question);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuestion(Guid id)
         {
-            QuestionRepository.Delete(id);
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                repo.Delete(id);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Question GetQuestion(Guid id)
         {
-            return QuestionRepository.Get(id);
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                return repo.Get(id);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestions()
         {
-            return QuestionRepository.GetAll();
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                return repo.GetAll();
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestionsByIds(List<Guid> ids)
         {
-            return QuestionRepository.GetListByIds(ids);
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                return repo.GetListByIds(ids);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuiz(Quiz quiz)
         {
             try
             {
-                QuizRepository.Create(quiz);
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    repo.Create(quiz);
+                }
             }
             catch (Exception ex)
             {
@@ -297,37 +349,52 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuiz(Quiz quiz)
         {
-            QuizRepository.Update(quiz);
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                repo.Update(quiz);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuiz(Guid id)
         {
-            QuizRepository.Delete(id);
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                repo.Delete(id);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Quiz GetQuiz(Guid id)
         {
-            return QuizRepository.Get(id);
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                return repo.Get(id);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Quiz> GetQuizzes()
         {
-            return QuizRepository.GetAll();
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                return repo.GetAll();
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Quiz> GetQuizzesByIds(List<Guid> ids)
         {
-            return QuizRepository.GetListByIds(ids);
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                return repo.GetListByIds(ids);
+            }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public bool Test(bool test)
         {
             return test;
@@ -342,7 +409,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         public User GetUserByName(string name)
         {
             Admin admin = admins.FirstOrDefault(a => a.Name.Equals(name));
-            if(admin != null)
+            if (admin != null)
             {
                 return new User
                 {
@@ -372,10 +439,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
 
         public static void LogIn(string name, string password)
         {
-        //    if(adminLogins.ContainsKey(name) && adminLogins[name].Equals(password))
-        //    { 
-        //        string sessionId = OperationContext.Current.SessionId;
-        //        loginSessions.Add(sessionId, name);
+            //    if(adminLogins.ContainsKey(name) && adminLogins[name].Equals(password))
+            //    { 
+            //        string sessionId = OperationContext.Current.SessionId;
+            //        loginSessions.Add(sessionId, name);
             //}
         }
 

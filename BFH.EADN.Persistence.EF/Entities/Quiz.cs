@@ -14,9 +14,9 @@ namespace BFH.EADN.Persistence.EF.Entities
     {
         public string Text { get; set; }
         public QuizType Type { get; set; }
-
+        public DateTime? LastUsed { get; set; }
+        public ushort MinQuestionCount { get; set; }
+        public ushort MaxQuestionCount { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
-
-        
     }
 }

@@ -31,10 +31,11 @@
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
+        @Html.Hidden("QuestionId", (Guid)ViewBag.QuestionId);
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to Question", "Edit", new { controller = "Question", id = (Guid)ViewBag.QuestionId })
         </div>
     }
 </div>

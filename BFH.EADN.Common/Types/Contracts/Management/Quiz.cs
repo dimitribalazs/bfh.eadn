@@ -13,10 +13,12 @@ namespace BFH.EADN.Common.Types.Contracts
     {
         [DataMember(Order = 0)]
         public string Text { get; set; }
-
+        [DataMember(Order = 0)]
+        public ushort MinQuestionCount { get; set; }
+        [DataMember(Order = 0)]
+        public ushort MaxQuestionCount { get; set; }
         [DataMember(Order = 0)]
         public QuizType Type { get; set; }
-
         [DataMember(Order = 0)]
         public List<Question> Questions { get; set; }   
     }

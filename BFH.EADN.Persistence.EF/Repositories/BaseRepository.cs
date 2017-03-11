@@ -27,11 +27,12 @@ namespace BFH.EADN.Persistence.EF.Repositories
                         opt => opt.MapFrom(src => src.Questions));
                  cfg.CreateMap<ContractTypes.Quiz, Entities.Quiz>();
 
+
                  //Questions
                  cfg.CreateMap<Entities.Question, ContractTypes.Question>()
                     .ForMember(
                         dest => dest.Answers,
-                        opt => opt.MapFrom(src => src.Anwers))
+                        opt => opt.MapFrom(src => src.Answers))
                     .ForMember(
                         dest => dest.Topics,
                         opt => opt.MapFrom(src => src.Topics));

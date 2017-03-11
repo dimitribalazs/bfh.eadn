@@ -14,11 +14,20 @@ namespace BFH.EADN.QuizManagementService.Implementation
 {
     public class ServiceMessageInspector : IDispatchMessageInspector
     {
-        private string _sessionId;
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
             //Guid token = request.Headers.GetHeader<Guid>("token", Constants.XMLNamespace);
+            // Generische identität herstellen
+            GenericIdentity MyIdentity = new GenericIdentity("MyIdentity", "QuizAdmin");
 
+            // Generischer Prinzipal herstellen
+            string[] astrRoles = { "QuizAdmin" };
+
+            GenericPrincipal objGenericPrinzipal = new GenericPrincipal(MyIdentity, astrRoles);
+
+            // Generischer Prinzipal mit dem Thread verbinden
+
+            Thread.CurrentPrincipal = objGenericPrinzipal;
             return null;
 
         }

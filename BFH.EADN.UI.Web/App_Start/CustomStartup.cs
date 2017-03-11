@@ -24,12 +24,24 @@ namespace BFH.EADN.UI.Web
                 cfg.CreateMap<ContractTypes.Answer, Answer>();
 
                 //question area
-                cfg.CreateMap<Question, ContractTypes.Question>();
-                cfg.CreateMap<ContractTypes.Question, Question>();
+                cfg.CreateMap<Question, ContractTypes.Question>()
+                    .ForMember(
+                                dest => dest.Topics,
+                                opt => opt.MapFrom(src => src.Topics));
+                cfg.CreateMap<ContractTypes.Question, Question>()
+                   .ForMember(
+                            dest => dest.Topics,
+                            opt => opt.MapFrom(src => src.Topics));
 
                 //question area
-                cfg.CreateMap<Quiz, ContractTypes.Quiz>();
-                cfg.CreateMap<ContractTypes.Quiz, Quiz>();
+                cfg.CreateMap<Quiz, ContractTypes.Quiz>()
+                    .ForMember(
+                            dest => dest.Questions,
+                            opt => opt.MapFrom(src => src.Questions));
+                cfg.CreateMap<ContractTypes.Quiz, Quiz>()
+                    .ForMember(
+                            dest => dest.Questions,
+                            opt => opt.MapFrom(src => src.Questions));
             });
         }
 	}
