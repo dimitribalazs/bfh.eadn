@@ -51,6 +51,14 @@ namespace BFH.EADN.QuizManagementService.Contracts
         List<Question> GetQuestions();
 
         /// <summary>
+        /// Gets all questions which do not have a topic
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        List<Question> GetQuestionsWithoutTopic();
+
+        /// <summary>
         /// Gets all questions by ids
         /// </summary>
         /// <returns></returns>

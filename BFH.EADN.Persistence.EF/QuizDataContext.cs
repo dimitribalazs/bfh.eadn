@@ -22,5 +22,21 @@ namespace BFH.EADN.Persistence.EF
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<Quiz>()
+            //    .HasOptional<ICollection<Question>>(q => q.Questions)
+            //    .WithOptionalDependent(q => q.)
+                //.WithRequired(q => q.FOo)
+                //.HasForeignKey(e => e.FooId)
+                //
+                //.WillCascadeOnDelete(false);
+            modelBuilder.Entity<Question>()
+                .HasMany(q => q.Answers)
+                .WithOptional()
+                .WillCascadeOnDelete();
+        }
+
     }
 }

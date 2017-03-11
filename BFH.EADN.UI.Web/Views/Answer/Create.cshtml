@@ -10,7 +10,7 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("QuestionId", (Guid)ViewBag.QuestionId);
+    @Html.Hidden("QuestionId", Model.QuestionId);
     <div class="form-horizontal">
         <h4>Answer</h4>
         <hr />

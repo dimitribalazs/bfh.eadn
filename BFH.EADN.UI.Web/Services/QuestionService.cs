@@ -23,6 +23,13 @@ namespace BFH.EADN.UI.Web.Services
             return mappedList;
         }
 
+        public List<Question> GetQuestionsWithoutTopics()
+        {
+            List<ContractTypes.Question> questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestionsWithoutTopic();
+            List<Question> mappedList = Mapper.Map<List<ContractTypes.Question>, List<Question>>(questions);
+            return mappedList;
+        }
+
         /// <summary>
         /// create a new question model
         /// </summary>

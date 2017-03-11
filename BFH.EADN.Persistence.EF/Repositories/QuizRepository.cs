@@ -24,7 +24,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override void Delete(Guid Id)
         {
-            Context.Quizzes.Remove(Context.Quizzes.Single(q => q.Id == Id));
+            Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
+            //we wont delete the questions
+            quiz.Questions = null;            
+            Context.Quizzes.Remove(quiz);
+            Context.SaveChanges();
         }
 
         public override CommonContracts.Quiz Get(Guid Id)

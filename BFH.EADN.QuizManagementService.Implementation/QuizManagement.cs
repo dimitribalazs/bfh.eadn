@@ -319,6 +319,14 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        public List<Question> GetQuestionsWithoutTopic()
+        {
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            {
+                return repo.GetAll().Where(q => q.Topics == null || q.Topics.Count <= 0).ToList();
+            }
+        }
+
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestionsByIds(List<Guid> ids)
         {

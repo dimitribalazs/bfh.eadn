@@ -155,15 +155,6 @@ namespace BFH.EADN.Persistence.EF.Seed
                 context.Quizzes.Add(quiz);
             }
 
-            //context.Topics.Add(programming);
-            //context.Topics.Add(movies);
-            //context.Topics.Add(actors);
-
-            //context.Questions.Add(programmingQuestion1);
-            //context.Questions.Add(programmingQuestion2);
-            //context.Questions.Add(movieQuestion1);
-            //context.Questions.Add(movieActorQuestion1);
-
             context.SaveChanges();
             base.Seed(context);
         }

@@ -43,13 +43,20 @@ namespace BFH.EADN.UI.Web.Services
         {
             ContractTypes.Quiz quiz = ClientProxy.GetProxy<IQuizManagement>().GetQuiz(id);
             Quiz returnQuiz = Mapper.Map<Quiz>(quiz);
-            returnQuiz.SelectedQuestionIds = returnQuiz.Questions.Select(q => q.Id).ToArray();
-            //get whole list for selection
-            returnQuiz.Questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestions();
-            
-            return returnQuiz; 
+            AddQuestionsToQuiz(returnQuiz);
+            return returnQuiz;
         }
-        
+
+        public void AddQuestionsToQuiz(Quiz quiz)
+        {
+            if(quiz.Questions != null)
+            { 
+                quiz.SelectedQuestionIds = quiz.Questions.Select(q => q.Id).ToArray();
+            }
+            //get whole list for selection
+            quiz.Questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestions();
+        }
+
         /// <summary>
         /// Creates a new topic
         /// </summary>
@@ -66,7 +73,7 @@ namespace BFH.EADN.UI.Web.Services
             ClientProxy.GetProxy<IQuizManagement>().CreateQuiz(contractQuiz);
         }
 
-        
+
         /// <summary>
         /// Update an existing topic with new information
         /// </summary>
@@ -76,7 +83,7 @@ namespace BFH.EADN.UI.Web.Services
         {
             ContractTypes.Quiz contractQuiz = ClientProxy.GetProxy<IQuizManagement>().GetQuiz(id);
             contractQuiz = Mapper.Map(quiz, contractQuiz);
-            
+
             //update the question of this quiz
             List<ContractTypes.Question> questions = ClientProxy.GetProxy<IQuestionManagement>().GetQuestionsByIds(quiz.SelectedQuestionIds.ToList());
             contractQuiz.Questions = questions;
@@ -91,6 +98,23 @@ namespace BFH.EADN.UI.Web.Services
         public void Delete(Guid id)
         {
             ClientProxy.GetProxy<IQuizManagement>().DeleteQuiz(id);
+        }
+
+        public void Validation(ModelStateDictionary state, Quiz quiz)
+        {
+            if (quiz.MinQuestionCount > quiz.MaxQuestionCount)
+            {
+                state.AddModelError("MinQuestionCount", "Cannot be bigger than MaxQuestionCount");
+            }
+
+            if (quiz.MinQuestionCount > 0)
+            {
+                if (quiz.SelectedQuestionIds == null || quiz.MinQuestionCount > quiz.SelectedQuestionIds.Length)
+                {
+                    state.AddModelError("SelectedQuestionIds", "Too few questions selected");
+                }
+            }
+
         }
     }
 }

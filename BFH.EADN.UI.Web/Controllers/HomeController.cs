@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BFH.EADN.UI.Web.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,8 @@ namespace BFH.EADN.UI.Web.Controllers
     {
         public ActionResult Index()
         {
+            //var x = 0;
+            //var y = 10 / x;
             return View();
         }
 

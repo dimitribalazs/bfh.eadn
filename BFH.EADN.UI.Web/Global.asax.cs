@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BFH.EADN.UI.Web.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,8 @@ namespace BFH.EADN.UI.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            GlobalFilters.Filters.Add(new ErrorAttribute());
 
             //own startup configuration
             CustomStartup.Init();

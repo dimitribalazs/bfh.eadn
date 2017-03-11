@@ -199,6 +199,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Attributes\ErrorAttribute.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Management\AnswerController.cs" />
     <Compile Include="Controllers\Management\QuestionController.cs" />
@@ -302,9 +304,11 @@
     <Content Include="Views\Play\Play.cshtml" />
     <Content Include="Views\Play\Completed.cshtml" />
     <Content Include="Views\Session\LogOn.cshtml" />
+    <Content Include="Views\Question\WithoutTopic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

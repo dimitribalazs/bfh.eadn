@@ -27,10 +27,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         [ValidateAntiForgeryToken]
         public ActionResult Create(Quiz quiz)
         {
-            if (quiz.MinQuestionCount > quiz.MaxQuestionCount)
-            {
-                ModelState.AddModelError("MinQuestionCount", "Cannot be bigger than MaxQuestionCount");
-            }
+            _service.Validation(ModelState, quiz);
             if (ModelState.IsValid)
             {
                 try
@@ -43,6 +40,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                     
                 }
             }
+            _service.AddQuestionsToQuiz(quiz);
             return View(quiz);
         }
 
@@ -56,10 +54,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Quiz quiz)
         {
-            if (quiz.MinQuestionCount > quiz.MaxQuestionCount)
-            {
-                ModelState.AddModelError("MinQuestionCount", "Cannot be bigger than MaxQuestionCount");
-            }
+            _service.Validation(ModelState, quiz);
             if (ModelState.IsValid)
             {
                 try
@@ -72,9 +67,8 @@ namespace BFH.EADN.UI.Web.Controllers.Management
 
                 }
             }
-            Quiz dbQuiz = _service.Get(id);
-            dbQuiz.Text = quiz.Text;
-            return View(dbQuiz);
+            _service.AddQuestionsToQuiz(quiz);
+            return View(quiz);
         }
 
         public ActionResult Delete(Guid id)

@@ -44,7 +44,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Question", "Edit", new { controller = "Question", id = (Guid)ViewBag.QuestionId })
+    @Html.ActionLink("Back to Question", "Edit", new { controller = "Question", id = Model.QuestionId })
 </div>
 
 @section Scripts {
