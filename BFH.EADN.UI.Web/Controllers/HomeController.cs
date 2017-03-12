@@ -1,4 +1,5 @@
 ﻿using BFH.EADN.UI.Web.Attributes;
+using BFH.EADN.UI.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,13 @@ namespace BFH.EADN.UI.Web.Controllers
     {
         public ActionResult Index()
         {
-            //var x = 0;
-            //var y = 10 / x;
+            HttpContext.Session.GetSessionContext();
             return View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 

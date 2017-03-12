@@ -223,6 +223,7 @@
     <Compile Include="Models\Management\Topic.cs" />
     <Compile Include="Models\Play\Overview.cs" />
     <Compile Include="Models\Play\Question.cs" />
+    <Compile Include="Models\Play\ValidationType.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Services\TopicService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ClientProxy.cs" />
+    <Compile Include="Utils\SessionContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -305,6 +307,7 @@
     <Content Include="Views\Play\Completed.cshtml" />
     <Content Include="Views\Session\LogOn.cshtml" />
     <Content Include="Views\Question\WithoutTopic.cshtml" />
+    <Content Include="Views\Play\ValidationType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

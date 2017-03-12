@@ -5,9 +5,9 @@
 }
 
 <h2>Play</h2>
-@using (Html.BeginForm("Check", "Play", FormMethod.Post))
+@using(Html.BeginForm("Next", "Play", FormMethod.Post))
 {
-
+    @Html.AntiForgeryToken()
     @Html.DisplayFor(m => m.Text)
     @Html.DisplayFor(m => m.Hint)
 

@@ -1,4 +1,6 @@
-﻿using BFH.EADN.UI.Web.Services;
+﻿using BFH.EADN.UI.Web.Models.Play;
+using BFH.EADN.UI.Web.Services;
+using BFH.EADN.UI.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,41 +12,95 @@ namespace BFH.EADN.UI.Web.Controllers.Play
     public class PlayController : Controller
     {
         private PlayService _service = new PlayService();
+
+        [HttpGet]
         public ActionResult Index()
         {
-            return View(_service.GetOverview());
+            List<Overview> overview = _service.GetOverview();
+            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
+            if (cookie != null)
+            {
+                overview.First().ContinueQuizUrl = HttpUtility.UrlDecode(cookie.Values["Url"]);
+                bool evalAtEnd;
+                if(bool.TryParse(cookie.Values["EvaluationAtEnd"], out evalAtEnd))
+                {
+                    HttpContext.Session.GetSessionContext().EvaluationAtEnd = evalAtEnd;
+                }
+            }
+            else
+            {
+                cookie = new HttpCookie("QuizState");
+            }
+            HttpContext.Response.Cookies.Set(cookie);
+            return View(overview);
         }
 
+        [HttpGet]
+        public ActionResult ValidationType(Guid quizId)
+        {
+            HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
+            ValidationType type = new ValidationType();
+            type.QuizId = quizId;
+            type.QuestionId = _service.GetFirstQuestion(quizId).QuestionId;
+            return View(type);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ValidationType(ValidationType type)
+        {
+            HttpContext.Session.GetSessionContext().EvaluationAtEnd = type.EvaluationAtEnd;
+
+            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
+            cookie.Values["EvaluationAtEnd"] = type.EvaluationAtEnd.ToString();
+            return RedirectToAction("Play", new { quizId = type.QuizId, questionId = type.QuestionId });
+        }
+
+        [HttpGet]
         public ActionResult Play(Guid quizId, Guid? questionId)
         {
-            if(questionId.HasValue == false)
-            {
-                return View(_service.GetFirstQuestion(quizId));
-            }
+            //update cookie with new url
+            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
+            cookie.Values["Url"] = HttpUtility.UrlEncode(HttpContext.Request.Url.AbsoluteUri);
+            HttpContext.Response.Cookies.Remove("QuizState");
+            HttpContext.Response.Cookies.Set(cookie);
+            
             return View(_service.GetQuestion(quizId, questionId.Value));
         }
 
+        [HttpGet]
         public ActionResult Completed(Guid quizId)
         {
+            bool evaluateAtTheEnd = HttpContext.Session.GetSessionContext().EvaluationAtEnd;
+            if (evaluateAtTheEnd)
+            {
+                //evaluate
+            }
             return View();
         }
 
         [HttpPost]
-        public ActionResult Check(Guid quizId, Guid questionId, List<Guid> answers, Guid? nextQuestionId)
+        [ValidateAntiForgeryToken]
+        public ActionResult Next(Guid quizId, Guid questionId, List<Guid> answers, Guid? nextQuestionId)
         {
-            if (answers == null || answers.Count == 0)
+            bool evaluateAtTheEnd = HttpContext.Session.GetSessionContext().EvaluationAtEnd;
+            if (evaluateAtTheEnd)
             {
-                ModelState.AddModelError("answers", "To progress you must solve this question");
-            }
-            else if (_service.CheckAnswers(questionId, answers) == false)
-            {
-                ModelState.AddModelError("answers", "Wrong answers");
+                //there is a next question
+                if (nextQuestionId.HasValue)
+                {
+                    return RedirectToAction("Play", new { quizId = quizId, questionId = nextQuestionId });
+                }
+                //question was last
+                return RedirectToAction("Completed", new { quizId = quizId });
             }
 
-            if(ModelState.IsValid)
+            //always validate
+            _service.Validation(ModelState, questionId, answers);
+            if (ModelState.IsValid)
             {
-                if(nextQuestionId.HasValue)
-                { 
+                if (nextQuestionId.HasValue)
+                {
                     return RedirectToAction("Play", new { quizId = quizId, questionId = nextQuestionId });
                 }
                 return RedirectToAction("Completed", new { quizId = quizId });

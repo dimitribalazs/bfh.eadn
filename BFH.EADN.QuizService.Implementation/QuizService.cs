@@ -27,68 +27,80 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
-
         public Quiz GetQuiz(Guid id)
         {
-            Quiz quiz = QuizRepository.Get(id);
-            //fix always same questions and same order
-            if (quiz.Type == QuizType.Fix)
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
             {
-                List<Question> questions = quiz.Questions.OrderBy(q => q.Id).Take(quiz.MaxQuestionCount).ToList();
-                quiz.Questions = questions;
-                return quiz;
-            }
-            else if (quiz.Type == QuizType.Variable)
-            {
-                List<Question> questions = quiz.Questions.Take(quiz.MaxQuestionCount).ToList();
-                Random random = new Random();
-                List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
-
-                while (questions.Count > 0)
+                Quiz quiz = repo.Get(id);
+                //fix always same questions and same order
+                if (quiz.Type == QuizType.Fix)
                 {
-                    int next = random.Next(quiz.MaxQuestionCount);
-                    Question question = questions[next];
-                    randomizedList.Add(question);
-                    questions.Remove(question);
+                    List<Question> questions = quiz.Questions.OrderBy(q => q.Id).Take(quiz.MaxQuestionCount).ToList();
+                    quiz.Questions = questions;
+                    return quiz;
                 }
-
-                quiz.Questions = randomizedList;
-                return quiz;
-            }
-            else
-            {
-                List<Question> questions = quiz.Questions.ToList();
-                List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
-
-                Random random = new Random();
-                while (randomizedList.Count <= quiz.MaxQuestionCount || questions.Any())
+                else if (quiz.Type == QuizType.Variable)
                 {
-                    int next = random.Next(questions.Count);
-                    Question question = questions[next];
-                    randomizedList.Add(question);
-                    questions.Remove(question);
-                }
+                    List<Question> questions = quiz.Questions.Take(quiz.MaxQuestionCount).ToList();
+                    Random random = new Random();
+                    List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
 
-                quiz.Questions = randomizedList;
-                return quiz;
+                    while (questions.Count > 0)
+                    {
+                        int next = random.Next(quiz.MaxQuestionCount);
+                        Question question = questions[next];
+                        randomizedList.Add(question);
+                        questions.Remove(question);
+                    }
+
+                    quiz.Questions = randomizedList;
+                    return quiz;
+                }
+                else
+                {
+                    List<Question> questions = quiz.Questions.ToList();
+                    List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
+
+                    Random random = new Random();
+                    while (randomizedList.Count <= quiz.MaxQuestionCount || questions.Any())
+                    {
+                        int next = random.Next(questions.Count);
+                        Question question = questions[next];
+                        randomizedList.Add(question);
+                        questions.Remove(question);
+                    }
+
+                    quiz.Questions = randomizedList;
+                    return quiz;
+                }
             }
         }
 
         public List<Quiz> GetQuizzes()
         {
-            return QuizRepository.GetAll();
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                return repo.GetAll();
+            }
         }
 
         public PlayQuestion GetFirstQuestion(Guid quizId)
         {
-            List<Question> questions = QuizRepository.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
-            return GetQuestion(quizId, questions.First().Id);
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                List<Question> questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+                return GetQuestion(quizId, questions.First().Id);
+            }
         }
 
 
         public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
         {
-            List<Question> questions = QuizRepository.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+            List<Question> questions;
+            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            {
+                 questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+            }
 
             Question currentQuestion = null;
             Guid? previousQuestion = null;
@@ -129,9 +141,12 @@ namespace BFH.EADN.QuizService.Implementation
 
         public bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
-            Question question = QuestionRepository.Get(questionId);
-            List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
-            return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
+            using (IRepository<Question, Guid> repo = QuestionRepository)
+            { 
+                Question question = repo.Get(questionId);
+                List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
+                return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
+            }
         }
     }
 }

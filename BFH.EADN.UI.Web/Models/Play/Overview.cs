@@ -7,6 +7,7 @@ namespace BFH.EADN.UI.Web.Models.Play
 {
     public class Overview
     {
+        public string ContinueQuizUrl { get; set; }
         public string TopicName { get; set; }
         public List<QuizItem> QuizItems { get; set; } = new List<QuizItem>();
     }

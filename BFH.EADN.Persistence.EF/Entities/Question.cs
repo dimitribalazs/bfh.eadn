@@ -13,6 +13,7 @@ namespace BFH.EADN.Persistence.EF.Entities
         public Question()
         {
             Topics = new HashSet<Topic>();
+            Quizzes = new HashSet<Quiz>();
             Answers = new HashSet<Answer>();
         }
 
@@ -26,6 +27,7 @@ namespace BFH.EADN.Persistence.EF.Entities
 
 
         public virtual ICollection<Topic> Topics { get; set; }
+        public virtual ICollection<Quiz> Quizzes { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }  
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using ContractTypes = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.UI.Web.Services
@@ -43,11 +44,27 @@ namespace BFH.EADN.UI.Web.Services
             return topicQuizzes.Values.ToList();
         }
 
+        public void Validation(ModelStateDictionary state, Guid questionId, List<Guid> answers)
+        {
+            if (answers == null || answers.Count == 0)
+            {
+                state.AddModelError("answers", "To progress you must solve this question");
+            }
+            else if (CheckAnswers(questionId, answers) == false)
+            {
+                state.AddModelError("answers", "Wrong answers");
+            }
+        }
+
         internal bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
             return ClientProxy.GetQuizProxy<IPlay>().CheckAnswers(questionId, answers);
         }
 
+        public ContractTypes.Quiz GetContractQuiz(Guid quizId)
+        {
+            return ClientProxy.GetQuizProxy<IPlay>().GetQuiz(quizId);
+        }
         public Question GetFirstQuestion(Guid quizId)
         {
             ContractTypes.PlayQuestion question = ClientProxy.GetQuizProxy<IPlay>().GetFirstQuestion(quizId);
@@ -105,6 +122,18 @@ namespace BFH.EADN.UI.Web.Services
             }
 
             return retQuestion;
+        }
+
+        public void UpdateCookie(HttpCookie cookie, string key)
+        {
+            if(string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentException(nameof(key) + " cannot be null or empty");
+            }
+            if(cookie == null)
+            {
+                cookie = new HttpCookie(key);
+            }
         }
     }
 }

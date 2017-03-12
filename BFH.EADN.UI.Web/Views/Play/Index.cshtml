@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<BFH.EADN.UI.Web.Models.Play.Overview>
 
+@if(string.IsNullOrEmpty(Model.First().ContinueQuizUrl) == false)
+{
+    <a href="@Model.First().ContinueQuizUrl" class="btn btn-primary">Continue last played quiz</a>
+}
+
 @foreach (var item in Model)
 {
     <h2>
@@ -11,7 +16,7 @@
             {
                 <tr>
                     <td>@item.QuizItems[i].Text</td>
-                    <td>@Html.ActionLink("Play", "Play", new { quizId = @item.QuizItems[i].QuizId })</td>
+                    <td>@Html.ActionLink("Play", "ValidationType", new { quizId = @item.QuizItems[i].QuizId })</td>
                 </tr>
             }
         </tbody>

@@ -12,6 +12,11 @@ namespace BFH.EADN.Persistence.EF.Entities
 {
     public class Quiz : BaseEntity
     {
+        public Quiz()
+        {
+            Questions = new HashSet<Question>();
+        }
+
         public string Text { get; set; }
         public QuizType Type { get; set; }
         public DateTime? LastUsed { get; set; }
