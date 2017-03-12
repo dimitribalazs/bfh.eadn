@@ -62,7 +62,7 @@ namespace BFH.EADN.QuizService.Implementation
                     List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
 
                     Random random = new Random();
-                    while (randomizedList.Count <= quiz.MaxQuestionCount || questions.Any())
+                    while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
                     {
                         int next = random.Next(questions.Count);
                         Question question = questions[next];
@@ -84,6 +84,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        
         public PlayQuestion GetFirstQuestion(Guid quizId)
         {
             using (IRepository<Quiz, Guid> repo = QuizRepository)
@@ -92,7 +93,6 @@ namespace BFH.EADN.QuizService.Implementation
                 return GetQuestion(quizId, questions.First().Id);
             }
         }
-
 
         public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
         {

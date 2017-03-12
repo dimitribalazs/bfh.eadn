@@ -65,6 +65,104 @@ namespace BFH.EADN.UI.Web.Services
         {
             return ClientProxy.GetQuizProxy<IPlay>().GetQuiz(quizId);
         }
+
+        //public Question GetFirstQuestion(ContractTypes.Quiz quiz)
+        //{
+        //    ContractTypes.Question question = quiz.Questions.First();
+        //    Question retQuestion = new Question
+        //    {
+        //        QuizId = quiz.Id,
+        //        QuestionId = question.Id,
+        //        Hint = question.Hint,
+        //        Text = question.Text,
+        //        IsMultipleChoice = question.IsMultipleChoice,
+        //        NextQuestion = question.NextQuestion
+        //    };
+
+        //}
+
+        public Question GetQuestion(ContractTypes.Quiz quiz, Guid currentQuestionId)
+        {
+            //get next element
+            ContractTypes.Question question = quiz.Questions.FirstOrDefault(q => q.Id == currentQuestionId);
+            Guid? nextQuestion = quiz.Questions.SkipWhile(q => q.Id != currentQuestionId).Skip(1).Select(q => q.Id).FirstOrDefault();
+
+            //work around
+            if (nextQuestion.HasValue && nextQuestion.Value == default(Guid))
+            {
+                nextQuestion = null;
+            }
+            //make a copy because, other without it will not work (reference)
+            List<ContractTypes.Question> reversedList = quiz.Questions.ToList();
+            reversedList.Reverse();
+            Guid? previousQuestion = reversedList.SkipWhile(q => q.Id != currentQuestionId).Skip(1).Select(q => q.Id).FirstOrDefault();
+
+            //work around
+            if (previousQuestion.HasValue && previousQuestion.Value == default(Guid))
+            {
+                previousQuestion = null;
+            }
+
+            Question retQuestion = new Question
+            {
+                QuizId = quiz.Id,
+                QuestionId = question.Id,
+                Hint = question.Hint,
+                Text = question.Text,
+                IsMultipleChoice = question.IsMultipleChoice,
+                NextQuestion = nextQuestion,
+                PreviousQuestion = previousQuestion
+            };
+
+            retQuestion.Answers = new List<Answer>(question.Answers.Count);
+            foreach (ContractTypes.Answer answer in question.Answers)
+            {
+                Answer answerItem = new Answer
+                {
+                    Id = answer.Id,
+                    Text = answer.Text,
+                    IsSolution = answer.IsSolution
+                };
+                retQuestion.Answers.Add(answerItem);
+            }
+
+            return retQuestion;
+        }
+
+        public Question GetFirstQuestion(ContractTypes.Quiz quiz)
+        {
+            ContractTypes.Question question = quiz.Questions.FirstOrDefault();
+            if(question == null)
+            {
+                return null;
+            }
+            ContractTypes.Question nextQuestion = quiz.Questions.Skip(1).FirstOrDefault();
+
+            Question retQuestion = new Question
+            {
+                QuizId = quiz.Id,
+                QuestionId = question.Id,
+                Hint = question.Hint,
+                Text = question.Text,
+                IsMultipleChoice = question.IsMultipleChoice,
+                NextQuestion = nextQuestion?.Id
+            };
+
+            retQuestion.Answers = new List<Answer>(question.Answers.Count);
+            foreach (ContractTypes.Answer answer in question.Answers)
+            {
+                Answer answerItem = new Answer
+                {
+                    Id = answer.Id,
+                    Text = answer.Text,
+                    IsSolution = answer.IsSolution
+                };
+                retQuestion.Answers.Add(answerItem);
+            }
+
+            return retQuestion;
+        }
+
         public Question GetFirstQuestion(Guid quizId)
         {
             ContractTypes.PlayQuestion question = ClientProxy.GetQuizProxy<IPlay>().GetFirstQuestion(quizId);

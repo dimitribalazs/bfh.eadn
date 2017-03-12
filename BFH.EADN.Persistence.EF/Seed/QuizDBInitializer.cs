@@ -232,6 +232,8 @@ namespace BFH.EADN.Persistence.EF.Seed
             {
                 Text = "Programming quiz",
                 Type = QuizType.Dynamic,
+                MinQuestionCount = 2,
+                MaxQuestionCount = 5,
                 Questions = new HashSet<Question>
                 {
                     programmingQuestion1,

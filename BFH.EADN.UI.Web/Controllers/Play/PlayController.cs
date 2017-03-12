@@ -1,4 +1,5 @@
-﻿using BFH.EADN.UI.Web.Models.Play;
+﻿using ContractTypes = BFH.EADN.Common.Types.Contracts;
+using BFH.EADN.UI.Web.Models.Play;
 using BFH.EADN.UI.Web.Services;
 using BFH.EADN.UI.Web.Utils;
 using System;
@@ -38,10 +39,17 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [HttpGet]
         public ActionResult ValidationType(Guid quizId)
         {
-            HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
+            ContractTypes.Quiz quiz;
+            //check if there is already a quiz in the session
+            if (HttpContext.Session.GetSessionContext().CurrentQuiz == null)
+            {
+                HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
+            }
+            quiz = HttpContext.Session.GetSessionContext().CurrentQuiz;
+
             ValidationType type = new ValidationType();
             type.QuizId = quizId;
-            type.QuestionId = _service.GetFirstQuestion(quizId).QuestionId;
+            type.QuestionId = _service.GetFirstQuestion(quiz).QuestionId;
             return View(type);
         }
 
@@ -59,13 +67,22 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [HttpGet]
         public ActionResult Play(Guid quizId, Guid? questionId)
         {
+            ContractTypes.Quiz quiz;
+            //check if there is already a quiz in the session
+            if(HttpContext.Session.GetSessionContext().CurrentQuiz == null)
+            { 
+                HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
+            }
+
+            quiz = HttpContext.Session.GetSessionContext().CurrentQuiz;
+
             //update cookie with new url
             HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
             cookie.Values["Url"] = HttpUtility.UrlEncode(HttpContext.Request.Url.AbsoluteUri);
             HttpContext.Response.Cookies.Remove("QuizState");
             HttpContext.Response.Cookies.Set(cookie);
             
-            return View(_service.GetQuestion(quizId, questionId.Value));
+            return View(_service.GetQuestion(quiz, questionId.Value));
         }
 
         [HttpGet]
@@ -105,7 +122,16 @@ namespace BFH.EADN.UI.Web.Controllers.Play
                 }
                 return RedirectToAction("Completed", new { quizId = quizId });
             }
-            return View("Play", _service.GetQuestion(quizId, questionId));
+
+            ContractTypes.Quiz quiz;
+            //check if there is already a quiz in the session
+            if (HttpContext.Session.GetSessionContext().CurrentQuiz == null)
+            {
+                HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
+            }
+            quiz = HttpContext.Session.GetSessionContext().CurrentQuiz;
+
+            return View("Play", _service.GetQuestion(quiz, questionId));
         }
     }
 }
