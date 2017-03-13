@@ -221,6 +221,7 @@
     <Compile Include="Models\Management\Question.cs" />
     <Compile Include="Models\Management\Quiz.cs" />
     <Compile Include="Models\Management\Topic.cs" />
+    <Compile Include="Models\Play\Complete.cs" />
     <Compile Include="Models\Play\Overview.cs" />
     <Compile Include="Models\Play\Question.cs" />
     <Compile Include="Models\Play\ValidationType.cs" />
@@ -309,6 +310,7 @@
     <Content Include="Views\Session\LogOn.cshtml" />
     <Content Include="Views\Question\WithoutTopic.cshtml" />
     <Content Include="Views\Play\ValidationType.cshtml" />
+    <Content Include="Views\Play\CompletedWithData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,7 +17,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         [Range(0, int.MaxValue)]
         public int MinQuestionCount { get; set; }
         [Required]
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int MaxQuestionCount { get; set; }
         [Required]
         public QuizType Type { get; set; }

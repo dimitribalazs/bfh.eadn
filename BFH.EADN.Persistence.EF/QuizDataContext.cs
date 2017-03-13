@@ -22,6 +22,7 @@ namespace BFH.EADN.Persistence.EF
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<QuestionAnswerState> QuestionAnswerStates { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

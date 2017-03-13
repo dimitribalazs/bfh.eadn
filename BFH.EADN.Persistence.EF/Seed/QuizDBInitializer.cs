@@ -30,7 +30,9 @@ namespace BFH.EADN.Persistence.EF.Seed
             Question programmingQuestion11 = new Question { Text = "9 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true };
             Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
+            Question movieQuestion2 = new Question { Text = "Are those Lord of the Rings characters?", IsMultipleChoice = true };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
+            
 
             Answer programmingAnwers1Yes = new Answer { Text = "Yes", IsSolution = true };
             Answer programmingAnwers1No = new Answer { Text = "No" };
@@ -58,6 +60,14 @@ namespace BFH.EADN.Persistence.EF.Seed
             Answer movieQuestion1second = new Answer { Text = "10" };
             Answer movieQuestion1third = new Answer { Text = "2", IsSolution = true };
 
+            Answer movieActorQuestion1Yes = new Answer { Text = "Yes", IsSolution = true };
+            Answer movieActorQuestion1No = new Answer { Text = "No" };
+
+            Answer movieQuestion2first = new Answer { Text = "Sauron", IsSolution = true };
+            Answer movieQuestion2second = new Answer { Text = "Spiderman" };
+            Answer movieQuestion2third = new Answer { Text = "Saruman", IsSolution = true };
+
+
             programming.Questions = new HashSet<Question>
             {
                 programmingQuestion1,
@@ -77,7 +87,8 @@ namespace BFH.EADN.Persistence.EF.Seed
             movies.Questions = new HashSet<Question>
             {
                 movieQuestion1,
-                movieActorQuestion1
+                movieActorQuestion1,
+                movieQuestion2
             };
 
             actors.Questions = new HashSet<Question>
@@ -217,10 +228,29 @@ namespace BFH.EADN.Persistence.EF.Seed
                 movieQuestion1third
             };
 
+            movieQuestion2.Topics = new HashSet<Topic>
+            {
+                movies
+            };
+
+            movieQuestion2.Answers = new HashSet<Answer>
+            {
+                movieQuestion2first,
+                movieQuestion2second,
+                movieQuestion2third
+            };
+
+
             movieActorQuestion1.Topics = new HashSet<Topic>
             {
                 movies,
                 actors
+            };
+
+            movieActorQuestion1.Answers = new HashSet<Answer>
+            {
+                movieActorQuestion1Yes,
+                movieActorQuestion1No
             };
 
             HashSet<Topic> topics = new HashSet<Topic>
@@ -231,7 +261,7 @@ namespace BFH.EADN.Persistence.EF.Seed
             Quiz quiz1 = new Quiz
             {
                 Text = "Programming quiz",
-                Type = QuizType.Dynamic,
+                Type = QuizType.Fix,
                 MinQuestionCount = 2,
                 MaxQuestionCount = 5,
                 Questions = new HashSet<Question>
@@ -255,6 +285,8 @@ namespace BFH.EADN.Persistence.EF.Seed
             {
                 Text = "Quiz about movies and actors variable",
                 Type = QuizType.Variable,
+                MinQuestionCount = 1,
+                MaxQuestionCount = 5,
                 Questions = new HashSet<Question>
                 {
                     movieQuestion1,
@@ -266,6 +298,8 @@ namespace BFH.EADN.Persistence.EF.Seed
             {
                 Text = "Quiz about movies and actors dynamic",
                 Type = QuizType.Dynamic,
+                MinQuestionCount = 1,
+                MaxQuestionCount = 5,
                 Questions = new HashSet<Question>
                 {
                     movieQuestion1,
@@ -273,11 +307,27 @@ namespace BFH.EADN.Persistence.EF.Seed
                 }
             };
 
+            Quiz quiz4 = new Quiz
+            {
+                Text = "Quiz about movies dynamic",
+                Type = QuizType.Fix,
+                MinQuestionCount = 2,
+                MaxQuestionCount = 5,
+                Questions = new HashSet<Question>
+                {
+                    movieQuestion1,
+                    movieQuestion2,
+                    movieActorQuestion1
+                }
+            };
+
+
             List<Quiz> quizzes = new List<Quiz>
             {
                 quiz1,
                 quiz2,
-                quiz3
+                quiz3,
+                quiz4
             };
 
             foreach (Quiz quiz in quizzes)

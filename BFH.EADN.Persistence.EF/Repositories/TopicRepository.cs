@@ -42,6 +42,10 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override List<CommonContracts.Topic> GetListByIds(List<Guid> ids)
         {
+            if (ids == null)
+            {
+                return null;
+            }
             List<Entities.Topic> topic = Context.Topics.Where(t => ids.Contains(t.Id)).ToList();
             return Mapper.Map<List<Entities.Topic>, List<CommonContracts.Topic>>(topic);
         }

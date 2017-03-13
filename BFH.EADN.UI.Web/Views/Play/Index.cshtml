@@ -1,24 +1,37 @@
 ﻿@model IEnumerable<BFH.EADN.UI.Web.Models.Play.Overview>
-
-@if(string.IsNullOrEmpty(Model.First().ContinueQuizUrl) == false)
-{
-    <a href="@Model.First().ContinueQuizUrl" class="btn btn-primary">Continue last played quiz</a>
+@{
+    ViewBag.Title = "Overview";
 }
 
-@foreach (var item in Model)
-{
-    <h2>
-        @item.TopicName
-    </h2>
-    <table class="table">
-        <tbody>
-            @for(var i = 0; i < item.QuizItems.Count; i++)
-            {
-                <tr>
-                    <td>@item.QuizItems[i].Text</td>
-                    <td>@Html.ActionLink("Play", "ValidationType", new { quizId = @item.QuizItems[i].QuizId })</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+
+
+<div id="overview-index">
+    @if (string.IsNullOrEmpty(Model.First().ContinueQuizUrl) == false)
+    {
+        <div class="row">
+            <div class="col-xs-6 col-md-offset-3 ">
+                <a href="@Model.First().ContinueQuizUrl" class="btn btn-warning btn-block">Continue last played quiz</a>
+            </div>
+        </div>
+    }
+
+    @foreach (var item in Model)
+    {
+        <h2>
+            @item.TopicName
+        </h2>
+        <table class="table">
+            <tbody>
+                @for (var i = 0; i < item.QuizItems.Count; i++)
+                {
+                    <tr>
+                        <td width="80%">@item.QuizItems[i].Text</td>
+                        <td width="20%">@Html.ActionLink("Play", "ValidationType", new { quizId = @item.QuizItems[i].QuizId })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

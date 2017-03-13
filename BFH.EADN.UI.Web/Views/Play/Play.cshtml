@@ -5,7 +5,7 @@
 }
 
 <h2>Play</h2>
-@using(Html.BeginForm("Next", "Play", FormMethod.Post))
+@using (Html.BeginForm("Next", "Play", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.DisplayFor(m => m.Text)
@@ -15,17 +15,34 @@
     {
         foreach (var item in Model.Answers)
         {
-
-            <br />
-            @:<label><input type="checkbox" name="answers[]" value="@item.Id" /> @item.Text</label>
+            @:<div class="checkbox">
+                @:<label>
+                    @:<input type="checkbox" name="answers[]" value="@item.Id">
+                    @item.Text
+                @:</label>
+            @:</div>
         }
     }
     else
     {
+        bool isFirst = true;
         foreach (var item in Model.Answers)
         {
-            <br />
-            @:<label><input type="radio" name="answers" value="@item.Id" /> @item.Text</label>
+            @:<div class="radio">
+                @:<label>
+                    if (isFirst)
+                    {
+                        @:<input type="radio" name="answers" value="@item.Id" checked>
+                    }
+                    else
+                    {
+                        @:<input type="radio" name="answers" value="@item.Id">
+                    }
+                    @item.Text
+                @:</label>
+            @:</div>
+
+            isFirst = false;
         }
     }
     <div class="quiz-validation">
@@ -40,8 +57,8 @@
         else
         {
             @:Previous
-        } 
-    
+        }
+
         @Html.HiddenFor(m => m.QuizId)
         @Html.HiddenFor(m => m.QuestionId)
         @if (Model.NextQuestion.HasValue)

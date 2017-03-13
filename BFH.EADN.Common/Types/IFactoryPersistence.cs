@@ -14,5 +14,6 @@ namespace BFH.EADN.Common.Types
         IRepository<Answer, Guid> CreateAnswerRepository();
         IRepository<Question, Guid> CreateQuestionRepository();
         IRepository<Topic, Guid> CreateTopicRepository();
+        IRepository<QuestionAnswerState, Guid> CreateQuestionAnswerStateRepository();
     }
 }

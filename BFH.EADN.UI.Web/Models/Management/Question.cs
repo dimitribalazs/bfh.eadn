@@ -14,7 +14,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         public string Text { get; set; }
         public string Hint { get; set; }
         [Required]
-        public bool IsMultipleChoise { get; set; }
+        public bool IsMultipleChoice { get; set; }
         [Required]
         public Guid[] SelectedTopicIds { get; set; }
         public List<ContractTypes.Topic> Topics { get; set; }

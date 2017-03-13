@@ -18,6 +18,8 @@ namespace BFH.EADN.QuizService.Implementation
         private static IFactoryPersistence _persistenceFactory;
         private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
         private IRepository<Quiz, Guid> QuizRepository => _persistenceFactory.CreateQuizRepository();
+        private IRepository<QuestionAnswerState, Guid> QuestionAnswerStateRepository => _persistenceFactory.CreateQuestionAnswerStateRepository();
+        private IRepository<Answer, Guid> AnswerRepository = _persistenceFactory.CreateAnswerRepository();
 
         static QuizService()
         {
@@ -45,9 +47,9 @@ namespace BFH.EADN.QuizService.Implementation
                     Random random = new Random();
                     List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
 
-                    while (questions.Count > 0)
+                    while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
                     {
-                        int next = random.Next(quiz.MaxQuestionCount);
+                        int next = random.Next(questions.Count);
                         Question question = questions[next];
                         randomizedList.Add(question);
                         questions.Remove(question);
@@ -84,7 +86,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
-        
+
         public PlayQuestion GetFirstQuestion(Guid quizId)
         {
             using (IRepository<Quiz, Guid> repo = QuizRepository)
@@ -99,7 +101,7 @@ namespace BFH.EADN.QuizService.Implementation
             List<Question> questions;
             using (IRepository<Quiz, Guid> repo = QuizRepository)
             {
-                 questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+                questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
             }
 
             Question currentQuestion = null;
@@ -142,25 +144,56 @@ namespace BFH.EADN.QuizService.Implementation
         public bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
             using (IRepository<Question, Guid> repo = QuestionRepository)
-            { 
+            {
                 Question question = repo.Get(questionId);
                 List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
                 return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
             }
         }
 
-        public void SaveAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
+        public void CreateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
         {
-
+            //Guid quizStateId, Guid questionId, List<Guid> answers
+            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+            using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
+            using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+            {
+                QuestionAnswerState qas = new QuestionAnswerState();
+                qas.QuestionAnswerStateId = quizStateId;
+                qas.Question = questionRepo.Get(questionId);
+                qas.Answers = answerRepo.GetListByIds(answers);
+                repo.Create(qas);
+            }
         }
 
-        public void DeleteAnswersState(Guid quizStateId, Guid questionId)
+        public void UpdateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
         {
-
+            //Guid quizStateId, Guid questionId, List<Guid> answers
+            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+            using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
+            using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+            {
+                QuestionAnswerState qas = new QuestionAnswerState();
+                qas.QuestionAnswerStateId = quizStateId;
+                qas.Question = questionRepo.Get(questionId);
+                qas.Answers = answerRepo.GetListByIds(answers);
+                repo.Update(qas);
+            }
         }
-        public void GetAllSavedAnswerState()
-        {
 
+        public void DeleteQuestionAnswerState(Guid quizStateId)
+        {
+            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+            {
+                repo.Delete(quizStateId);
+            }
+        }
+        public List<QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid quizStateId)
+        {
+            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+            {
+                return repo.GetAll().Where(q => q.QuestionAnswerStateId == quizStateId).ToList();
+            }
         }
     }
 }

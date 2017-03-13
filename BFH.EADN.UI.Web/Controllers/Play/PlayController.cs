@@ -24,7 +24,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             {
                 overview.First().ContinueQuizUrl = HttpUtility.UrlDecode(cookie.Values["Url"]);
                 bool evalAtEnd;
-                if(bool.TryParse(cookie.Values["EvaluationAtEnd"], out evalAtEnd))
+                if (bool.TryParse(cookie.Values["EvaluationAtEnd"], out evalAtEnd))
                 {
                     HttpContext.Session.GetSessionContext().EvaluationAtEnd = evalAtEnd;
                 }
@@ -37,14 +37,37 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             return View(overview);
         }
 
+        /// <summary>
+        /// Gets called if quiz gets startet new
+        /// </summary>
+        /// <param name="quizId"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult ValidationType(Guid quizId)
         {
+            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
+            if (cookie == null)
+            {
+                cookie = new HttpCookie("QuizStateId");
+            }
+            if (string.IsNullOrEmpty(cookie.Value))
+            {
+                cookie.Value = Guid.NewGuid().ToString();
+            }
+
+            //clear old state
+            Guid questionAnswerStateId = Guid.Parse(cookie.Value);
+            _service.DeleteQuestionAnswerState(questionAnswerStateId);
+
+            HttpContext.Response.Cookies.Remove("QuizStateId");
+            HttpContext.Response.Cookies.Set(cookie);
+
             ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
             ValidationType type = new ValidationType();
             type.QuizId = quizId;
-            type.QuestionId = _service.GetFirstQuestion(quiz).QuestionId;
+            Question question = _service.GetFirstQuestion(quiz);
+            type.QuestionId = question.QuestionId;
             return View(type);
         }
 
@@ -73,7 +96,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             cookie.Values["Url"] = HttpUtility.UrlEncode(HttpContext.Request.Url.AbsoluteUri);
             HttpContext.Response.Cookies.Remove("QuizState");
             HttpContext.Response.Cookies.Set(cookie);
-            
+
             return View(_service.GetQuestion(quiz, questionId.Value));
         }
 
@@ -85,12 +108,9 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             {
                 //evaluate
                 HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
-                Dictionary<Guid, List<Guid>> questionAnswers = new Dictionary<Guid, List<Guid>>();
-                foreach(string cookieEntry in cookie.Values.AllKeys)
-                {
-                    List<Guid> value = Serializer.DeserializeFromBase64String<List<Guid>>(cookie.Values[cookieEntry]);
-                    questionAnswers.Add(Guid.Parse(cookieEntry), value);
-                }
+                Guid questionAnswerStateId = Guid.Parse(cookie.Value);
+                List<Complete> complete = _service.EvaluateAnswers(questionAnswerStateId);
+                return View("CompletedWithData", complete);
             }
             return View();
         }
@@ -102,32 +122,20 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             bool evaluateAtTheEnd = HttpContext.Session.GetSessionContext().EvaluationAtEnd;
             if (evaluateAtTheEnd)
             {
-                Dictionary<Guid, List<Guid>> questionAnswers = HttpContext.Session.GetSessionContext().AnswersForEndEvaluations;
-                questionAnswers.Add(questionId, answers);
-
+                //cookie must already exists to continue from here
                 HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
-                if(cookie == null)
+                _service.SaveQuestionAnswerState(Guid.Parse(cookie.Value), questionId, answers);
+
+                Dictionary<Guid, List<Guid>> questionAnswers = HttpContext.Session.GetSessionContext().AnswersForEndEvaluations;
+                if (questionAnswers.ContainsKey(questionId))
                 {
-                    cookie = new HttpCookie("QuizStateId");
+                    questionAnswers[questionId] = answers;
                 }
-                if(string.IsNullOrEmpty(cookie.Value))
+                else
                 {
-                    cookie.Value = Guid.NewGuid().ToString();
+                    questionAnswers.Add(questionId, answers);
                 }
-                //if(answers == null)
-                //{
-                //    answers = new List<Guid>();
-                //}
-                //string value = Serializer.SerializeToBase64String(answers);
-                //cookie.Values.Add(questionId.ToString(), value);
-                //foreach(KeyValuePair<Guid, List<Guid>> data in questionAnswers)
-                //{
-                //    string value = Serializer.SerializeToBase64String(data.Value);
-                //    cookie.Values.Add(data.Key.ToString(), value);
-                //}
-                //cookie.Value = HttpUtility.UrlEncode(Serializer.SerializeToBase64String(questionAnswers));
-                HttpContext.Response.Cookies.Remove("QuizStateId");
-                HttpContext.Response.Cookies.Set(cookie);
+
                 //there is a next question
                 if (nextQuestionId.HasValue)
                 {

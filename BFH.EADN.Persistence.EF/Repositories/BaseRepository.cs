@@ -40,6 +40,9 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
                  cfg.CreateMap<Entities.Topic, ContractTypes.Topic>();
                  cfg.CreateMap<ContractTypes.Topic, Entities.Topic>();
+
+                 cfg.CreateMap<Entities.QuestionAnswerState, ContractTypes.QuestionAnswerState>();                 
+                 cfg.CreateMap<ContractTypes.QuestionAnswerState, Entities.QuestionAnswerState>();
              });
         }
         protected QuizDataContext Context { get; } = new QuizDataContext();

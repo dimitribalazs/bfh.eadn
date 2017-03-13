@@ -15,5 +15,6 @@ namespace BFH.EADN.Persistence.EF
         public IRepository<Question, Guid> CreateQuestionRepository() => new QuestionRepository();
         public IRepository<Topic, Guid> CreateTopicRepository() => new TopicRepository();     
         IRepository<Quiz, Guid> IFactoryPersistence.CreateQuizRepository() => new QuizRepository();
+        IRepository<QuestionAnswerState, Guid> IFactoryPersistence.CreateQuestionAnswerStateRepository() => new QuestionAnswerStateRepository();
     }
 }

@@ -50,6 +50,10 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override List<CommonContracts.Quiz> GetListByIds(List<Guid> ids)
         {
+            if (ids == null)
+            {
+                return null;
+            }
             List<Entities.Quiz> quizzes = Context.Quizzes.Where(q => ids.Contains(q.Id)).ToList();
             return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
         }
