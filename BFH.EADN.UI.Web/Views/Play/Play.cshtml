@@ -11,6 +11,10 @@
     @Html.DisplayFor(m => m.Text)
     @Html.DisplayFor(m => m.Hint)
 
+    <div class="quiz-validation">
+        @Html.ValidationMessageFor(m => m.Answers, "", new { @class = "text-danger" })
+    </div>
+
     if (Model.IsMultipleChoice)
     {
         foreach (var item in Model.Answers)
@@ -45,10 +49,7 @@
             isFirst = false;
         }
     }
-    <div class="quiz-validation">
-        @Html.ValidationMessageFor(m => m.Answers)
-    </div>
-
+    
     <div class="quiz-navigation">
         @if (Model.PreviousQuestion.HasValue)
         {
