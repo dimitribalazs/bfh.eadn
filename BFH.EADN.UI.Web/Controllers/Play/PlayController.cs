@@ -14,25 +14,26 @@ namespace BFH.EADN.UI.Web.Controllers.Play
     public class PlayController : Controller
     {
         private PlayService _service = new PlayService();
-
+        private static readonly string _quizState = "QuizState";
+        private static readonly string _quizStateId = "QuizStateId";
+        private static readonly string _url = "Url";
+        private static readonly string _evaluationAtEnd = "EvaluationAtEnd";
         [HttpGet]
         public ActionResult Index()
         {
             List<Overview> overview = _service.GetOverview();
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
-            if (cookie != null)
+            //HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
+            HttpCookie cookie = GetCookie(_quizState);
+            if(cookie.Values[_url] != null)
             {
-                overview.First().ContinueQuizUrl = HttpUtility.UrlDecode(cookie.Values["Url"]);
-                bool evalAtEnd;
-                if (bool.TryParse(cookie.Values["EvaluationAtEnd"], out evalAtEnd))
-                {
-                    HttpContext.Session.GetSessionContext().EvaluationAtEnd = evalAtEnd;
-                }
+                overview.First().ContinueQuizUrl = HttpUtility.UrlDecode(cookie.Values[_url]);
             }
-            else
+            bool evalAtEnd;
+            if (bool.TryParse(cookie.Values["EvaluationAtEnd"], out evalAtEnd))
             {
-                cookie = new HttpCookie("QuizState");
+                HttpContext.Session.GetSessionContext().EvaluationAtEnd = evalAtEnd;
             }
+            
             HttpContext.Response.Cookies.Set(cookie);
             return View(overview);
         }
@@ -45,22 +46,18 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [HttpGet]
         public ActionResult ValidationType(Guid quizId)
         {
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
-            if (cookie == null)
-            {
-                cookie = new HttpCookie("QuizStateId");
-            }
+            HttpCookie cookie = GetCookie(_quizStateId);
             if (string.IsNullOrEmpty(cookie.Value))
             {
                 cookie.Value = Guid.NewGuid().ToString();
             }
+            
+            HttpContext.Response.Cookies.Remove(_quizState);
+            HttpContext.Response.Cookies.Set(cookie);
 
             //clear old state
             Guid questionAnswerStateId = Guid.Parse(cookie.Value);
             _service.DeleteQuestionAnswerState(questionAnswerStateId);
-
-            HttpContext.Response.Cookies.Remove("QuizStateId");
-            HttpContext.Response.Cookies.Set(cookie);
 
             ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
@@ -81,8 +78,8 @@ namespace BFH.EADN.UI.Web.Controllers.Play
 
             sc.EvaluationAtEnd = type.EvaluationAtEnd;
 
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
-            cookie.Values["EvaluationAtEnd"] = type.EvaluationAtEnd.ToString();
+            HttpCookie cookie = GetCookie(_quizState);
+            cookie.Values[_evaluationAtEnd] = type.EvaluationAtEnd.ToString();
             return RedirectToAction("Play", new { quizId = type.QuizId, questionId = type.QuestionId });
         }
 
@@ -92,9 +89,9 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
             //update cookie with new url
-            HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
-            cookie.Values["Url"] = HttpUtility.UrlEncode(HttpContext.Request.Url.AbsoluteUri);
-            HttpContext.Response.Cookies.Remove("QuizState");
+            HttpCookie cookie = GetCookie(_quizState);
+            cookie.Values[_url] = HttpUtility.UrlEncode(HttpContext.Request.Url.AbsoluteUri);
+            HttpContext.Response.Cookies.Remove(_quizState);
             HttpContext.Response.Cookies.Set(cookie);
 
             return View(_service.GetQuestion(quiz, questionId.Value));
@@ -107,7 +104,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             if (evaluateAtTheEnd)
             {
                 //evaluate
-                HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
+                HttpCookie cookie = GetCookie(_quizStateId);
                 Guid questionAnswerStateId = Guid.Parse(cookie.Value);
                 List<Complete> complete = _service.EvaluateAnswers(questionAnswerStateId);
                 return View("CompletedWithData", complete);
@@ -119,14 +116,15 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [ValidateAntiForgeryToken]
         public ActionResult Next(Guid quizId, Guid questionId, List<Guid> answers, Guid? nextQuestionId)
         {
-            bool evaluateAtTheEnd = HttpContext.Session.GetSessionContext().EvaluationAtEnd;
+            SessionContext sessionContext = HttpContext.Session.GetSessionContext();
+            bool evaluateAtTheEnd = sessionContext.EvaluationAtEnd;
             if (evaluateAtTheEnd)
             {
                 //cookie must already exists to continue from here
-                HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
+                HttpCookie cookie = GetCookie(_quizStateId);
                 _service.SaveQuestionAnswerState(Guid.Parse(cookie.Value), questionId, answers);
 
-                Dictionary<Guid, List<Guid>> questionAnswers = HttpContext.Session.GetSessionContext().AnswersForEndEvaluations;
+                Dictionary<Guid, List<Guid>> questionAnswers = sessionContext.AnswersForEndEvaluations;
                 if (questionAnswers.ContainsKey(questionId))
                 {
                     questionAnswers[questionId] = answers;
@@ -159,6 +157,21 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
             return View("Play", _service.GetQuestion(quiz, questionId));
+        }
+
+        /// <summary>
+        /// Return cookie by a key. If it doesnt exists, it will be created
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private HttpCookie GetCookie(string key)
+        {
+            HttpCookie cookie = HttpContext.Request.Cookies.Get(key);
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(key);
+            }
+            return cookie;
         }
     }
 }
