@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Specialized;
 
 namespace BFH.EADN.UI.Web.Controllers.Play
 {
@@ -39,13 +40,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [HttpGet]
         public ActionResult ValidationType(Guid quizId)
         {
-            ContractTypes.Quiz quiz;
-            //check if there is already a quiz in the session
-            if (HttpContext.Session.GetSessionContext().CurrentQuiz == null)
-            {
-                HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
-            }
-            quiz = HttpContext.Session.GetSessionContext().CurrentQuiz;
+            ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
             ValidationType type = new ValidationType();
             type.QuizId = quizId;
@@ -57,7 +52,11 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [ValidateAntiForgeryToken]
         public ActionResult ValidationType(ValidationType type)
         {
-            HttpContext.Session.GetSessionContext().EvaluationAtEnd = type.EvaluationAtEnd;
+            //clear session stuff
+            SessionContext sc = HttpContext.Session.GetSessionContext();
+            sc.AnswersForEndEvaluations.Clear();
+
+            sc.EvaluationAtEnd = type.EvaluationAtEnd;
 
             HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
             cookie.Values["EvaluationAtEnd"] = type.EvaluationAtEnd.ToString();
@@ -67,14 +66,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         [HttpGet]
         public ActionResult Play(Guid quizId, Guid? questionId)
         {
-            ContractTypes.Quiz quiz;
-            //check if there is already a quiz in the session
-            if(HttpContext.Session.GetSessionContext().CurrentQuiz == null)
-            { 
-                HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
-            }
-
-            quiz = HttpContext.Session.GetSessionContext().CurrentQuiz;
+            ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
             //update cookie with new url
             HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizState");
@@ -92,6 +84,13 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             if (evaluateAtTheEnd)
             {
                 //evaluate
+                HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
+                Dictionary<Guid, List<Guid>> questionAnswers = new Dictionary<Guid, List<Guid>>();
+                foreach(string cookieEntry in cookie.Values.AllKeys)
+                {
+                    List<Guid> value = Serializer.DeserializeFromBase64String<List<Guid>>(cookie.Values[cookieEntry]);
+                    questionAnswers.Add(Guid.Parse(cookieEntry), value);
+                }
             }
             return View();
         }
@@ -103,6 +102,32 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             bool evaluateAtTheEnd = HttpContext.Session.GetSessionContext().EvaluationAtEnd;
             if (evaluateAtTheEnd)
             {
+                Dictionary<Guid, List<Guid>> questionAnswers = HttpContext.Session.GetSessionContext().AnswersForEndEvaluations;
+                questionAnswers.Add(questionId, answers);
+
+                HttpCookie cookie = HttpContext.Request.Cookies.Get("QuizStateId");
+                if(cookie == null)
+                {
+                    cookie = new HttpCookie("QuizStateId");
+                }
+                if(string.IsNullOrEmpty(cookie.Value))
+                {
+                    cookie.Value = Guid.NewGuid().ToString();
+                }
+                //if(answers == null)
+                //{
+                //    answers = new List<Guid>();
+                //}
+                //string value = Serializer.SerializeToBase64String(answers);
+                //cookie.Values.Add(questionId.ToString(), value);
+                //foreach(KeyValuePair<Guid, List<Guid>> data in questionAnswers)
+                //{
+                //    string value = Serializer.SerializeToBase64String(data.Value);
+                //    cookie.Values.Add(data.Key.ToString(), value);
+                //}
+                //cookie.Value = HttpUtility.UrlEncode(Serializer.SerializeToBase64String(questionAnswers));
+                HttpContext.Response.Cookies.Remove("QuizStateId");
+                HttpContext.Response.Cookies.Set(cookie);
                 //there is a next question
                 if (nextQuestionId.HasValue)
                 {
@@ -123,13 +148,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
                 return RedirectToAction("Completed", new { quizId = quizId });
             }
 
-            ContractTypes.Quiz quiz;
-            //check if there is already a quiz in the session
-            if (HttpContext.Session.GetSessionContext().CurrentQuiz == null)
-            {
-                HttpContext.Session.GetSessionContext().CurrentQuiz = _service.GetContractQuiz(quizId);
-            }
-            quiz = HttpContext.Session.GetSessionContext().CurrentQuiz;
+            ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
 
             return View("Play", _service.GetQuestion(quiz, questionId));
         }

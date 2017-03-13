@@ -233,5 +233,20 @@ namespace BFH.EADN.UI.Web.Services
                 cookie = new HttpCookie(key);
             }
         }
+
+        public ContractTypes.Quiz GetQuiz(HttpContextBase context, Guid quizId)
+        {
+            //check if there is already a quiz in the session
+            if (context.Session.GetSessionContext().CurrentQuiz == null)
+            {
+                context.Session.GetSessionContext().CurrentQuiz = GetContractQuiz(quizId);
+            }
+            return context.Session.GetSessionContext().CurrentQuiz;
+        }
+
+        public void SaveAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
+        {
+
+        }
     }
 }

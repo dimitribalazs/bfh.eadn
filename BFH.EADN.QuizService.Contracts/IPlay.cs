@@ -22,6 +22,10 @@ namespace BFH.EADN.QuizService.Contracts
         PlayQuestion GetQuestion(Guid quizId, Guid questionId);
         [OperationContract(Name = "CheckAnswers")]
         bool CheckAnswers(Guid questionId, List<Guid> answers);
+        [OperationContract(Name = "SaveAnswerState")]
+        void SaveAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers);
+        void DeleteAnswersState(Guid quizStateId, Guid questionId);
+        void GetAllSavedAnswerState();
     }
             
 }

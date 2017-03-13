@@ -148,5 +148,19 @@ namespace BFH.EADN.QuizService.Implementation
                 return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
             }
         }
+
+        public void SaveAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
+        {
+
+        }
+
+        public void DeleteAnswersState(Guid quizStateId, Guid questionId)
+        {
+
+        }
+        public void GetAllSavedAnswerState()
+        {
+
+        }
     }
 }

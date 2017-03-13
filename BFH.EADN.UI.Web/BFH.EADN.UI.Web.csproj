@@ -236,6 +236,7 @@
     <Compile Include="Services\TopicService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ClientProxy.cs" />
+    <Compile Include="Utils\Serializer.cs" />
     <Compile Include="Utils\SessionContext.cs" />
   </ItemGroup>
   <ItemGroup>
