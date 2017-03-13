@@ -18,106 +18,113 @@ namespace BFH.EADN.CommonTests.TestHelper
         /// </summary>
         /// <typeparam name="T">class to test</typeparam>
         /// <returns></returns>
-        public static bool TestProperties<T>()
+        public static void TestProperties<T>()
             where T : class
         {
-
-            return true;
-            /*
-            Fixture fixture = new Fixture();
-            T instance = fixture.Build<T>().Create();
+            T instance = (T)Activator.CreateInstance(typeof(T));
+            Random random = new Random();
             foreach (PropertyInfo property in instance.GetType().GetProperties())
             {
-                bool testResult = false;
-
                 Type currentProperty = property.PropertyType;
                 if (currentProperty == typeof(bool)) 
                 {
-                    testResult = TestProperty<bool, T>(property, instance);
+                    TestProperty<T, bool>(property, instance, false);
                 }
                 else if (currentProperty == typeof(Guid))
                 {
-                    testResult = TestProperty<Guid, T>(property, instance);
+                    TestProperty<T, Guid>(property, instance, Guid.NewGuid());
                 }
                 else if (currentProperty == typeof(byte))
                 {
-                    testResult = TestProperty<byte, T>(property, instance);
+                   byte input = 81;
+                   TestProperty<T, byte>(property, instance, input);
                 }
                 else if(currentProperty == typeof(sbyte))
                 {
-                    testResult = TestProperty<sbyte, T>(property, instance);
+                    sbyte input = 81;
+                    TestProperty<T, sbyte>(property, instance, input);
                 }
                 else if (currentProperty == typeof(char))
                 {
-                    testResult = TestProperty<char, T>(property, instance);
+                    char input = (char)random.Next(0, 25);
+                    TestProperty<T, char>(property, instance, input);
                 }
                 else if (currentProperty == typeof(decimal))
                 {
-                    testResult = TestProperty<decimal, T>(property, instance);
+                    decimal input = random.Next(int.MaxValue);
+                    TestProperty<T, decimal>(property, instance, input);
                 }
                 else if (currentProperty == typeof(double))
                 {
-                    testResult = TestProperty<double, T>(property, instance);
+                    double input = random.NextDouble();
+                    TestProperty<T, double>(property, instance, input);
                 }
                 else if (currentProperty == typeof(float))
                 {
-                    testResult = TestProperty<float, T>(property, instance);
+                    //see http://stackoverflow.com/questions/3365337/best-way-to-generate-a-random-float-in-c-sharp
+                    double mantissa = (random.NextDouble() * 2.0) - 1.0;
+                    double exponent = Math.Pow(2.0, random.Next(-126, 128));
+                    float input = (float)(mantissa * exponent);
+                    TestProperty<T, float>(property, instance, input);
                 }
                 else if (currentProperty == typeof(int))
                 {
-                    testResult = TestProperty<int, T>(property, instance);
+                    int input = random.Next();
+                    TestProperty<T, int>(property, instance, input);
                 }
                 else if (currentProperty == typeof(uint))
                 {
-                    testResult = TestProperty<uint, T>(property, instance);
+                    uint input = (uint)random.Next();
+                    TestProperty<T, uint>(property, instance, input);
                 }
                 else if (currentProperty == typeof(long))
                 {
-                    testResult = TestProperty<long, T>(property, instance);
+                    long input = random.Next();
+                    TestProperty<T, long>(property, instance, input);
                 }
                 else if (currentProperty == typeof(ulong))
                 {
-                    testResult = TestProperty<ulong, T>(property, instance);
+                    ulong input = (ulong)random.Next();
+                    TestProperty<T, ulong>(property, instance, input);
                 }
                 else if (currentProperty == typeof(short))
                 {
-                    testResult = TestProperty<short, T>(property, instance);
+                    short input = (short)random.Next(short.MaxValue);
+                    TestProperty<T, short>(property, instance, input);
                 }
                 else if (currentProperty == typeof(ushort))
                 {
-                    testResult = TestProperty<ushort, T>(property, instance);
+                    ushort input = (ushort)random.Next(ushort.MaxValue);
+                    TestProperty<T, ushort>(property, instance, input);
                 }
                 else if (currentProperty == typeof(string))
                 {
-                    testResult = TestProperty<string, T>(property, instance);
+                    string input = "fooobaarfooobar";
+                    TestProperty<T>(property, instance, input);
                 }
                 else if(currentProperty.IsPrimitive == false)
                 {
-                    testResult = true;
-                }
-
-                if(testResult == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-            */
+                    
+                }                
+            }            
         }
 
-        public static bool TestProperty<TPropertyType, TInstance>(PropertyInfo property, TInstance instance)
+        public static void TestProperty<TInstance, TPropertyType>(PropertyInfo property, TInstance instance, TPropertyType input)
             where TInstance : class
+            where TPropertyType : struct
         {
-            return true;
-            /*
-            Fixture fixture = new Fixture();
-            TPropertyType input = fixture.Create<TPropertyType>();
             property.SetValue(instance, input);
             TPropertyType output = (TPropertyType)property.GetValue(instance);
 
-            return input.Equals(output);
-            */
+            Assert.AreEqual(input, output);   
+        }
+
+        public static void TestProperty<TInstance>(PropertyInfo property, TInstance instance, string input)
+            where TInstance : class
+        {
+            property.SetValue(instance, input);
+            string output = (string)property.GetValue(instance);
+            Assert.AreEqual(input, output);
         }
     }
 }

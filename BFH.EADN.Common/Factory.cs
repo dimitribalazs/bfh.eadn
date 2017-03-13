@@ -15,15 +15,16 @@ namespace BFH.EADN.Common
     public static class Factory
     {
         /// <summary>
-        /// todo generic
+        /// Creates an instance of class of type T.
+        /// DLL and TypeName must be set in App.config
         /// </summary>
-        /// <returns></returns>
+        /// <returns>class of type T</returns>
         public static T CreateInstance<T>() where T : class
         {
             string dllPath = Common.GetConfigValue<string>("DLL");
             string typeName = Common.GetConfigValue<string>("TypeName");
             string fullPath = Path.GetFullPath(dllPath);
-            var assembly = Assembly.LoadFrom(fullPath);
+            Assembly assembly = Assembly.LoadFrom(fullPath);
             return (T)assembly.CreateInstance(typeName);
         }
     }

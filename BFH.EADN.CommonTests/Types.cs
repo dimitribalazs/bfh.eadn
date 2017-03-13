@@ -62,19 +62,26 @@ namespace BFH.EADN.CommonTests
         [TestMethod]
         public void Contracts()
         {
-            bool successAnswer = TestHelper.TestHelper.TestProperties<Answer>();
-            bool successQuestion = TestHelper.TestHelper.TestProperties<Question>();
-            bool successQuiz = TestHelper.TestHelper.TestProperties<Quiz>();
-            bool successServiceFault = TestHelper.TestHelper.TestProperties<ServiceFault>();
-            bool successTopic = TestHelper.TestHelper.TestProperties<Topic>();
-            bool successUser = TestHelper.TestHelper.TestProperties<User>();
+            //bool successAnswer = TestHelper.TestHelper.TestProperties<Answer>();
+            //bool successQuestion = TestHelper.TestHelper.TestProperties<Question>();
+            //bool successQuiz = TestHelper.TestHelper.TestProperties<Quiz>();
+            //bool successServiceFault = TestHelper.TestHelper.TestProperties<ServiceFault>();
+            //bool successTopic = TestHelper.TestHelper.TestProperties<Topic>();
+            //bool successUser = TestHelper.TestHelper.TestProperties<User>();
 
-            Assert.IsTrue(successAnswer, "Answer property checks failed");
-            Assert.IsTrue(successQuestion, "Question property checks failed");
-            Assert.IsTrue(successQuiz, "Quiz property checks failed");
-            Assert.IsTrue(successServiceFault, "ServiceFault property checks failed");
-            Assert.IsTrue(successTopic, "Topic property checks failed");
-            Assert.IsTrue(successUser, "User property checks failed");
+            TestHelper.TestHelper.TestProperties<Answer>();
+            TestHelper.TestHelper.TestProperties<Question>();
+            TestHelper.TestHelper.TestProperties<Quiz>();
+            TestHelper.TestHelper.TestProperties<ServiceFault>();
+            TestHelper.TestHelper.TestProperties<Topic>();
+            TestHelper.TestHelper.TestProperties<User>();
+
+            //Assert.IsTrue(successAnswer, "Answer property checks failed");
+            //Assert.IsTrue(successQuestion, "Question property checks failed");
+            //Assert.IsTrue(successQuiz, "Quiz property checks failed");
+            //Assert.IsTrue(successServiceFault, "ServiceFault property checks failed");
+            //Assert.IsTrue(successTopic, "Topic property checks failed");
+            //Assert.IsTrue(successUser, "User property checks failed");
         }
     }
 }
