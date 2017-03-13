@@ -20,11 +20,12 @@ namespace BFH.EADN.CommonTests
         [TestMethod]
         public void GetConfigValueSuccess()
         {
-            var intResult = Common.Common.GetConfigValue<int>("year");
-            var stringResult = Common.Common.GetConfigValue<string>("message");
-
+            int intResult = Common.Common.GetConfigValue<int>("year");
+            string stringResult = Common.Common.GetConfigValue<string>("message");
+            bool boolResult  = Common.Common.GetConfigValue<bool>("isTrue");
             Assert.AreEqual(1950, intResult);
             Assert.AreEqual("this is a text", stringResult);
+            Assert.AreEqual(true, boolResult);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             {
                 overview.First().ContinueQuizUrl = HttpUtility.UrlDecode(cookie.Values[_url]);
             }
+
             bool evalAtEnd;
             if (bool.TryParse(cookie.Values["EvaluationAtEnd"], out evalAtEnd))
             {

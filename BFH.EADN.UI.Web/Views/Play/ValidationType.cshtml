@@ -1,0 +1,31 @@
+﻿@model BFH.EADN.UI.Web.Models.Play.ValidationType
+@{
+    ViewBag.Title = "Validation Type";
+}
+
+<h2>ValidationType</h2>
+
+<p>
+    Validate after each question or at the end of the quiz?
+</p>
+@using (Html.BeginForm("ValidationType", "Play", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.QuestionId)
+    @Html.HiddenFor(m => m.QuizId)
+    <div class="radio">
+        <label>
+            <input type="radio" name="evaluationAtEnd" value="false" checked>
+            Validate after each question
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" name="evaluationAtEnd" value="true">
+            Validate at the end
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        Play
+    </button>
+}

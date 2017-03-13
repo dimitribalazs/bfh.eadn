@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BFH.EADN.UI.Web.Models.Play.Complete>
+
+@{
+    ViewBag.Title = "Completed";
+}
+
+<h2>Completed</h2>
+<p>
+    Congratulation, you've completed the quiz. Here are your results
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Question</th>
+                <th>Answered Correctly</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (BFH.EADN.UI.Web.Models.Play.Complete data in Model)
+            {
+                string rowClass = data.AnsweredCorrectly ? "success" : "danger";
+                <tr class="@rowClass">
+                    <td>@data.QuestionId</td>
+                    <td>@data.QuestionText</td>
+                    <td>@data.AnsweredCorrectly</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.ActionLink("Overview", "Index")
+</p>
+
