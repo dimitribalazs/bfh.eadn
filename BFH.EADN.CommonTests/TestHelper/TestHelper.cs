@@ -26,7 +26,7 @@ namespace BFH.EADN.CommonTests.TestHelper
             foreach (PropertyInfo property in instance.GetType().GetProperties())
             {
                 Type currentProperty = property.PropertyType;
-                if (currentProperty == typeof(bool)) 
+                if (currentProperty == typeof(bool))
                 {
                     TestProperty<T, bool>(property, instance, false);
                 }
@@ -36,10 +36,10 @@ namespace BFH.EADN.CommonTests.TestHelper
                 }
                 else if (currentProperty == typeof(byte))
                 {
-                   byte input = 81;
-                   TestProperty<T, byte>(property, instance, input);
+                    byte input = 81;
+                    TestProperty<T, byte>(property, instance, input);
                 }
-                else if(currentProperty == typeof(sbyte))
+                else if (currentProperty == typeof(sbyte))
                 {
                     sbyte input = 81;
                     TestProperty<T, sbyte>(property, instance, input);
@@ -102,21 +102,43 @@ namespace BFH.EADN.CommonTests.TestHelper
                     string input = "fooobaarfooobar";
                     TestProperty<T>(property, instance, input);
                 }
-                else if(currentProperty.IsPrimitive == false)
+                //nullable type
+                else if (Nullable.GetUnderlyingType(currentProperty) != null)
                 {
-                    
-                }                
-            }            
+                    Type type = Nullable.GetUnderlyingType(currentProperty);
+                    Type typeToTest;
+                    if (type.IsValueType)
+                    { 
+                        typeToTest = typeof(Nullable<>).MakeGenericType(type);
+                    }
+                    else
+                    { 
+                        typeToTest = type;
+                    }
+                    //sets null
+                    var newInstance = Activator.CreateInstance(typeToTest);
+                    TestProperty(property, instance, newInstance);
+                }
+                else if (currentProperty.IsPrimitive == false)
+                {
+                    //if constructor need parameter it will return null
+                    if (currentProperty.GetConstructor(Type.EmptyTypes) != null)
+                    {
+                        var newInstance = Activator.CreateInstance(currentProperty);
+                        TestProperty(property, instance, newInstance);
+                    }
+                }
+            }
         }
 
         public static void TestProperty<TInstance, TPropertyType>(PropertyInfo property, TInstance instance, TPropertyType input)
             where TInstance : class
-            where TPropertyType : struct
+            //where TPropertyType : struct
         {
             property.SetValue(instance, input);
             TPropertyType output = (TPropertyType)property.GetValue(instance);
 
-            Assert.AreEqual(input, output);   
+            Assert.AreEqual(input, output);
         }
 
         public static void TestProperty<TInstance>(PropertyInfo property, TInstance instance, string input)
