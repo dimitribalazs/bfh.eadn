@@ -20,6 +20,7 @@ namespace BFH.EADN.UI.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            //set global filter
             GlobalFilters.Filters.Add(new ErrorAttribute());
 
             //own startup configuration

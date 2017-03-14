@@ -10,30 +10,30 @@ using System.Threading;
 
 namespace BFH.EADN.QuizManagementService.Implementation
 {
-    public class CustomAuthorizationPolicy : IAuthorizationPolicy
-    {
-        private string _id;
-        public string Id => _id;
+    //internal class CustomAuthorizationPolicy : IAuthorizationPolicy
+    //{
+    //    private string _id;
+    //    public string Id => _id;
 
-        public CustomAuthorizationPolicy()
-        {
-            _id = Guid.NewGuid().ToString();
-        }
+    //    public CustomAuthorizationPolicy()
+    //    {
+    //        _id = Guid.NewGuid().ToString();
+    //    }
 
-        public ClaimSet Issuer
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+    //    public ClaimSet Issuer
+    //    {
+    //        get
+    //        {
+    //            throw new NotImplementedException();
+    //        }
+    //    }
 
-        public bool Evaluate(EvaluationContext evaluationContext, ref object state)
-        {
-            IPrincipal currentPrincipal = Thread.CurrentPrincipal;
-            //if (QuizManagement.LogIn(currentPrincipal.Identity.Name))
-            evaluationContext.Properties["Principal"] = currentPrincipal;
-            return true;
-        }
-    }
+    //    public bool Evaluate(EvaluationContext evaluationContext, ref object state)
+    //    {
+    //        IPrincipal currentPrincipal = Thread.CurrentPrincipal;
+    //        //if (QuizManagement.LogIn(currentPrincipal.Identity.Name))
+    //        evaluationContext.Properties["Principal"] = currentPrincipal;
+    //        return true;
+    //    }
+    //}
 }

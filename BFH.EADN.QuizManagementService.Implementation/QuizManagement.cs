@@ -16,7 +16,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
     //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
-    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement, ISession
+    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement//, ISession
     {
         private static IFactoryPersistence _persistenceFactory;
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
@@ -34,10 +34,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
         }
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
-        public string Test(string foo)
-        {
-            return foo;
-        }
 
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateTopic(Topic topic)
@@ -47,15 +43,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
                 using (IRepository<Topic, Guid> repo = TopicRepository)
                 {
                     repo.Create(topic);
-                }                
+                }
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error during creation of a new topic"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error during creation of a new topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -72,11 +64,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error during deletion of a topic"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error during deletion of a topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -94,11 +82,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while updating a topic"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while updating a topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -115,11 +99,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while getting topic"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -129,7 +109,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         {
             try
             {
-                using (IRepository<Topic,Guid> repo = TopicRepository)
+                using (IRepository<Topic, Guid> repo = TopicRepository)
                 {
                     List<Topic> topics = repo.GetAll();
                     return topics;
@@ -137,11 +117,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while getting topics"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting topics");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -160,11 +136,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while getting topics"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting topics by ids");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -181,11 +153,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while creating answer"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while creating answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -202,11 +170,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while updating answer"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while updating answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -223,11 +187,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while updating answer"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while deleting answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -244,11 +204,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while getting an answer"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -265,11 +221,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error while getting answers"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting answers");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -277,62 +229,118 @@ namespace BFH.EADN.QuizManagementService.Implementation
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuestion(Question question)
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                repo.Create(question);
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    repo.Create(question);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while creating question");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuestion(Question question)
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                repo.Update(question);
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    repo.Update(question);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while updating question");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuestion(Guid id)
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                repo.Delete(id);
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    repo.Delete(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while deleting question");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Question GetQuestion(Guid id)
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                return repo.Get(id);
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    return repo.Get(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting question");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestions()
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                return repo.GetAll();
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    return repo.GetAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting question");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         public List<Question> GetQuestionsWithoutTopic()
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                return repo.GetAll().Where(q => q.Topics == null || q.Topics.Count <= 0).ToList();
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    return repo.GetAll().Where(q => q.Topics == null || q.Topics.Count <= 0).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting questions which do not have a topic");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Question> GetQuestionsByIds(List<Guid> ids)
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                return repo.GetListByIds(ids);
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    return repo.GetListByIds(ids);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting questions by ids");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
@@ -348,11 +356,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = new ServiceFault
-                {
-                    Message = ex.Message,
-                    Reason = "Error during deletion of a topic"
-                };
+                ServiceFault fault = ThrowServiceFault(ex, "Error while creating quiz");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -360,54 +364,90 @@ namespace BFH.EADN.QuizManagementService.Implementation
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuiz(Quiz quiz)
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                repo.Update(quiz);
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    repo.Update(quiz);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while updating quiz");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuiz(Guid id)
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                repo.Delete(id);
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    repo.Delete(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while deleting quiz");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Quiz GetQuiz(Guid id)
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                return repo.Get(id);
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    return repo.Get(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting quiz");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Quiz> GetQuizzes()
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                return repo.GetAll();
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    return repo.GetAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting quizzes");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Quiz> GetQuizzesByIds(List<Guid> ids)
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                return repo.GetListByIds(ids);
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    return repo.GetListByIds(ids);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = ThrowServiceFault(ex, "Error while getting quizzes by ids");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
-        public bool Test(bool test)
-        {
-            return test;
-        }
-
+        /*
         private static Dictionary<string, string> loginSessions = new Dictionary<string, string>();
         private static List<Admin> admins = new List<Admin>
         {
@@ -444,15 +484,15 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             return user;
         }
-
-        public static void LogIn(string name, string password)
-        {
-            //    if(adminLogins.ContainsKey(name) && adminLogins[name].Equals(password))
-            //    { 
-            //        string sessionId = OperationContext.Current.SessionId;
-            //        loginSessions.Add(sessionId, name);
-            //}
-        }
+        */
+        //public static void LogIn(string name, string password)
+        //{
+        //    if(adminLogins.ContainsKey(name) && adminLogins[name].Equals(password))
+        //    { 
+        //        string sessionId = OperationContext.Current.SessionId;
+        //        loginSessions.Add(sessionId, name);
+        //}
+        //}
 
         //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         //public static void LogOut()
@@ -470,6 +510,16 @@ namespace BFH.EADN.QuizManagementService.Implementation
         //{
         //    return loginSessions.ContainsKey(key);
         //}
+        private ServiceFault ThrowServiceFault(Exception ex, string reason)
+        {
+            ServiceFault fault = new ServiceFault
+            {
+                Message = ex.Message,
+                Reason = reason
+            };
+
+            return fault;
+        }
     }
 
     internal class Admin
@@ -479,5 +529,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
         public string Password => "AAorcLme9Z/b9oJF5rbRcchQyM+j+SkjkOldeEIVXTx/eT4b6eDQmbyyhifxsqIYBw==";
 
     }
+
 
 }

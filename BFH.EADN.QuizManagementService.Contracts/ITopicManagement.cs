@@ -10,11 +10,6 @@ namespace BFH.EADN.QuizManagementService.Contracts
     [ServiceContract(Namespace = Constants.XMLNamespace, Name = "ITopicManagement")]
     public interface ITopicManagement
     {
-
-        [OperationContract]
-        [FaultContract(typeof(ServiceFault))]
-        string Test(string foo);
-
         /// <summary>
         /// Creates a new topic
         /// </summary>
