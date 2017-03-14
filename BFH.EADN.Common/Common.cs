@@ -18,7 +18,7 @@ namespace BFH.EADN.Common
         public static T GetConfigValue<T>(string itemName)
         {
             string configValue = ConfigurationManager.AppSettings.Get(itemName);
-            if(string.IsNullOrEmpty(configValue))
+            if (string.IsNullOrEmpty(configValue))
             {
                 throw new KeyNotFoundException($"no key with name {itemName}");
             }

@@ -33,9 +33,17 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        public QuizManagement() { }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        /// <summary>
+        /// Constructor to pass in persistence factory
+        /// </summary>
+        /// <param name="persistenceFactory"></param>
+        public QuizManagement(IFactoryPersistence persistenceFactory)
+        {
+            _persistenceFactory = persistenceFactory;
+        }
+        
         public void CreateTopic(Topic topic)
         {
             try
@@ -52,7 +60,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteTopic(Guid id)
         {
             try
@@ -69,7 +76,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
         public void UpdateTopic(Topic topic)
         {
             try
@@ -87,7 +93,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdminTest")]
         public Topic GetTopic(Guid id)
         {
             try
@@ -104,7 +109,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Topic> GetTopics()
         {
             try
@@ -122,7 +126,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Topic> GetTopicsByIds(List<Guid> ids)
         {
             try
@@ -141,7 +144,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateAnswer(Answer answer)
         {
             try
@@ -158,7 +160,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateAnswer(Answer answer)
         {
             try
@@ -175,7 +176,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteAnswer(Guid id)
         {
             try
@@ -192,7 +192,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Answer GetAnswer(Guid id)
         {
             try
