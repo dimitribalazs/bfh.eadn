@@ -27,12 +27,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override CommonContracts.Answer Get(Guid Id)
         {
-            Entities.Answer answer = Context.Answers.Find(Id);
-            if (answer == null)
-            {
-                return null;
-            }
-
+            Entities.Answer answer = Context.Answers.Single(a => a.Id == Id);
             return Mapper.Map<CommonContracts.Answer>(answer);
         }
 

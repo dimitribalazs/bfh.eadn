@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
-    public class Quiz : BaseEntity
+    internal class Quiz : BaseEntity
     {
         public Quiz()
         {

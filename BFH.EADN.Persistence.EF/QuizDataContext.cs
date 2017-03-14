@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF
 {
-    public class QuizDataContext : DbContext
+    internal class QuizDataContext : DbContext
     {
         public QuizDataContext() : base("name=DefaultConnection")
         {

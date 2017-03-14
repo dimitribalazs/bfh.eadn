@@ -30,12 +30,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override CommonContracts.Question Get(Guid Id)
         {
-            Entities.Question question = Context.Questions.Find(Id);
-            if (question == null)
-            {
-                return null;
-            }
-
+            Entities.Question question = Context.Questions.Single(q => q.Id == Id);
             return Mapper.Map<CommonContracts.Question>(question);
         }
 

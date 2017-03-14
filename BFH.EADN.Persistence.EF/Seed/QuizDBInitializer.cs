@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Seed
 {
-    public class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
+    internal class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {

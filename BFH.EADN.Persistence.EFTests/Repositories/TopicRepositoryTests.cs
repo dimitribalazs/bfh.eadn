@@ -28,8 +28,8 @@ namespace BFH.EADN.Persistence.EF.Repositories.Tests
         /// <summary>
         /// If no exception occurs assert is true
         /// </summary>
-        [TestMethod()]
-        public void CreateTestSuccess()
+        [TestMethod]
+        public void CreateTopicSuccess()
         {
             //create new topic
             Topic topic = new Topic

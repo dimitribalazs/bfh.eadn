@@ -25,12 +25,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override CommonContracts.Topic Get(Guid Id)
         {
-            Entities.Topic topic = Context.Topics.Find(Id);
-            if (topic == null)
-            {
-                return null;
-            }
-
+            Entities.Topic topic = Context.Topics.Single(t => t.Id == Id);
             return Mapper.Map<CommonContracts.Topic>(topic);
         }
 

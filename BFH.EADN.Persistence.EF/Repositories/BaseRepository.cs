@@ -45,7 +45,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                  cfg.CreateMap<ContractTypes.QuestionAnswerState, Entities.QuestionAnswerState>();
              });
         }
-        protected QuizDataContext Context { get; } = new QuizDataContext();
+        internal QuizDataContext Context { get; } = new QuizDataContext();
         public abstract void Create(T data);
         public abstract void Delete(K Id);
         public abstract T Get(K Id);

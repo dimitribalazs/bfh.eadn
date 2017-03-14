@@ -33,12 +33,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
 
         public override CommonContracts.Quiz Get(Guid Id)
         {
-            Entities.Quiz quiz = Context.Quizzes.Find(Id);
-            if (quiz == null)
-            {
-                return null;
-            }
-
+            Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
             return Mapper.Map<CommonContracts.Quiz>(quiz);
         }
 
