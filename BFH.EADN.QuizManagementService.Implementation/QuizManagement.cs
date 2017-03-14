@@ -55,7 +55,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error during creation of a new topic");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error during creation of a new topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -71,7 +71,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error during deletion of a topic");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error during deletion of a topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -88,7 +88,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while updating a topic");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while updating a topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -104,7 +104,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting topic");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -121,7 +121,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting topics");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting topics");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -139,7 +139,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting topics by ids");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting topics by ids");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -155,7 +155,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while creating answer");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while creating answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -171,7 +171,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while updating answer");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while updating answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -187,7 +187,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while deleting answer");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while deleting answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -203,12 +203,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting answer");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting answer");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public List<Answer> GetAnswers()
         {
             try
@@ -220,12 +219,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting answers");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting answers");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuestion(Question question)
         {
             try
@@ -237,12 +235,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while creating question");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while creating question");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuestion(Question question)
         {
             try
@@ -254,7 +251,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while updating question");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while updating question");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -271,7 +268,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while deleting question");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while deleting question");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -288,7 +285,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting question");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting question");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -305,7 +302,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting question");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting question");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -321,7 +318,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting questions which do not have a topic");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting questions which do not have a topic");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -338,12 +335,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting questions by ids");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting questions by ids");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void CreateQuiz(Quiz quiz)
         {
             try
@@ -355,12 +351,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while creating quiz");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while creating quiz");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void UpdateQuiz(Quiz quiz)
         {
             try
@@ -372,12 +367,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while updating quiz");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while updating quiz");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public void DeleteQuiz(Guid id)
         {
             try
@@ -389,12 +383,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while deleting quiz");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while deleting quiz");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
         public Quiz GetQuiz(Guid id)
         {
             try
@@ -406,12 +399,12 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting quiz");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting quiz");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+
         public List<Quiz> GetQuizzes()
         {
             try
@@ -423,7 +416,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting quizzes");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting quizzes");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -440,7 +433,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = ThrowServiceFault(ex, "Error while getting quizzes by ids");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting quizzes by ids");
                 throw new FaultException<ServiceFault>(fault);
             }
         }
@@ -509,16 +502,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         //{
         //    return loginSessions.ContainsKey(key);
         //}
-        private ServiceFault ThrowServiceFault(Exception ex, string reason)
-        {
-            ServiceFault fault = new ServiceFault
-            {
-                Message = ex.Message,
-                Reason = reason
-            };
 
-            return fault;
-        }
     }
 
     internal class Admin

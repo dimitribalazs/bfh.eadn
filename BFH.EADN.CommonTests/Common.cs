@@ -27,5 +27,16 @@ namespace BFH.EADN.CommonTests
             Assert.AreEqual("this is a text", stringResult);
             Assert.AreEqual(true, boolResult);
         }
+
+        [TestMethod]
+        public void CreateServiceFault()
+        {
+            Exception ex = new Exception("This is a text execption");
+            string reason = "this is a reason";
+            ServiceFault sf = Common.Common.CreateServiceFault(ex, reason);
+            Assert.IsNotNull(sf);
+            Assert.AreEqual(ex.Message, sf.Message);
+            Assert.AreEqual(reason, sf.Reason);
+        }
     }
 }

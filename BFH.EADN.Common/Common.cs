@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BFH.EADN.Common.Types.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -23,6 +24,23 @@ namespace BFH.EADN.Common
                 throw new KeyNotFoundException($"no key with name {itemName}");
             }
             return (T)Convert.ChangeType(configValue, typeof(T));
+        }
+
+        /// <summary>
+        /// Creates a service fault object. Which can be used as exception type in the wcf.
+        /// </summary>
+        /// <param name="ex">exception, uses message</param>
+        /// <param name="reason">own text</param>
+        /// <returns>ServiceFault</returns>
+        public static ServiceFault CreateServiceFault(Exception ex, string reason)
+        {
+            ServiceFault fault = new ServiceFault
+            {
+                Message = ex.Message,
+                Reason = reason
+            };
+
+            return fault;
         }
     }
 }

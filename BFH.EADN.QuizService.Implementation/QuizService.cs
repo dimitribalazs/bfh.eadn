@@ -29,170 +29,255 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        public QuizService() { }
+
+        /// <summary>
+        /// Constructor to pass in persistence factory
+        /// </summary>
+        /// <param name="persistenceFactory"></param>
+        public QuizService(IFactoryPersistence persistenceFactory)
+        {
+            _persistenceFactory = persistenceFactory;
+        }
+
         public Quiz GetQuiz(Guid id)
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                Quiz quiz = repo.Get(id);
-                //fix always same questions and same order
-                if (quiz.Type == QuizType.Fix)
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
-                    List<Question> questions = quiz.Questions.OrderBy(q => q.Id).Take(quiz.MaxQuestionCount).ToList();
-                    quiz.Questions = questions;
-                    return quiz;
-                }
-                else if (quiz.Type == QuizType.Variable)
-                {
-                    List<Question> questions = quiz.Questions.Take(quiz.MaxQuestionCount).ToList();
-                    Random random = new Random();
-                    List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
-
-                    while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
+                    Quiz quiz = repo.Get(id);
+                    //fix always same questions and same order
+                    if (quiz.Type == QuizType.Fix)
                     {
-                        int next = random.Next(questions.Count);
-                        Question question = questions[next];
-                        randomizedList.Add(question);
-                        questions.Remove(question);
+                        List<Question> questions = quiz.Questions.OrderBy(q => q.Id).Take(quiz.MaxQuestionCount).ToList();
+                        quiz.Questions = questions;
+                        return quiz;
                     }
-
-                    quiz.Questions = randomizedList;
-                    return quiz;
-                }
-                else
-                {
-                    List<Question> questions = quiz.Questions.ToList();
-                    List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
-
-                    Random random = new Random();
-                    while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
+                    else if (quiz.Type == QuizType.Variable)
                     {
-                        int next = random.Next(questions.Count);
-                        Question question = questions[next];
-                        randomizedList.Add(question);
-                        questions.Remove(question);
-                    }
+                        List<Question> questions = quiz.Questions.Take(quiz.MaxQuestionCount).ToList();
+                        Random random = new Random();
+                        List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
 
-                    quiz.Questions = randomizedList;
-                    return quiz;
+                        while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
+                        {
+                            int next = random.Next(questions.Count);
+                            Question question = questions[next];
+                            randomizedList.Add(question);
+                            questions.Remove(question);
+                        }
+
+                        quiz.Questions = randomizedList;
+                        return quiz;
+                    }
+                    else
+                    {
+                        List<Question> questions = quiz.Questions.ToList();
+                        List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
+
+                        Random random = new Random();
+                        while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
+                        {
+                            int next = random.Next(questions.Count);
+                            Question question = questions[next];
+                            randomizedList.Add(question);
+                            questions.Remove(question);
+                        }
+
+                        quiz.Questions = randomizedList;
+                        return quiz;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting quiz");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         public List<Quiz> GetQuizzes()
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                return repo.GetAll();
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    List<Quiz> quizzes = repo.GetAll();
+                    return quizzes;
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting quizzes");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
 
         public PlayQuestion GetFirstQuestion(Guid quizId)
         {
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                List<Question> questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
-                return GetQuestion(quizId, questions.First().Id);
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
+                {
+                    List<Question> questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+                    return GetQuestion(quizId, questions.First().Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting first question");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
         {
-            List<Question> questions;
-            using (IRepository<Quiz, Guid> repo = QuizRepository)
+            try
             {
-                questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
-            }
-
-            Question currentQuestion = null;
-            Guid? previousQuestion = null;
-            Guid? nextQuestion = null;
-            for (int i = 0; i < questions.Count; i++)
-            {
-                if (questions[i].Id == questionId)
+                List<Question> questions;
+                using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
-                    if (i <= questions.Count - 1)
-                    {
-                        currentQuestion = questions[i];
-                    }
+                    questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+                }
 
-                    if (i > 0)
+                Question currentQuestion = null;
+                Guid? previousQuestion = null;
+                Guid? nextQuestion = null;
+                for (int i = 0; i < questions.Count; i++)
+                {
+                    if (questions[i].Id == questionId)
                     {
-                        previousQuestion = questions[i - 1].Id;
-                    }
+                        if (i <= questions.Count - 1)
+                        {
+                            currentQuestion = questions[i];
+                        }
 
-                    if (i + 1 <= questions.Count - 1)
-                    {
-                        nextQuestion = questions[i + 1].Id;
+                        if (i > 0)
+                        {
+                            previousQuestion = questions[i - 1].Id;
+                        }
+
+                        if (i + 1 <= questions.Count - 1)
+                        {
+                            nextQuestion = questions[i + 1].Id;
+                        }
                     }
                 }
-            }
 
-            PlayQuestion playQuestion = new PlayQuestion
+                PlayQuestion playQuestion = new PlayQuestion
+                {
+                    Id = currentQuestion.Id,
+                    Answers = currentQuestion.Answers,
+                    Hint = currentQuestion.Hint,
+                    IsMultipleChoice = currentQuestion.IsMultipleChoice,
+                    Text = currentQuestion.Text,
+                    NextQuestion = nextQuestion,
+                    PreviousQuestion = previousQuestion
+                };
+                return playQuestion;
+            }
+            catch (Exception ex)
             {
-                Id = currentQuestion.Id,
-                Answers = currentQuestion.Answers,
-                Hint = currentQuestion.Hint,
-                IsMultipleChoice = currentQuestion.IsMultipleChoice,
-                Text = currentQuestion.Text,
-                NextQuestion = nextQuestion,
-                PreviousQuestion = previousQuestion
-            };
-            return playQuestion;
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting question");
+                throw new FaultException<ServiceFault>(fault);
+            }
         }
 
         public bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
-            using (IRepository<Question, Guid> repo = QuestionRepository)
+            try
             {
-                Question question = repo.Get(questionId);
-                List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
-                return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
+                using (IRepository<Question, Guid> repo = QuestionRepository)
+                {
+                    Question question = repo.Get(questionId);
+                    List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
+                    return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while checking answers");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         public void CreateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
         {
-            //Guid quizStateId, Guid questionId, List<Guid> answers
-            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
-            using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
-            using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+            try
             {
-                QuestionAnswerState qas = new QuestionAnswerState();
-                qas.QuestionAnswerStateId = quizStateId;
-                qas.Question = questionRepo.Get(questionId);
-                qas.Answers = answerRepo.GetListByIds(answers);
-                repo.Create(qas);
+                //Guid quizStateId, Guid questionId, List<Guid> answers
+                using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+                using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
+                using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+                {
+                    QuestionAnswerState qas = new QuestionAnswerState();
+                    qas.QuestionAnswerStateId = quizStateId;
+                    qas.Question = questionRepo.Get(questionId);
+                    qas.Answers = answerRepo.GetListByIds(answers);
+                    repo.Create(qas);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while creating QuestionAnswerState");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         public void UpdateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
         {
-            //Guid quizStateId, Guid questionId, List<Guid> answers
-            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
-            using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
-            using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+            try
             {
-                QuestionAnswerState qas = new QuestionAnswerState();
-                qas.QuestionAnswerStateId = quizStateId;
-                qas.Question = questionRepo.Get(questionId);
-                qas.Answers = answerRepo.GetListByIds(answers);
-                repo.Update(qas);
+                //Guid quizStateId, Guid questionId, List<Guid> answers
+                using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+                using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
+                using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+                {
+                    QuestionAnswerState qas = new QuestionAnswerState();
+                    qas.QuestionAnswerStateId = quizStateId;
+                    qas.Question = questionRepo.Get(questionId);
+                    qas.Answers = answerRepo.GetListByIds(answers);
+                    repo.Update(qas);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while updating QuestionAnswerState");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
 
         public void DeleteQuestionAnswerState(Guid quizStateId)
         {
-            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+            try
             {
-                repo.Delete(quizStateId);
+                using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+                {
+                    repo.Delete(quizStateId);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while deleting QuestionAnswerState");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
         public List<QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid quizStateId)
         {
-            using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+            try
             {
-                return repo.GetAll().Where(q => q.QuestionAnswerStateId == quizStateId).ToList();
+
+                using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
+                {
+                    return repo.GetAll().Where(q => q.QuestionAnswerStateId == quizStateId).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting all saved QuestionAnswerState");
+                throw new FaultException<ServiceFault>(fault);
             }
         }
     }

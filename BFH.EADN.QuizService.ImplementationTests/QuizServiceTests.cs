@@ -6,12 +6,15 @@ using BFH.EADN.QuizService.Contracts;
 using BFH.EADN.Common.Types;
 using BFH.EADN.Common;
 using BFH.EADN.Common.Types.Contracts;
+using System.ServiceModel;
 
 namespace BFH.EADN.QuizService.Implementation.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class QuizServiceTests
     {
+        private static IFactoryPersistence _factoryPersistence = Factory.CreateInstance<IFactoryPersistence>();
+         
         [TestMethod]
         public void GetQuiz()
         {
@@ -58,5 +61,151 @@ namespace BFH.EADN.QuizService.Implementation.Tests
                 Assert.IsFalse(listAreEqual, "List are equal for variable quiz");
             }
         }
-    }
+
+        [TestMethod]
+        public void GetQuizzesSuccess()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            List<Quiz> quizzes = service.GetQuizzes();
+            Assert.IsNotNull(quizzes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FaultException<ServiceFault>))]
+        public void GetQuizzesSuccessException()
+        {
+            IPlay service = new QuizService(null);
+            service.GetQuizzes();
+        }
+
+        /* Quiz area */
+        [TestMethod]
+        public void GetQuizSuccess()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Last();
+            Quiz quizById = service.GetQuiz(quiz.Id);
+
+            Assert.IsNotNull(quizById);
+            Assert.AreEqual(quiz.Id, quizById.Id);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FaultException<ServiceFault>))]
+        public void GetQuizSuccessException()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Last();
+            service = new QuizService(null);
+            Quiz quizById = service.GetQuiz(quiz.Id);
+        }
+
+        [TestMethod]
+        public void GetFirstQuestionSuccess()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Last();
+            List<Question> questions = quiz.Questions.OrderBy(q => q.Id).ToList();
+            Guid firstQuestionId = questions.First().Id;
+
+            PlayQuestion pq = service.GetFirstQuestion(quiz.Id);
+
+            Assert.IsNotNull(pq);
+            Assert.AreEqual(firstQuestionId, pq.Id);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FaultException<ServiceFault>))]
+        public void GetFirstQuestionException()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Last();
+            service = new QuizService(null);
+            service.GetFirstQuestion(quiz.Id);
+        }
+
+        [TestMethod]
+        public void GetQuestionSuccess()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Last();
+            Question question = quiz.Questions.Last();
+
+            PlayQuestion pq = service.GetQuestion(quiz.Id, question.Id);
+            
+            Assert.IsNotNull(pq);
+            Assert.AreEqual(question.Id, pq.Id);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FaultException<ServiceFault>))]
+        public void GetQuestionException()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Last();
+            Question question = quiz.Questions.Last();
+
+            service = new QuizService(null);
+            service.GetQuestion(quiz.Id, question.Id);
+        }
+
+        [TestMethod]
+        public void CheckAnswersSuccess()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Where(q => q.Questions != null && q.Questions.Count > 0).First();
+            Question question = quiz.Questions.First();
+
+            List<Guid> allAnswers = question.Answers.Select(a => a.Id).ToList();
+            List<Guid> correctAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
+
+            bool notCorrect = service.CheckAnswers(question.Id, allAnswers);
+            bool allCorrect = service.CheckAnswers(question.Id, correctAnswers);
+
+            Assert.IsFalse(notCorrect);
+            Assert.IsTrue(allCorrect);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FaultException<ServiceFault>))]
+        public void CheckAnswersException()
+        {
+            IPlay service = new QuizService(_factoryPersistence);
+            Quiz quiz = service.GetQuizzes().Where(q => q.Questions != null && q.Questions.Count > 0).First();
+            Question question = quiz.Questions.First();
+
+            List<Guid> allAnswers = question.Answers.Select(a => a.Id).ToList();
+            service = new QuizService(null);
+            service.CheckAnswers(question.Id, allAnswers);
+        }
+
+
+
+            //[TestMethod]
+            //public void CreateAnswerSuccess()
+            //{
+            //    IAnswerManagement service = new QuizManagement(_factoryPersistence);
+            //    IQuestionManagement qs = new QuizManagement(_factoryPersistence);
+            //    Guid questionId = qs.GetQuestions().First().Id;
+
+            //    //create new answer
+            //    Answer answer = new Answer
+            //    {
+            //        IsSolution = true,
+            //        Text = "test answer",
+            //        QuestionId = questionId
+            //    };
+
+            //    service.CreateAnswer(answer);
+            //    Assert.IsTrue(true);
+            //}
+
+            //[TestMethod]
+            //[ExpectedException(typeof(FaultException<ServiceFault>))]
+            //public void CreateAnswerException()
+            //{
+            //    IAnswerManagement service = new QuizManagement(_factoryPersistence);
+            //    service.CreateAnswer(null);
+            //}
+        }
 }

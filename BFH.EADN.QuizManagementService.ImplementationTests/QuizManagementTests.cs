@@ -18,6 +18,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
     public class QuizManagementTests
     {
         private static IFactoryPersistence _factoryPersistence = Factory.CreateInstance<IFactoryPersistence>();
+
         /* Answer area */
         [TestMethod]
         public void CreateAnswerSuccess()

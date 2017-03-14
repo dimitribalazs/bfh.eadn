@@ -15,7 +15,6 @@ namespace BFH.EADN.Persistence.EF
         public QuizDataContext() : base("name=DefaultConnection")
         {
             Database.SetInitializer(new QuizDBInitializer());
-            //Database.Log = Console.WriteLine;
         }
 
         public DbSet<Quiz> Quizzes { get; set; }
