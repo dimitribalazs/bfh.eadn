@@ -33,7 +33,9 @@ namespace BFH.EADN.QuizManagementService.Host
                 //    typeof(IQuizManagement), 
                 //    new BasicHttpBinding(), 
                 //    "QuizManagement");
-                ServiceEndpoint sessionEndpoint = _quizManagementHost.AddServiceEndpoint(typeof(ISession), new NetTcpBinding(), "Session");
+
+
+                //ServiceEndpoint sessionEndpoint = _quizManagementHost.AddServiceEndpoint(typeof(ISession), new NetTcpBinding(), "Session");
                 //endpoint.EndpointBehaviors.Add(new CustomBehavior());
                 //foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
                 //{

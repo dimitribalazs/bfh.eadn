@@ -14,6 +14,7 @@ namespace BFH.EADN.Persistence.EF
     {
         public QuizDataContext() : base("name=DefaultConnection")
         {
+            //todo activate to seed the database
             Database.SetInitializer(new QuizDBInitializer());
         }
 
@@ -32,6 +33,7 @@ namespace BFH.EADN.Persistence.EF
                 //.HasForeignKey(e => e.FooId)
                 //
                 //.WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Question>()
                 .HasMany(q => q.Answers)
                 .WithOptional()

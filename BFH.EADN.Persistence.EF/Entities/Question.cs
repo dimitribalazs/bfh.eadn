@@ -19,7 +19,7 @@ namespace BFH.EADN.Persistence.EF.Entities
 
         public string Text { get; set; }
         public string Hint { get; set; }
-        public DateTime? LastUsed { get; set; }
+        //public DateTime? LastUsed { get; set; }
         /// <summary>
         /// If it is a yes or not question. If false, then its an multiple choice
         /// </summary>
