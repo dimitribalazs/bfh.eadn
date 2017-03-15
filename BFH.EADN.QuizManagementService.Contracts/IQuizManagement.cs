@@ -14,7 +14,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Creates a new quiz
         /// </summary>
         /// <param name="quiz">new quiz</param>
-        [OperationContract]
+        [OperationContract(Name = "CreateQuiz")]
         [FaultContract(typeof(ServiceFault))]
         void CreateQuiz(Quiz quiz);
 
@@ -22,7 +22,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Updates an existing quiz
         /// </summary>
         /// <param name="quiz">existing quiz with new data</param>
-        [OperationContract]
+        [OperationContract(Name = "UpdateQuiz")]
         [FaultContract(typeof(ServiceFault))]
         void UpdateQuiz(Quiz quiz);
 
@@ -30,7 +30,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Deletes a quiz
         /// </summary>
         /// <param name="id">id of a quiz</param>
-        [OperationContract]
+        [OperationContract(Name = "DeleteQuiz")]
         [FaultContract(typeof(ServiceFault))]
         void DeleteQuiz(Guid id);
 
@@ -38,7 +38,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets a quiz by its id
         /// </summary>
         /// <param name="id">id of a quiz</param>
-        [OperationContract]
+        [OperationContract(Name = "GetQuiz")]
         [FaultContract(typeof(ServiceFault))]
         Quiz GetQuiz(Guid id);
 
@@ -46,7 +46,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all quizzes
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetQuizzes")]
         [FaultContract(typeof(ServiceFault))]
         List<Quiz> GetQuizzes();
 
@@ -54,7 +54,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all quizs by ids
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetQuizzesByIds")]
         [FaultContract(typeof(ServiceFault))]
         List<Quiz> GetQuizzesByIds(List<Guid> ids);
     }

@@ -14,7 +14,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Creates a new topic
         /// </summary>
         /// <param name="question">new question</param>
-        [OperationContract]
+        [OperationContract(Name = "CreateQuestion")]
         [FaultContract(typeof(ServiceFault))]
         void CreateQuestion(Question question);
 
@@ -22,7 +22,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Updates an existing question
         /// </summary>
         /// <param name="question">existing question with new data</param>
-        [OperationContract]
+        [OperationContract(Name = "UpdateQuestion")]
         [FaultContract(typeof(ServiceFault))]
         void UpdateQuestion(Question question);
 
@@ -30,7 +30,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Deletes a question
         /// </summary>
         /// <param name="id">id of a question</param>
-        [OperationContract]
+        [OperationContract(Name = "DeleteQuestion")]
         [FaultContract(typeof(ServiceFault))]
         void DeleteQuestion(Guid id);
 
@@ -38,7 +38,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets a question by its id
         /// </summary>
         /// <param name="id">id of a question</param>
-        [OperationContract]
+        [OperationContract(Name = "GetQuestion")]
         [FaultContract(typeof(ServiceFault))]
         Question GetQuestion(Guid id);
 
@@ -46,7 +46,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all questions
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetQuestions")]
         [FaultContract(typeof(ServiceFault))]
         List<Question> GetQuestions();
 
@@ -54,7 +54,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all questions which do not have a topic
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetQuestionsWithoutTopic")]
         [FaultContract(typeof(ServiceFault))]
         List<Question> GetQuestionsWithoutTopic();
 
@@ -62,7 +62,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all questions by ids
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetQuestionsByIds")]
         [FaultContract(typeof(ServiceFault))]
         List<Question> GetQuestionsByIds(List<Guid> ids);
     }

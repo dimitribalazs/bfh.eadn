@@ -11,14 +11,21 @@ using BFH.EADN.Common;
 using BFH.EADN.Common.Types;
 using BFH.EADN.QuizManagementService.Contracts;
 using System.Configuration;
+using System.IO;
+using BFH.EADN.CommonTests.TestHelper;
 
 namespace BFH.EADN.QuizManagementService.Implementation.Tests
 {
     [TestClass]
-    public class QuizManagementTests
+    public class QuizManagementTests : TestBaseWithDb
     {
         private static IFactoryPersistence _factoryPersistence = Factory.CreateInstance<IFactoryPersistence>();
 
+        [ClassInitialize]
+        public static void InitLocal(TestContext context)
+        {
+            Init(context);
+        }
         /* Answer area */
         [TestMethod]
         public void CreateAnswerSuccess()
@@ -30,9 +37,9 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             //create new answer
             Answer answer = new Answer
             {
-               IsSolution = true,
-               Text = "test answer",
-               QuestionId = questionId
+                IsSolution = true,
+                Text = "test answer",
+                QuestionId = questionId
             };
 
             service.CreateAnswer(answer);
@@ -65,7 +72,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             Assert.AreEqual(newIsSolution, updatedAnswer.IsSolution);
             Assert.AreEqual(newText, updatedAnswer.Text);
         }
-        
+
         [TestMethod]
         [ExpectedException(typeof(FaultException<ServiceFault>))]
         public void UpdateAnswerException()
@@ -74,7 +81,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             Answer answer = service.GetAnswers().First();
             answer.Text = "Foobar";
             service = new QuizManagement(null);
-            service.UpdateAnswer(answer);       
+            service.UpdateAnswer(answer);
         }
 
         [TestMethod]
@@ -109,7 +116,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             IAnswerManagement service = new QuizManagement(_factoryPersistence);
             service.GetAnswer(randomGuid);
         }
-        
+
         [TestMethod]
         public void GetAnswerSuccess()
         {
@@ -117,14 +124,14 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             Guid expectedResult = service.GetAnswers().First().Id;
             Answer answer = service.GetAnswer(expectedResult);
             Assert.AreEqual(expectedResult, answer.Id, "Ids are not the same");
-       }
+        }
 
         [TestMethod]
         [ExpectedException(typeof(FaultException<ServiceFault>))]
         public void GetAnswersException()
         {
             //set persistenceFactory to null
-            IAnswerManagement service = new QuizManagement(null);            
+            IAnswerManagement service = new QuizManagement(null);
             List<Answer> answers = service.GetAnswers();
         }
 
@@ -206,7 +213,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
         {
             ITopicManagement service = new QuizManagement(_factoryPersistence);
             Topic topic = service.GetTopics().First();
-            
+
             string newName = "UpdateTopicSuccess";
 
             Guid id = topic.Id;
@@ -225,7 +232,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
         {
             ITopicManagement service = new QuizManagement(_factoryPersistence);
             Topic topic = service.GetTopics().First();
-            topic.Name= "UpdateTopicException";
+            topic.Name = "UpdateTopicException";
             service = new QuizManagement(null);
             service.UpdateTopic(topic);
         }
@@ -341,7 +348,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             List<Question> questions = service.GetQuestionsWithoutTopic();
         }
 
-       
+
         [TestMethod]
         public void GetQuestionsByIdsSuccess()
         {
@@ -375,7 +382,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
 
             service.UpdateQuestion(question);
 
-            Question updatedQuuestion  = service.GetQuestion(id);
+            Question updatedQuuestion = service.GetQuestion(id);
 
             Assert.AreEqual(newHint, updatedQuuestion.Hint);
             Assert.AreEqual(newText, updatedQuuestion.Text);
@@ -386,7 +393,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
         public void UpdateQuestionException()
         {
             IQuestionManagement service = new QuizManagement(_factoryPersistence);
-            Question question= service.GetQuestions().First();
+            Question question = service.GetQuestions().First();
             question.Text = "UpdateQuestionException";
             service = new QuizManagement(null);
             service.UpdateQuestion(question);
@@ -397,7 +404,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
         public void CreateQuizSuccess()
         {
             IQuizManagement service = new QuizManagement(_factoryPersistence);
-            
+
             //create new topic
             Quiz quiz = new Quiz
             {

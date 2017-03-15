@@ -37,8 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <Choose>
@@ -58,13 +56,13 @@
     <Compile Include="QuizServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BFH.EADN.CommonTests\BFH.EADN.CommonTests.csproj">
+      <Project>{98AA649D-5A36-4DF9-B127-C2EB8279E244}</Project>
+      <Name>BFH.EADN.CommonTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">
       <Project>{234A3293-9F1F-452F-B1EB-EAEEABF0B5AB}</Project>
       <Name>BFH.EADN.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BFH.EADN.Persistence.EF\BFH.EADN.Persistence.EF.csproj">
-      <Project>{64f82214-da38-400a-bded-c9354024ad62}</Project>
-      <Name>BFH.EADN.Persistence.EF</Name>
     </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.QuizService.Contracts\BFH.EADN.QuizService.Contracts.csproj">
       <Project>{CF4E5F29-6D02-42F9-A7C9-1A9237C88A80}</Project>

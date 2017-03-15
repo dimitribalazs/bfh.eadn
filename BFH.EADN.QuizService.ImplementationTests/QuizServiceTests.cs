@@ -7,14 +7,22 @@ using BFH.EADN.Common.Types;
 using BFH.EADN.Common;
 using BFH.EADN.Common.Types.Contracts;
 using System.ServiceModel;
+using BFH.EADN.CommonTests.TestHelper;
 
 namespace BFH.EADN.QuizService.Implementation.Tests
 {
     [TestClass]
-    public class QuizServiceTests
+    public class QuizServiceTests : TestBaseWithDb
     {
         private static IFactoryPersistence _factoryPersistence = Factory.CreateInstance<IFactoryPersistence>();
          
+
+        [ClassInitialize]
+        public static void InitLocal(TestContext context)
+        {
+            Init(context);
+        }
+
         [TestMethod]
         public void GetQuiz()
         {

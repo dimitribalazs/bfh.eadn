@@ -14,7 +14,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Creates a new answer
         /// </summary>
         /// <param name="topic">new answer</param>
-        [OperationContract]
+        [OperationContract(Name = "CreateAnswer")]
         [FaultContract(typeof(ServiceFault))]
         void CreateAnswer(Answer answer);
 
@@ -22,7 +22,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Updates an existing answer
         /// </summary>
         /// <param name="topic">existing answer with new data</param>
-        [OperationContract]
+        [OperationContract(Name = "UpdateAnswer")]
         [FaultContract(typeof(ServiceFault))]
         void UpdateAnswer(Answer answer);
 
@@ -30,7 +30,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Deletes a answer
         /// </summary>
         /// <param name="id">id of a topic</param>
-        [OperationContract]
+        [OperationContract(Name = "DeleteAnswer")]
         [FaultContract(typeof(ServiceFault))]
         void DeleteAnswer(Guid id);
 
@@ -38,7 +38,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets a answer by its id
         /// </summary>
         /// <param name="id">id of a answer</param>
-        [OperationContract]
+        [OperationContract(Name = "GetAnswer")]
         [FaultContract(typeof(ServiceFault))]
         Answer GetAnswer(Guid id);
 
@@ -46,7 +46,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all topics
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetAnswers")]
         [FaultContract(typeof(ServiceFault))]
         List<Answer> GetAnswers();
     }

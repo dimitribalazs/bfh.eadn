@@ -14,7 +14,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Creates a new topic
         /// </summary>
         /// <param name="topic">new topic</param>
-        [OperationContract]
+        [OperationContract(Name = "CreateTopic")]
         [FaultContract(typeof(ServiceFault))]
         void CreateTopic(Topic topic);
 
@@ -22,7 +22,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Updates an existing topic
         /// </summary>
         /// <param name="topic">existing topic with new data</param>
-        [OperationContract]
+        [OperationContract(Name = "UpdateTopic")]
         [FaultContract(typeof(ServiceFault))]
         void UpdateTopic(Topic topic);
 
@@ -30,7 +30,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Deletes a topic
         /// </summary>
         /// <param name="id">id of a topic</param>
-        [OperationContract]
+        [OperationContract(Name = "DeleteTopic")]
         [FaultContract(typeof(ServiceFault))]
         void DeleteTopic(Guid id);
 
@@ -38,7 +38,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets a topic by its id
         /// </summary>
         /// <param name="id">id of a topic</param>
-        [OperationContract]
+        [OperationContract(Name = "GetTopic")]
         [FaultContract(typeof(ServiceFault))]
         Topic GetTopic(Guid id);
 
@@ -46,7 +46,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all topics
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetTopics")]
         [FaultContract(typeof(ServiceFault))]
         List<Topic> GetTopics();
 
@@ -54,7 +54,7 @@ namespace BFH.EADN.QuizManagementService.Contracts
         /// Gets all topics by ids
         /// </summary>
         /// <returns></returns>
-        [OperationContract]
+        [OperationContract(Name = "GetTopicsByIds")]
         [FaultContract(typeof(ServiceFault))]
         List<Topic> GetTopicsByIds(List<Guid> ids);
     }
