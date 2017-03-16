@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using AutoMapper;
 
-using CommonContracts = BFH.EADN.Common.Types.Contracts
+using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
