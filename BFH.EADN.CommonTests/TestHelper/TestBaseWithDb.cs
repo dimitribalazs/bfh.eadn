@@ -26,12 +26,8 @@ namespace BFH.EADN.CommonTests.TestHelper
             {
                 throw new InvalidOperationException(nameof(target) + "cannot be null. Make sure target path is set in App.config");
             }
-            //if (File.Exists(target))
-            //{
-            //    File.Delete(target);
-            //}
-
-            //File.Copy(source, target);
+           
+            File.Copy(source, target, true);
         }
     }
 }

@@ -302,7 +302,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
             catch (Exception ex)
             {
-                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting question");
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting questions");
                 throw new FaultException<ServiceFault>(fault);
             }
         }

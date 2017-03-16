@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
-    internal class Answer : BaseEntity
+    public class Answer : BaseEntity
     {
         public virtual Question Question { get; set; }
         public string Text { get; set; }
