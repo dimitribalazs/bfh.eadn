@@ -8,7 +8,6 @@ using AutoMapper;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
-    //statt object data contract verwenden
     public sealed class AnswerRepository : BaseRepository<CommonContracts.Answer, Guid>
     {
         public override void Create(CommonContracts.Answer data)

@@ -14,7 +14,6 @@ namespace BFH.EADN.Persistence.EF
     {
         public QuizDataContext() : base("name=DefaultConnection")
         {
-            //todo activate to seed the database
             Database.SetInitializer(new QuizDBInitializer());
         }
 

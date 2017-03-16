@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.Common", "BFH.EADN.Common\BFH.EADN.Common.csproj", "{234A3293-9F1F-452F-B1EB-EAEEABF0B5AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.UI.Web", "BFH.EADN.UI.Web\BFH.EADN.UI.Web.csproj", "{10347337-B73B-4B84-846E-D2324CA7144F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.CommonTests", "BFH.EADN.CommonTests\BFH.EADN.CommonTests.csproj", "{98AA649D-5A36-4DF9-B127-C2EB8279E244}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.AdministrationServiceHost", "BFH.EADN.AdministrationServiceHost\BFH.EADN.AdministrationServiceHost.csproj", "{1A448AE2-5AB8-4885-B012-2595B8AC12E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.QuizService.Host", "BFH.EADN.QuizService.Host\BFH.EADN.QuizService.Host.csproj", "{E47AC279-9EE1-4E81-B276-75B95B4D62CC}"
 EndProject
@@ -22,8 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.QuizManagementService.Implementation", "BFH.EADN.QuizManagementService.Implementation\BFH.EADN.QuizManagementService.Implementation.csproj", "{E09F8756-7DFD-4BBC-BD1E-56241AEFBE90}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.QuizManagementService.Contracts", "BFH.EADN.QuizManagementService.Contracts\BFH.EADN.QuizManagementService.Contracts.csproj", "{BFF9FE91-477C-46A2-8E01-22949334FE67}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFTest", "EFTest\EFTest.csproj", "{1D956B65-5847-49B0-9A5C-D8559931FB1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFH.EADN.Persistence.EF", "BFH.EADN.Persistence.EF\BFH.EADN.Persistence.EF.csproj", "{64F82214-DA38-400A-BDED-C9354024AD62}"
 EndProject
@@ -49,10 +45,6 @@ Global
 		{98AA649D-5A36-4DF9-B127-C2EB8279E244}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98AA649D-5A36-4DF9-B127-C2EB8279E244}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98AA649D-5A36-4DF9-B127-C2EB8279E244}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A448AE2-5AB8-4885-B012-2595B8AC12E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A448AE2-5AB8-4885-B012-2595B8AC12E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A448AE2-5AB8-4885-B012-2595B8AC12E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A448AE2-5AB8-4885-B012-2595B8AC12E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E47AC279-9EE1-4E81-B276-75B95B4D62CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E47AC279-9EE1-4E81-B276-75B95B4D62CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E47AC279-9EE1-4E81-B276-75B95B4D62CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,10 +69,6 @@ Global
 		{BFF9FE91-477C-46A2-8E01-22949334FE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFF9FE91-477C-46A2-8E01-22949334FE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFF9FE91-477C-46A2-8E01-22949334FE67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D956B65-5847-49B0-9A5C-D8559931FB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D956B65-5847-49B0-9A5C-D8559931FB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D956B65-5847-49B0-9A5C-D8559931FB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D956B65-5847-49B0-9A5C-D8559931FB1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64F82214-DA38-400A-BDED-C9354024AD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64F82214-DA38-400A-BDED-C9354024AD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64F82214-DA38-400A-BDED-C9354024AD62}.Release|Any CPU.ActiveCfg = Release|Any CPU

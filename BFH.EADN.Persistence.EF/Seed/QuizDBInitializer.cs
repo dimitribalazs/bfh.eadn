@@ -261,8 +261,8 @@ namespace BFH.EADN.Persistence.EF.Seed
             Quiz quiz1 = new Quiz
             {
                 Text = "Programming quiz",
-                Type = QuizType.Fix,
-                MinQuestionCount = 2,
+                Type = QuizType.Variable,
+                MinQuestionCount = 3,
                 MaxQuestionCount = 5,
                 Questions = new HashSet<Question>
                 {
@@ -284,7 +284,7 @@ namespace BFH.EADN.Persistence.EF.Seed
             Quiz quiz2 = new Quiz
             {
                 Text = "Quiz about movies and actors variable",
-                Type = QuizType.Variable,
+                Type = QuizType.Fix,
                 MinQuestionCount = 1,
                 MaxQuestionCount = 5,
                 Questions = new HashSet<Question>

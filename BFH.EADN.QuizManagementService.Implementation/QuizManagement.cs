@@ -18,22 +18,16 @@ namespace BFH.EADN.QuizManagementService.Implementation
     //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
     public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement//, ISession
     {
-        private static IFactoryPersistence _persistenceFactory;
+        private IFactoryPersistence _persistenceFactory;
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
         private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
         private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
         private IRepository<Quiz, Guid> QuizRepository => _persistenceFactory.CreateQuizRepository();
 
-
-        static QuizManagement()
+        public QuizManagement()
         {
-            if (_persistenceFactory == null)
-            {
-                _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
-            }
+            _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();   
         }
-
-        public QuizManagement() { }
 
         /// <summary>
         /// Constructor to pass in persistence factory
@@ -43,7 +37,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         {
             _persistenceFactory = persistenceFactory;
         }
-        
+
         public void CreateTopic(Topic topic)
         {
             try

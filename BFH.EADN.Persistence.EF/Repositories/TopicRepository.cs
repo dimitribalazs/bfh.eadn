@@ -7,7 +7,6 @@ using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
-    //statt object data contract verwenden
     public sealed class TopicRepository : BaseRepository<CommonContracts.Topic, Guid>
     {
         public override void Create(CommonContracts.Topic data)

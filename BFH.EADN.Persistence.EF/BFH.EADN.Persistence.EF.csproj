@@ -83,7 +83,6 @@
     <Compile Include="Repositories\QuestionRepository.cs" />
     <Compile Include="Repositories\TopicRepository.cs" />
     <Compile Include="Repositories\QuizRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Seed\QuizDBInitializer.cs" />
   </ItemGroup>
   <ItemGroup>

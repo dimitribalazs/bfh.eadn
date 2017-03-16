@@ -9,17 +9,36 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizService.Contracts
 {
+    /// <summary>
+    /// Provides an interface for methods which are used for playing the game
+    /// </summary>
     [ServiceContract(Namespace = Constants.XMLNamespace, Name = "IPlay")]
     public interface IPlay
     {
+
+        /// <summary>
+        /// Get a list of quizzes 
+        /// </summary>
+        /// <returns>list of all quizzes</returns>
         [OperationContract(Name = "GetQuizzes")]
         [FaultContract(typeof(ServiceFault))]
         List<Quiz> GetQuizzes();
 
+
+        /// <summary>
+        /// Get a quiz by its id. The list of questions is build based on the quiz type (Fix, Dynamic, Variable) 
+        /// </summary>
+        /// <param name="id">id of </param>
+        /// <returns>the quiz by its id</returns>
         [OperationContract(Name = "GetQuiz")]
         [FaultContract(typeof(ServiceFault))]
         Quiz GetQuiz(Guid id);
 
+        /// <summary>
+        /// Get the first question of the quiz
+        /// </summary>
+        /// <param name="quizId"></param>
+        /// <returns></returns>
         [OperationContract(Name = "GetFirstQuestion")]
         [FaultContract(typeof(ServiceFault))]
         PlayQuestion GetFirstQuestion(Guid quizId);
@@ -31,11 +50,7 @@ namespace BFH.EADN.QuizService.Contracts
         [OperationContract(Name = "CheckAnswers")]
         [FaultContract(typeof(ServiceFault))]
         bool CheckAnswers(Guid questionId, List<Guid> answers);
-
-        [OperationContract(Name = "CreateQuestionAnswerState")]
-        [FaultContract(typeof(ServiceFault))]
-        void CreateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers);
-
+        
         [OperationContract(Name = "UpdateQuestionAnswerState")]
         [FaultContract(typeof(ServiceFault))]
         void UpdateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers);
@@ -47,6 +62,5 @@ namespace BFH.EADN.QuizService.Contracts
         [OperationContract(Name = "GetAllSavedQuestionAnswerStates")]
         [FaultContract(typeof(ServiceFault))]
         List<QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid quizStateId);
-    }
-            
+    }       
 }

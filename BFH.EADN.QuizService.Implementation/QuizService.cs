@@ -15,21 +15,17 @@ namespace BFH.EADN.QuizService.Implementation
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizService")]
     public class QuizService : IPlay
     {
-        private static IFactoryPersistence _persistenceFactory;
+        private IFactoryPersistence _persistenceFactory;
         private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
         private IRepository<Quiz, Guid> QuizRepository => _persistenceFactory.CreateQuizRepository();
         private IRepository<QuestionAnswerState, Guid> QuestionAnswerStateRepository => _persistenceFactory.CreateQuestionAnswerStateRepository();
-        private IRepository<Answer, Guid> AnswerRepository = _persistenceFactory.CreateAnswerRepository();
 
-        static QuizService()
+        private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
+
+        public QuizService()
         {
-            if (_persistenceFactory == null)
-            {
-                _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
-            }
+            _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
         }
-
-        public QuizService() { }
 
         /// <summary>
         /// Constructor to pass in persistence factory
@@ -193,35 +189,13 @@ namespace BFH.EADN.QuizService.Implementation
                 {
                     Question question = repo.Get(questionId);
                     List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
-                    return solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
+                    return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
+                    //solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
                 }
             }
             catch (Exception ex)
             {
                 ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while checking answers");
-                throw new FaultException<ServiceFault>(fault);
-            }
-        }
-
-        public void CreateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
-        {
-            try
-            {
-                //Guid quizStateId, Guid questionId, List<Guid> answers
-                using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
-                using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
-                using (IRepository<Question, Guid> questionRepo = QuestionRepository)
-                {
-                    QuestionAnswerState qas = new QuestionAnswerState();
-                    qas.QuestionAnswerStateId = quizStateId;
-                    qas.Question = questionRepo.Get(questionId);
-                    qas.Answers = answerRepo.GetListByIds(answers);
-                    repo.Create(qas);
-                }
-            }
-            catch (Exception ex)
-            {
-                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while creating QuestionAnswerState");
                 throw new FaultException<ServiceFault>(fault);
             }
         }

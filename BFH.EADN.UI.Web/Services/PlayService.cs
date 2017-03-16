@@ -149,7 +149,7 @@ namespace BFH.EADN.UI.Web.Services
         public Question GetFirstQuestion(ContractTypes.Quiz quiz)
         {
             ContractTypes.Question question = quiz.Questions.FirstOrDefault();
-            if(question == null)
+            if (question == null)
             {
                 return null;
             }
@@ -178,77 +178,6 @@ namespace BFH.EADN.UI.Web.Services
             }
 
             return retQuestion;
-        }
-
-        public Question GetFirstQuestion(Guid quizId)
-        {
-            ContractTypes.PlayQuestion question = ClientProxy.GetQuizProxy<IPlay>().GetFirstQuestion(quizId);
-
-            Question retQuestion = new Question
-            {
-                QuizId = quizId,
-                QuestionId = question.Id,
-                Hint = question.Hint,
-                Text = question.Text,
-                IsMultipleChoice = question.IsMultipleChoice,
-                NextQuestion = question.NextQuestion
-            };
-
-            retQuestion.Answers = new List<Answer>(question.Answers.Count);
-            foreach (ContractTypes.Answer answer in question.Answers)
-            {
-                Answer answerItem = new Answer
-                {
-                    Id = answer.Id,
-                    Text = answer.Text,
-                    IsSolution = answer.IsSolution
-                };
-                retQuestion.Answers.Add(answerItem);
-            }
-
-            return retQuestion;
-        }
-
-        public Question GetQuestion(Guid quizId, Guid questionId)
-        {
-            ContractTypes.PlayQuestion question = ClientProxy.GetQuizProxy<IPlay>().GetQuestion(quizId, questionId);
-
-            Question retQuestion = new Question
-            {
-                QuizId = quizId,
-                QuestionId = question.Id,
-                Hint = question.Hint,
-                Text = question.Text,
-                IsMultipleChoice = question.IsMultipleChoice,
-                NextQuestion = question.NextQuestion,
-                PreviousQuestion = question.PreviousQuestion
-            };
-
-            retQuestion.Answers = new List<Answer>(question.Answers.Count);
-            foreach (ContractTypes.Answer answer in question.Answers)
-            {
-                Answer answerItem = new Answer
-                {
-                    Id = answer.Id,
-                    Text = answer.Text,
-                    IsSolution = answer.IsSolution
-                };
-                retQuestion.Answers.Add(answerItem);
-            }
-
-            return retQuestion;
-        }
-
-        public void UpdateCookie(HttpCookie cookie, string key)
-        {
-            if(string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException(nameof(key) + " cannot be null or empty");
-            }
-            if(cookie == null)
-            {
-                cookie = new HttpCookie(key);
-            }
         }
 
         /// <summary>
