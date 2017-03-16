@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BFH.EADN.Common.Types.Contracts
 {
     [DataContract(Namespace = Constants.XMLNamespace, Name = "QuestionAnswerState", IsReference = true)]
-    public class QuestionAnswerState
+    public class QuestionAnswerState : BaseContract
     {
         [DataMember(Name = "QuizStateId", Order = 0)]
         public Guid QuestionAnswerStateId { get; set; }

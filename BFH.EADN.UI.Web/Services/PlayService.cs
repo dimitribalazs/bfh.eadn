@@ -83,21 +83,6 @@ namespace BFH.EADN.UI.Web.Services
             return ClientProxy.GetQuizProxy<IPlay>().GetQuiz(quizId);
         }
 
-        //public Question GetFirstQuestion(ContractTypes.Quiz quiz)
-        //{
-        //    ContractTypes.Question question = quiz.Questions.First();
-        //    Question retQuestion = new Question
-        //    {
-        //        QuizId = quiz.Id,
-        //        QuestionId = question.Id,
-        //        Hint = question.Hint,
-        //        Text = question.Text,
-        //        IsMultipleChoice = question.IsMultipleChoice,
-        //        NextQuestion = question.NextQuestion
-        //    };
-
-        //}
-
         public Question GetQuestion(ContractTypes.Quiz quiz, Guid currentQuestionId)
         {
             //get next element

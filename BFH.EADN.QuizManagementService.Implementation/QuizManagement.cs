@@ -15,15 +15,36 @@ using System.Threading.Tasks;
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
     public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement//, ISession
     {
+        /// <summary>
+        /// Holds the persistence factory during the call
+        /// </summary>
         private IFactoryPersistence _persistenceFactory;
+
+        /// <summary>
+        /// Get Topic repository
+        /// </summary>
         private IRepository<Topic, Guid> TopicRepository => _persistenceFactory.CreateTopicRepository();
+
+        /// <summary>
+        /// Get Answer repository
+        /// </summary>
         private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
+
+        /// <summary>
+        /// Get Question repository
+        /// </summary>
         private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
+
+        /// <summary>
+        /// Get Quiz repository
+        /// </summary>
         private IRepository<Quiz, Guid> QuizRepository => _persistenceFactory.CreateQuizRepository();
 
+        /// <summary>
+        /// Default constructor which creates a new persistence factory
+        /// </summary>
         public QuizManagement()
         {
             _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();   
@@ -32,12 +53,13 @@ namespace BFH.EADN.QuizManagementService.Implementation
         /// <summary>
         /// Constructor to pass in persistence factory
         /// </summary>
-        /// <param name="persistenceFactory"></param>
+        /// <param name="persistenceFactory">a persistence factory</param>
         public QuizManagement(IFactoryPersistence persistenceFactory)
         {
             _persistenceFactory = persistenceFactory;
         }
 
+        ///<inheritdoc />
         public void CreateTopic(Topic topic)
         {
             try
@@ -54,6 +76,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void DeleteTopic(Guid id)
         {
             try
@@ -70,6 +93,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void UpdateTopic(Topic topic)
         {
             try
@@ -87,6 +111,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public Topic GetTopic(Guid id)
         {
             try
@@ -103,6 +128,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public List<Topic> GetTopics()
         {
             try
@@ -120,12 +146,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public List<Topic> GetTopicsByIds(List<Guid> ids)
         {
             try
             {
-                if (ids == null) { throw new ArgumentNullException(nameof(ids) + "cannot be null"); }
-
                 using (IRepository<Topic, Guid> repo = TopicRepository)
                 {
                     return repo.GetListByIds(ids);
@@ -138,6 +163,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void CreateAnswer(Answer answer)
         {
             try
@@ -154,6 +180,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void UpdateAnswer(Answer answer)
         {
             try
@@ -170,6 +197,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void DeleteAnswer(Guid id)
         {
             try
@@ -186,6 +214,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public Answer GetAnswer(Guid id)
         {
             try
@@ -202,6 +231,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public List<Answer> GetAnswers()
         {
             try
@@ -218,6 +248,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void CreateQuestion(Question question)
         {
             try
@@ -234,6 +265,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void UpdateQuestion(Question question)
         {
             try
@@ -250,7 +282,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        ///<inheritdoc />
         public void DeleteQuestion(Guid id)
         {
             try
@@ -267,7 +299,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        ///<inheritdoc />
         public Question GetQuestion(Guid id)
         {
             try
@@ -284,7 +316,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        // [PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        ///<inheritdoc />
         public List<Question> GetQuestions()
         {
             try
@@ -301,6 +333,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public List<Question> GetQuestionsWithoutTopic()
         {
             try
@@ -317,7 +350,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        ///<inheritdoc />
         public List<Question> GetQuestionsByIds(List<Guid> ids)
         {
             try
@@ -334,6 +367,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void CreateQuiz(Quiz quiz)
         {
             try
@@ -350,6 +384,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void UpdateQuiz(Quiz quiz)
         {
             try
@@ -366,6 +401,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void DeleteQuiz(Guid id)
         {
             try
@@ -382,6 +418,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public Quiz GetQuiz(Guid id)
         {
             try
@@ -398,7 +435,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-
+        ///<inheritdoc />
         public List<Quiz> GetQuizzes()
         {
             try
@@ -415,7 +452,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
+        ///<inheritdoc />
         public List<Quiz> GetQuizzesByIds(List<Guid> ids)
         {
             try

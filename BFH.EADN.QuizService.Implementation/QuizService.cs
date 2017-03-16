@@ -15,13 +15,34 @@ namespace BFH.EADN.QuizService.Implementation
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizService")]
     public class QuizService : IPlay
     {
+        /// <summary>
+        /// Holds the persistence factory during the call
+        /// </summary>
         private IFactoryPersistence _persistenceFactory;
+
+        /// <summary>
+        /// Get Question repository
+        /// </summary>
         private IRepository<Question, Guid> QuestionRepository => _persistenceFactory.CreateQuestionRepository();
+
+        /// <summary>
+        /// Get Quiz repository
+        /// </summary>
         private IRepository<Quiz, Guid> QuizRepository => _persistenceFactory.CreateQuizRepository();
+
+        /// <summary>
+        /// Get QuestionAnswerState repository
+        /// </summary>
         private IRepository<QuestionAnswerState, Guid> QuestionAnswerStateRepository => _persistenceFactory.CreateQuestionAnswerStateRepository();
 
+        /// <summary>
+        /// Get Answer repository
+        /// </summary>
         private IRepository<Answer, Guid> AnswerRepository => _persistenceFactory.CreateAnswerRepository();
 
+        /// <summary>
+        /// Default constructor which creates a new persistence factory
+        /// </summary>
         public QuizService()
         {
             _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
@@ -30,12 +51,13 @@ namespace BFH.EADN.QuizService.Implementation
         /// <summary>
         /// Constructor to pass in persistence factory
         /// </summary>
-        /// <param name="persistenceFactory"></param>
+        /// <param name="persistenceFactory">a persistence factory</param>
         public QuizService(IFactoryPersistence persistenceFactory)
         {
             _persistenceFactory = persistenceFactory;
         }
 
+        ///<inheritdoc />
         public Quiz GetQuiz(Guid id)
         {
             try
@@ -93,6 +115,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public List<Quiz> GetQuizzes()
         {
             try
@@ -110,7 +133,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
-
+        ///<inheritdoc />
         public PlayQuestion GetFirstQuestion(Guid quizId)
         {
             try
@@ -128,6 +151,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
         {
             try
@@ -181,6 +205,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
             try
@@ -200,6 +225,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void UpdateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
         {
             try
@@ -223,6 +249,7 @@ namespace BFH.EADN.QuizService.Implementation
             }
         }
 
+        ///<inheritdoc />
         public void DeleteQuestionAnswerState(Guid quizStateId)
         {
             try
@@ -238,6 +265,8 @@ namespace BFH.EADN.QuizService.Implementation
                 throw new FaultException<ServiceFault>(fault);
             }
         }
+
+        ///<inheritdoc />
         public List<QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid quizStateId)
         {
             try

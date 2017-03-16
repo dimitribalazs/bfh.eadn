@@ -103,31 +103,7 @@ namespace BFH.EADN.QuizService.Implementation.Tests
             service = new QuizService(null);
             Quiz quizById = service.GetQuiz(quiz.Id);
         }
-
-        [TestMethod]
-        public void GetFirstQuestion()
-        {
-            IPlay service = new QuizService(_factoryPersistence);
-            Quiz quiz = service.GetQuizzes().Last(q => q.Questions.Count > 0);
-            List<Question> questions = quiz.Questions.OrderBy(q => q.Id).ToList();
-            Guid firstQuestionId = questions.First().Id;
-
-            PlayQuestion pq = service.GetFirstQuestion(quiz.Id);
-
-            Assert.IsNotNull(pq);
-            Assert.AreEqual(firstQuestionId, pq.Id);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(FaultException<ServiceFault>))]
-        public void GetFirstQuestionException()
-        {
-            IPlay service = new QuizService(_factoryPersistence);
-            Quiz quiz = service.GetQuizzes().Last();
-            service = new QuizService(null);
-            service.GetFirstQuestion(quiz.Id);
-        }
-
+        
         [TestMethod]
         public void GetQuestionSuccess()
         {

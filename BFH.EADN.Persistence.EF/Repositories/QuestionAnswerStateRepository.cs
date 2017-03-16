@@ -2,14 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
+    /// <summary>
+    /// QuestionAnswerState repository to interact with the persistence layer
+    /// </summary>
     public sealed class QuestionAnswerStateRepository : BaseRepository<CommonContracts.QuestionAnswerState, Guid>
     {
+        ///<inheritdoc />
         public override void Create(CommonContracts.QuestionAnswerState data)
         {
             if (data.Answers != null && data.Answers.Count > 0)
@@ -33,6 +36,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.SaveChanges();
         }
 
+        ///<inheritdoc />
         public override void Delete(Guid quizStateId)
         {
             List<Entities.QuestionAnswerState> entities = Context.QuestionAnswerStates.Where(q => q.QuestionAnswerStateId == quizStateId).ToList();
@@ -40,11 +44,13 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.SaveChanges();
         }
 
+        ///<inheritdoc />
         public override CommonContracts.QuestionAnswerState Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
+        ///<inheritdoc />
         public override List<CommonContracts.QuestionAnswerState> GetAll()
         {
             List<Entities.QuestionAnswerState> results = Context.QuestionAnswerStates.ToList();
@@ -91,11 +97,13 @@ namespace BFH.EADN.Persistence.EF.Repositories
             return returnData;
         }
 
+        ///<inheritdoc />
         public override List<CommonContracts.QuestionAnswerState> GetListByIds(List<Guid> ids)
         {
             throw new NotImplementedException();
         }
 
+        ///<inheritdoc />
         public override void Update(CommonContracts.QuestionAnswerState data)
         {
             //delete old entries

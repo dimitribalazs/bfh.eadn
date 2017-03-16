@@ -1,15 +1,13 @@
-﻿using BFH.EADN.Persistence.EF.Entities;
+﻿using System.Data.Entity;
+
+using BFH.EADN.Persistence.EF.Entities;
 using BFH.EADN.Persistence.EF.Seed;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BFH.EADN.Persistence.EF
 {
+    /// <summary>
+    /// DataContext which the EF uses for saving
+    /// </summary>
     internal class QuizDataContext : DbContext
     {
         public QuizDataContext() : base("name=DefaultConnection")
@@ -25,6 +23,8 @@ namespace BFH.EADN.Persistence.EF
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //todo comment this
+
             //modelBuilder.Entity<Quiz>()
             //    .HasOptional<ICollection<Question>>(q => q.Questions)
             //    .WithOptionalDependent(q => q.)
@@ -32,7 +32,6 @@ namespace BFH.EADN.Persistence.EF
                 //.HasForeignKey(e => e.FooId)
                 //
                 //.WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Question>()
                 .HasMany(q => q.Answers)
                 .WithOptional()

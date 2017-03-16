@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
-using BFH.EADN.Common.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using CommonContracts = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
+    /// <summary>
+    /// Quiz repository to interact with the persistence layer
+    /// </summary>
     public sealed class QuizRepository : BaseRepository<CommonContracts.Quiz, Guid>
     {
+        ///<inheritdoc />
         public override void Create(CommonContracts.Quiz data)
         {
             Entities.Quiz newQuiz = Mapper.Map<Entities.Quiz>(data);
@@ -21,6 +25,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.SaveChanges();
         }
 
+        ///<inheritdoc />
         public override void Delete(Guid Id)
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
@@ -30,18 +35,21 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.SaveChanges();
         }
 
+        ///<inheritdoc />
         public override CommonContracts.Quiz Get(Guid Id)
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
             return Mapper.Map<CommonContracts.Quiz>(quiz);
         }
 
+        ///<inheritdoc />
         public override List<CommonContracts.Quiz> GetAll()
         {
             List<Entities.Quiz> quizzes = Context.Quizzes.ToList();
            return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
         }
 
+        ///<inheritdoc />
         public override List<CommonContracts.Quiz> GetListByIds(List<Guid> ids)
         {
             if (ids == null)
@@ -52,6 +60,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
         }
 
+        ///<inheritdoc />
         public override void Update(CommonContracts.Quiz data)
         {
             Entities.Quiz quiz = Context.Quizzes.Find(data.Id);

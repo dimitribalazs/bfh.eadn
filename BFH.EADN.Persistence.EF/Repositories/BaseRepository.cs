@@ -1,14 +1,20 @@
 ﻿using System;
-using BFH.EADN.Common.Types;
-using System.Linq.Expressions;
 using System.Collections.Generic;
 using AutoMapper;
+
+using BFH.EADN.Common.Types;
 using ContractTypes = BFH.EADN.Common.Types.Contracts;
-using BFH.EADN.Persistence.EF.Entities;
+
 
 namespace BFH.EADN.Persistence.EF.Repositories
 {
+    /// <summary>
+    /// Base repository which all concrete repositories must inherit from.
+    /// </summary>
+    /// <typeparam name="T">repository type (BaseContract) </typeparam>
+    /// <typeparam name="K">type of id which the the repository uses</typeparam>
     public abstract class BaseRepository<T, K> : IRepository<T, K>, IDisposable
+        where T : ContractTypes.BaseContract
     {
         /// <summary>
         /// Initiliaze mappings from contract data to entity data (ef)
@@ -45,14 +51,33 @@ namespace BFH.EADN.Persistence.EF.Repositories
                  cfg.CreateMap<ContractTypes.QuestionAnswerState, Entities.QuestionAnswerState>();
              });
         }
+
+        /// <summary>
+        /// Create data context instance
+        /// </summary>
         internal QuizDataContext Context { get; } = new QuizDataContext();
+
+        ///<inheritdoc />
         public abstract void Create(T data);
+
+        ///<inheritdoc />
         public abstract void Delete(K Id);
+
+        ///<inheritdoc />
         public abstract T Get(K Id);
-        //public abstract T Get(Func<T, bool> expr);
+
+        ///<inheritdoc />
         public abstract List<T> GetAll();
+
+        ///<inheritdoc />
         public abstract List<T> GetListByIds(List<K> ids);
+
+        ///<inheritdoc />
         public abstract void Update(T data);
+
+        /// <summary>
+        /// Disposes the context
+        /// </summary>
         public void Dispose()
         {
             Context?.Dispose();

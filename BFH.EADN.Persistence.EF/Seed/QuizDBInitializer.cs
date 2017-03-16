@@ -1,14 +1,14 @@
-﻿using BFH.EADN.Common.Types.Enums;
-using BFH.EADN.Persistence.EF.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using BFH.EADN.Common.Types.Enums;
+using BFH.EADN.Persistence.EF.Entities;
 
 namespace BFH.EADN.Persistence.EF.Seed
 {
+    /// <summary>
+    /// Seeds the example data. Used for unit tests and also for "human" tets
+    /// </summary>
     internal class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)

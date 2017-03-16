@@ -23,26 +23,19 @@ namespace BFH.EADN.Common.Types
         T Get(K Id);
 
         /// <summary>
-        /// Get entity by an expression
-        /// </summary>
-        /// <param name="Id">Id of type K</param>
-        /// <returns>Entity of type T</returns>
-        //T Get(Func<T, bool> expr);
-
-        /// <summary>
         /// Get all entities
         /// </summary>
         /// <returns>List of entities of type T</returns>
         List<T> GetAll();
 
         /// <summary>
-        /// Update an entity
+        /// Updates an entity
         /// </summary>
         /// <param name="data">Datas to update</param>
         void Update(T data);
 
         /// <summary>
-        /// Delete entity by its id
+        /// Delete an entity by its id
         /// </summary>
         /// <param name="Id">Id of type K</param>
         void Delete(K Id);

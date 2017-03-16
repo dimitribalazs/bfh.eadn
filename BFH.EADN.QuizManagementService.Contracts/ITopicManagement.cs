@@ -1,8 +1,9 @@
-﻿using BFH.EADN.Common;
-using BFH.EADN.Common.Types.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+
+using BFH.EADN.Common;
+using BFH.EADN.Common.Types.Contracts;
 
 
 namespace BFH.EADN.QuizManagementService.Contracts
