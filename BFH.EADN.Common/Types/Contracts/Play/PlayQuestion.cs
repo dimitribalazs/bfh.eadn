@@ -10,10 +10,10 @@ namespace BFH.EADN.Common.Types.Contracts
     [DataContract(Namespace = Constants.XMLNamespace, Name = "PlayQuestion", IsReference = true)]
     public class PlayQuestion : Question
     {
-        [DataMember(Name = "PreviousQuestion", Order = 0)]
+        [DataMember(Order = 0, Name = "PreviousQuestion")]
         public Guid? PreviousQuestion { get; set; }
 
-        [DataMember(Name = "NextQuestion", Order = 0)]
+        [DataMember(Order = 0, Name = "NextQuestion")]
         public Guid? NextQuestion { get; set; }
     }
 }

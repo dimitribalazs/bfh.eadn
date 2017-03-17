@@ -10,13 +10,13 @@ namespace BFH.EADN.Common.Types.Contracts
     [DataContract(Namespace = Constants.XMLNamespace, Name = "QuestionAnswerState", IsReference = true)]
     public class QuestionAnswerState : BaseContract
     {
-        [DataMember(Name = "QuizStateId", Order = 0)]
+        [DataMember(Order = 0, Name = "QuizStateId")]
         public Guid QuestionAnswerStateId { get; set; }
 
-        [DataMember(Name = "Question", Order = 0)]
+        [DataMember(Order = 0, Name = "Question")]
         public Question Question { get; set; }
 
-        [DataMember(Name = "Answers", Order = 0)]
+        [DataMember(Order = 0, Name = "Answers")]
         public List<Answer> Answers { get; set; }
     }
 }

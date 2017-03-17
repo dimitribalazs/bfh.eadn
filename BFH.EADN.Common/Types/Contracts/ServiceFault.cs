@@ -7,17 +7,28 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Common.Types.Contracts
 {
-    [DataContract]
+    /// <summary>
+    /// Service Fault which is used by the WCF
+    /// </summary>
+    [DataContract(Namespace = Constants.XMLNamespace, Name = "ServiceFault")]
     public class ServiceFault
     {
-        [DataMember]
+        /// <summary>
+        /// Reason is the message of the exceptionc
+        /// </summary>
+        [DataMember(Order = 0, Name = "Reason")]
         public string Reason { get; set; }
 
-        [DataMember]
+        /// <summary>
+        /// Additional message
+        /// </summary>
+        [DataMember(Order = 0, Name = "Message")]
         public string Message { get; set; }
 
-        [DataMember]
+        /// <summary>
+        /// Inner exception of the causing exception
+        /// </summary>
+        [DataMember(Order = 0, Name = "InnerException")]
         public Exception InnerException { get; set; }
-
     }
 }

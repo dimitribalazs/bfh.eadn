@@ -75,9 +75,6 @@ namespace BFH.EADN.CommonTests
             //Play
             TestHelper.TestHelper.TestProperties<PlayQuestion>();
             TestHelper.TestHelper.TestProperties<QuestionAnswerState>();
-            TestHelper.TestHelper.TestProperties<QuizSelection>();
-
-
         }
     }
 }

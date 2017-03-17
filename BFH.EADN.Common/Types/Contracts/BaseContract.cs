@@ -10,8 +10,7 @@ namespace BFH.EADN.Common.Types.Contracts
     [DataContract(Namespace = Constants.XMLNamespace, Name = "BaseContract", IsReference = true)]
     public abstract class BaseContract
     {
-        //todo not sure if id necessary, how to solve this without id
-        [DataMember(Order = 0)]
+        [DataMember(Order = 0, Name = "Id")]
         public Guid Id { get; set; }
     }
 }

@@ -11,10 +11,10 @@ namespace BFH.EADN.Common.Types.Contracts
     [DataContract(Namespace = Constants.XMLNamespace, Name = "User", IsReference = true)]
     public sealed class User : BaseContract
     {
-        [DataMember(Order = 0)]
+        [DataMember(Order = 0, Name = "Name")]
         public string Name { get; set; }
 
-        [DataMember(Order = 0)]
+        [DataMember(Order = 0, Name = "Password")]
         public string Password { get; set; }
     }
 }

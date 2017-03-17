@@ -11,15 +11,19 @@ namespace BFH.EADN.Common.Types.Contracts
     [DataContract(Namespace = Constants.XMLNamespace, Name = "Quiz", IsReference = true)]
     public sealed class Quiz : BaseContract
     {
-        [DataMember(Order = 0)]
+        [DataMember(Order = 0, Name = "Text")]
         public string Text { get; set; }
-        [DataMember(Order = 0)]
+
+        [DataMember(Order = 0, Name = "MinQuestionCount")]
         public int MinQuestionCount { get; set; }
-        [DataMember(Order = 0)]
+
+        [DataMember(Order = 0, Name = "MaxQuestionCount")]
         public int MaxQuestionCount { get; set; }
-        [DataMember(Order = 0)]
+
+        [DataMember(Order = 0, Name = "Type")]
         public QuizType Type { get; set; }
-        [DataMember(Order = 0)]
+
+        [DataMember(Order = 0, Name = "Questions")]
         public List<Question> Questions { get; set; }   
     }
 }
