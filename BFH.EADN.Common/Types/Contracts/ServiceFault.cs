@@ -14,13 +14,13 @@ namespace BFH.EADN.Common.Types.Contracts
     public class ServiceFault
     {
         /// <summary>
-        /// Reason is the message of the exceptionc
+        /// Reason is additional information
         /// </summary>
         [DataMember(Order = 0, Name = "Reason")]
         public string Reason { get; set; }
 
         /// <summary>
-        /// Additional message
+        /// Message of the exception
         /// </summary>
         [DataMember(Order = 0, Name = "Message")]
         public string Message { get; set; }

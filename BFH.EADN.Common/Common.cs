@@ -29,15 +29,16 @@ namespace BFH.EADN.Common
         /// <summary>
         /// Creates a service fault object. Which can be used as exception type in the wcf.
         /// </summary>
-        /// <param name="ex">exception, uses message</param>
+        /// <param name="ex">exception, uses message and inner exception</param>
         /// <param name="reason">own text</param>
         /// <returns>ServiceFault</returns>
         public static ServiceFault CreateServiceFault(Exception ex, string reason)
         {
             ServiceFault fault = new ServiceFault
             {
+                Reason = reason,
                 Message = ex.Message,
-                Reason = reason
+                InnerException = ex.InnerException
             };
 
             return fault;
