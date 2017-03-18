@@ -5,8 +5,14 @@ using System.Web;
 
 namespace BFH.EADN.UI.Web.Models
 {
-    public class BaseModel
+    /// <summary>
+    /// Base view model
+    /// </summary>
+    public abstract class BaseModel
     {
+        /// <summary>
+        /// Database Id
+        /// </summary>
         public Guid Id { get; set; }
     }
 }

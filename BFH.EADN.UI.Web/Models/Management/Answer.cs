@@ -8,12 +8,26 @@ using System.Web.Mvc;
 
 namespace BFH.EADN.UI.Web.Models.Management
 {
-    public class Answer : BaseModel
+    /// <summary>
+    /// Answer view model
+    /// </summary>
+    public sealed class Answer : BaseModel
     {
+        /// <summary>
+        /// Id of the question to which the answer belongs
+        /// </summary>
         [Required]
         public Guid QuestionId { get; set; }
+
+        /// <summary>
+        /// Text of the answer
+        /// </summary>
         [Required]
         public string Text { get; set; }
+
+        /// <summary>
+        /// Answer is solution
+        /// </summary>
         [Required]
         public bool IsSolution { get; set; }
     }

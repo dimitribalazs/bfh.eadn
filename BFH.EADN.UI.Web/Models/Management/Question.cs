@@ -8,39 +8,62 @@ using ContractTypes = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.UI.Web.Models.Management
 {
-    public class Question : BaseModel
+    /// <summary>
+    /// Question view model
+    /// </summary>
+    public sealed class Question : BaseModel
     {
+        /// <summary>
+        /// Text of question
+        /// </summary>
         [Required]
         public string Text { get; set; }
+
+        /// <summary>
+        /// Hint of question
+        /// </summary>
         public string Hint { get; set; }
+
+        /// <summary>
+        /// If question is multiple choice or not
+        /// </summary>
         [Required]
         public bool IsMultipleChoice { get; set; }
+
+        /// <summary>
+        /// Selected topic ids
+        /// </summary>
         [Required]
         public Guid[] SelectedTopicIds { get; set; }
-        public List<ContractTypes.Topic> Topics { get; set; }
-        public List<SelectListItem> SelectTopics
-            => Topics.Select(t => new SelectListItem
-            {
-                Value = t.Id.ToString(),
-                Text = t.Name,
-                Selected = SelectedTopicIds != null && SelectedTopicIds.Contains(t.Id)
-            }).ToList();
 
-        
+        /// <summary>
+        /// Topics to choose from
+        /// </summary>
+        public List<ContractTypes.Topic> Topics { get; set; }
+
+        /// <summary>
+        /// Selected answer ids
+        /// </summary>
         public Guid[] SelectedAnswerIds { get; set; }
 
+        /// <summary>
+        /// Answer to choose from
+        /// </summary>
         public List<ContractTypes.Answer> Answers { get; set; }
-        public List<SelectListItem> SelectAnswers
-            => Answers.Select(a => new SelectListItem
-            {
-                Value = a.Id.ToString(),
-                Text = a.Text,
-                Selected = SelectedAnswerIds != null && SelectedAnswerIds.Contains(a.Id)
-            }).ToList();
 
+        /// <summary>
+        /// Checks if topic has already selected
+        /// </summary>
+        /// <param name="id">topic id</param>
+        /// <returns>true if is already selected</returns>
         public bool TopicIsSelected(Guid id)
             => SelectedTopicIds != null && SelectedTopicIds.Contains(id);
 
+        /// <summary>
+        /// Checks if answer has already selected
+        /// </summary>
+        /// <param name="id">answer id</param>
+        /// <returns>true if is already selected</returns>
         public bool AnswerIsSelected(Guid id)
             => SelectedAnswerIds != null && SelectedAnswerIds.Contains(id);
     }
