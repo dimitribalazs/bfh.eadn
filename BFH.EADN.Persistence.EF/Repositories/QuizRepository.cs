@@ -18,9 +18,15 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Entities.Quiz newQuiz = Mapper.Map<Entities.Quiz>(data);
             if(data.Questions != null && data.Questions.Count > 0)
             {
+                //Get all questions and set LastUsed state
                 List<Guid> questionIds = data.Questions.Select(dq => dq.Id).ToList();
-                newQuiz.Questions = Context.Questions.Where(q => questionIds.Contains(q.Id)).ToList();
+                List<Entities.Question> questions = Context.Questions.Where(q => questionIds.Contains(q.Id)).ToList();
+                questions.ForEach(q => q.LastUsed = DateTime.Now);
+
+                newQuiz.Questions = questions;
             }
+            newQuiz.LastUsed = DateTime.Now;
+
             Context.Quizzes.Add(newQuiz);
             Context.SaveChanges();
         }
@@ -29,6 +35,10 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Delete(Guid Id)
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
+            if (CanBeDeleted(quiz.LastUsed, Common.Constants.DeletionThreshold) == false)
+            {
+                throw new InvalidOperationException("Cannot delete quiz because time threshold is not reached yet");
+            }
             //we wont delete the questions
             quiz.Questions = null;            
             Context.Quizzes.Remove(quiz);
@@ -39,14 +49,18 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override CommonContracts.Quiz Get(Guid Id)
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
-            return Mapper.Map<CommonContracts.Quiz>(quiz);
+            CommonContracts.Quiz contractQuiz = Mapper.Map<CommonContracts.Quiz>(quiz);
+            contractQuiz.CanBeDeleted = CanBeDeleted(quiz.LastUsed, Common.Constants.DeletionThreshold);
+            return contractQuiz;
         }
 
         ///<inheritdoc />
         public override List<CommonContracts.Quiz> GetAll()
         {
             List<Entities.Quiz> quizzes = Context.Quizzes.ToList();
-           return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
+            List<CommonContracts.Quiz> contractQuizzes = Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
+            contractQuizzes.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+            return contractQuizzes;
         }
 
         ///<inheritdoc />
@@ -57,7 +71,9 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 return null;
             }
             List<Entities.Quiz> quizzes = Context.Quizzes.Where(q => ids.Contains(q.Id)).ToList();
-            return Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
+            List<CommonContracts.Quiz> contractQuizzes = Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
+            contractQuizzes.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+            return contractQuizzes;
         }
 
         ///<inheritdoc />
@@ -68,6 +84,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             quiz.Type = data.Type;
             quiz.MaxQuestionCount = data.MaxQuestionCount;
             quiz.MinQuestionCount = data.MinQuestionCount;
+            quiz.LastUsed = DateTime.Now;
             
             List<Guid> guids = data.Questions.Select(q => q.Id).ToList();
             foreach(var question in Context.Questions.ToList())
@@ -78,6 +95,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 }
                 else
                 {
+                    question.LastUsed = DateTime.Now;
                     quiz.Questions.Add(question);
                 }
             }

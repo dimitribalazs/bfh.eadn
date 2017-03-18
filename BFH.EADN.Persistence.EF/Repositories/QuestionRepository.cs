@@ -21,6 +21,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 List<Guid> topicIds = data.Topics.Select(dq => dq.Id).ToList();
                 newQuestion.Topics = Context.Topics.Where(q => topicIds.Contains(q.Id)).ToList();
             }
+            newQuestion.LastUsed = DateTime.Now;
             Context.Questions.Add(newQuestion);
             Context.SaveChanges();
         }
@@ -28,7 +29,12 @@ namespace BFH.EADN.Persistence.EF.Repositories
         ///<inheritdoc />
         public override void Delete(Guid Id)
         {
-            Context.Questions.Remove(Context.Questions.Single(q => q.Id == Id));
+            Entities.Question question = Context.Questions.Single(q => q.Id == Id);
+            if (CanBeDeleted(question.LastUsed, Common.Constants.DeletionThreshold) == false)
+            {
+                throw new InvalidOperationException("Cannot delete quiz because time threshold is not reached yet");
+            }
+            Context.Questions.Remove(question);
             Context.SaveChanges();
         }
 
@@ -36,14 +42,18 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override CommonContracts.Question Get(Guid Id)
         {
             Entities.Question question = Context.Questions.Single(q => q.Id == Id);
-            return Mapper.Map<CommonContracts.Question>(question);
+            CommonContracts.Question contractQuestion = Mapper.Map<CommonContracts.Question>(question);
+            contractQuestion.CanBeDeleted = CanBeDeleted(question.LastUsed, Common.Constants.DeletionThreshold);
+            return contractQuestion;
         }
 
         ///<inheritdoc />
         public override List<CommonContracts.Question> GetAll()
         {
-            List<Entities.Question> quetsions = Context.Questions.ToList();
-            return Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(quetsions);
+            List<Entities.Question> questions = Context.Questions.ToList();
+            List<CommonContracts.Question> contractQuestions = Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(questions);
+            contractQuestions.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+            return contractQuestions;
         }
 
         ///<inheritdoc />
@@ -54,7 +64,9 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 return null;
             }
             List<Entities.Question> quetsions = Context.Questions.Where(q => ids.Contains(q.Id)).ToList();
-            return Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(quetsions);
+            List<CommonContracts.Question> contractQuestions = Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(quetsions);
+            contractQuestions.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+            return contractQuestions;
         }
 
         ///<inheritdoc />
@@ -64,7 +76,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             question.Hint = data.Hint;
             question.IsMultipleChoice = data.IsMultipleChoice;
             question.Text = data.Text;
-            
+                       
             List<Guid> guids = data.Topics.Select(t => t.Id).ToList();
             foreach (var topic in Context.Topics.ToList())
             {

@@ -12,5 +12,10 @@ namespace BFH.EADN.Common
         /// Defines the XML namespace for the WCF contracts
         /// </summary>
         public const string XMLNamespace = "http://bfh.eadn.semesterarbeit.ch";
+
+        /// <summary>
+        /// Defines the threshold wenn data can be deleted
+        /// </summary>
+        public const int DeletionThreshold = 5;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
@@ -31,6 +32,11 @@ namespace BFH.EADN.Persistence.EF.Entities
         /// If it is a yes or not question. If false, then its not an multiple choice
         /// </summary>
         public bool IsMultipleChoice { get; set; }
+
+        /// <summary>
+        /// When the question was last used
+        /// </summary>
+        public DateTime LastUsed { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Relations to topic

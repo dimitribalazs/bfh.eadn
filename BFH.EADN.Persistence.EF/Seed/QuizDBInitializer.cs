@@ -3,6 +3,7 @@ using System.Data.Entity;
 
 using BFH.EADN.Common.Types.Enums;
 using BFH.EADN.Persistence.EF.Entities;
+using System;
 
 namespace BFH.EADN.Persistence.EF.Seed
 {
@@ -28,7 +29,7 @@ namespace BFH.EADN.Persistence.EF.Seed
             Question programmingQuestion9 = new Question { Text = "7 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion10 = new Question { Text = "8 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion11 = new Question { Text = "9 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true };
+            Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true, LastUsed = DateTime.Now.AddDays(-10)};
             Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
             Question movieQuestion2 = new Question { Text = "Are those Lord of the Rings characters?", IsMultipleChoice = true };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
@@ -287,6 +288,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 Type = QuizType.Fix,
                 MinQuestionCount = 1,
                 MaxQuestionCount = 5,
+                LastUsed = DateTime.Now.AddDays(-10),
                 Questions = new HashSet<Question>
                 {
                     movieQuestion1,

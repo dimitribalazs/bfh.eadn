@@ -47,6 +47,11 @@ namespace BFH.EADN.UI.Web.Models.Management
         public Guid[] SelectedQuestionIds { get; set; }
 
         /// <summary>
+        /// Last used timestamp
+        /// </summary>
+        public DateTime LastUsed { get; set; }
+
+        /// <summary>
         /// Questions to choose from
         /// </summary>
         public List<ContractTypes.Question> Questions { get; set; }
@@ -59,5 +64,11 @@ namespace BFH.EADN.UI.Web.Models.Management
         public bool QuestionIsSelected(Guid id)
             => SelectedQuestionIds != null && SelectedQuestionIds.Contains(id);
 
+        /// <summary>
+        /// Return true if it can be deleted
+        /// </summary>
+        public bool CanBeDeleted
+                => (DateTime.Now - LastUsed).Days > Common.Constants.DeletionThreshold;
+            
     }
 }

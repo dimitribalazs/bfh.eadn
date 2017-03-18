@@ -39,6 +39,18 @@ namespace BFH.EADN.Common.Types.Contracts
         public QuizType Type { get; set; }
 
         /// <summary>
+        /// When the quiz was last used
+        /// </summary>
+        [DataMember(Order = 0, Name = "LastUsed")]
+        public DateTime LastUsed { get; set; }
+
+        /// <summary>
+        /// Can be deleted
+        /// </summary>
+        [DataMember(Order = 0, Name = "CanBeDeleted")]
+        public bool CanBeDeleted { get; set; }
+
+        /// <summary>
         /// Relations to questions
         /// </summary>
         [DataMember(Order = 0, Name = "Questions")]

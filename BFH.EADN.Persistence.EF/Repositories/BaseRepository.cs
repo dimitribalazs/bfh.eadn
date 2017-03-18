@@ -52,9 +52,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
              });
         }
 
-        /// <summary>
-        /// Create data context instance
-        /// </summary>
+        ///<inheritdoc />
         internal QuizDataContext Context { get; } = new QuizDataContext();
 
         ///<inheritdoc />
@@ -82,5 +80,8 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             Context?.Dispose();
         }
+
+        public bool CanBeDeleted(DateTime lastUsed, int lastUsedThresholdInDay)
+            => (DateTime.Now - lastUsed).Days > lastUsedThresholdInDay;
     }
 }

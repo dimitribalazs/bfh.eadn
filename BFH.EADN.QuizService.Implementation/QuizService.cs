@@ -65,6 +65,10 @@ namespace BFH.EADN.QuizService.Implementation
                 using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
                     Quiz quiz = repo.Get(id);
+
+                    //do that to update the LastUsed timestamp
+                    repo.Update(quiz);
+
                     //fix always same questions and same order
                     if (quiz.Type == QuizType.Fix)
                     {

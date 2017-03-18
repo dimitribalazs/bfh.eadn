@@ -47,6 +47,11 @@ namespace BFH.EADN.UI.Web.Models.Management
         public Guid[] SelectedAnswerIds { get; set; }
 
         /// <summary>
+        /// Last used timestamp
+        /// </summary>
+        public DateTime LastUsed { get; set; }
+
+        /// <summary>
         /// Answer to choose from
         /// </summary>
         public List<ContractTypes.Answer> Answers { get; set; }
@@ -66,5 +71,11 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// <returns>true if is already selected</returns>
         public bool AnswerIsSelected(Guid id)
             => SelectedAnswerIds != null && SelectedAnswerIds.Contains(id);
+
+        /// <summary>
+        /// Return true if it can be deleted
+        /// </summary>
+        public bool CanBeDeleted
+                => (DateTime.Now - LastUsed).Days > Common.Constants.DeletionThreshold;
     }
 }

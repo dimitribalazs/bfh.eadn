@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using BFH.EADN.Common.Types.Enums;
+using System;
 
 namespace BFH.EADN.Persistence.EF.Entities
 {
@@ -33,6 +34,11 @@ namespace BFH.EADN.Persistence.EF.Entities
         /// The maximu question amount per quiz
         /// </summary>
         public int MaxQuestionCount { get; set; }
+
+        /// <summary>
+        /// When the quiz was last used
+        /// </summary>
+        public DateTime LastUsed { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Relations to questions
