@@ -12,9 +12,15 @@ namespace BFH.EADN.Common.Wcf.Client
     /// Client
     /// </summary>
     /// <typeparam name="TServiceContract"></typeparam>
-    public abstract class WcfBaseClient<TServiceContract> 
+    public abstract class WcfBaseClient<TServiceContract>
         where TServiceContract : class
     {
+
+        /// <summary>
+        /// Key to read configuration from config
+        /// </summary>
+        protected string ConfigurationName { get; set; }
+
         /// <summary>
         ///The endpoint address of the server
         /// </summary>
@@ -30,6 +36,22 @@ namespace BFH.EADN.Common.Wcf.Client
         /// </summary>
         protected TServiceContract Proxy { get; set; }
 
+        /// <summary>
+        /// Read WCF client configuration from config
+        /// </summary>
+        /// <param name="configurationName">configuration name</param>
+        public WcfBaseClient(string configurationName)
+        {
+            if(configurationName == null) { throw new ArgumentNullException(nameof(configurationName) + " cannot be null"); };
+            if (string.IsNullOrEmpty(configurationName)) { throw new ArgumentException(nameof(configurationName) + " cannot be empty"); }
+            ConfigurationName = configurationName;
+        }
+
+        /// <summary>
+        /// Concrete params
+        /// </summary>
+        /// <param name="endpointAddress">EndpointAddress</param>
+        /// <param name="binding">Binding</param>
         public WcfBaseClient(EndpointAddress endpointAddress, Binding binding)
         {
             EndpointAddress = endpointAddress ?? throw new ArgumentNullException(nameof(endpointAddress) + "cannot be null");

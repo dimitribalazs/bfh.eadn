@@ -16,14 +16,27 @@ namespace BFH.EADN.Common.Wcf.Client
     public sealed class WcfClient<TServiceContract> : WcfBaseClient<TServiceContract> 
         where TServiceContract : class
     {
+        public WcfClient(string configurationName) : base(configurationName) { }
         public WcfClient(EndpointAddress endpointAddress, Binding binding) : base(endpointAddress, binding) { }
 
         ///<inheritdoc />
         protected override ChannelFactory<TServiceContract> CreateChannelFactory()
         {
-            ChannelFactory<TServiceContract> cf = new ChannelFactory<TServiceContract>(Binding, EndpointAddress);
+            ChannelFactory<TServiceContract> cf;
+            //if configuration is not set Binding and EndpointAddress from property
+            if(Binding == null || EndpointAddress == null)
+            {
+                cf = new ChannelFactory<TServiceContract>(Binding, EndpointAddress);
+            }
+            else
+            {
+                //at least configuration must be set
+                cf = new ChannelFactory<TServiceContract>(ConfigurationName);    
+            }
+
             cf.Endpoint.EndpointBehaviors.Add(new CustomBehavior());
             return cf;
+            
         }
     }
 }  

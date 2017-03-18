@@ -18,5 +18,11 @@ namespace BFH.EADN.Common.Wcf.Client
         {
             return new WcfClient<TServiceContract>(endpointAddress, binding);
         }
+
+        public static WcfClient<TServiceContract> CreateClient<TServiceContract>(string configurationName)
+            where TServiceContract : class
+        {
+            return new WcfClient<TServiceContract>(configurationName);
+        }
     }
 }
