@@ -37,6 +37,7 @@ namespace BFH.EADN.QuizService.Host
         protected override void OnStop()
         {
             _quizHost?.Close();
+            base.OnStop();
         }
     }
 }

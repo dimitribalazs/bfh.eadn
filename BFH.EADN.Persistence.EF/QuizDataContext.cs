@@ -2,6 +2,7 @@
 
 using BFH.EADN.Persistence.EF.Entities;
 using BFH.EADN.Persistence.EF.Seed;
+using System;
 
 namespace BFH.EADN.Persistence.EF
 {
@@ -13,6 +14,7 @@ namespace BFH.EADN.Persistence.EF
         public QuizDataContext() : base("name=DefaultConnection")
         {
             Database.SetInitializer(new QuizDBInitializer());
+            Database.Log = Console.Write;
         }
 
         public DbSet<Quiz> Quizzes { get; set; }
@@ -32,10 +34,10 @@ namespace BFH.EADN.Persistence.EF
                 //.HasForeignKey(e => e.FooId)
                 //
                 //.WillCascadeOnDelete(false);
-            modelBuilder.Entity<Question>()
-                .HasMany(q => q.Answers)
-                .WithOptional()
-                .WillCascadeOnDelete();
+            //modelBuilder.Entity<Question>()
+            //    .HasMany(q => q.Answers)
+            //    .WithOptional()
+            //    .WillCascadeOnDelete();
         }
 
     }

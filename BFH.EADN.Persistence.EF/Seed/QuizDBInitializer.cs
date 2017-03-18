@@ -29,11 +29,11 @@ namespace BFH.EADN.Persistence.EF.Seed
             Question programmingQuestion9 = new Question { Text = "7 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion10 = new Question { Text = "8 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion11 = new Question { Text = "9 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true, LastUsed = DateTime.Now.AddDays(-10)};
+            Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true };
             Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
             Question movieQuestion2 = new Question { Text = "Are those Lord of the Rings characters?", IsMultipleChoice = true };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
-            
+
 
             Answer programmingAnwers1Yes = new Answer { Text = "Yes", IsSolution = true };
             Answer programmingAnwers1No = new Answer { Text = "No" };
@@ -216,7 +216,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 programmingAnwers12Ubuntu
             };
 
-            
+
             movieQuestion1.Topics = new HashSet<Topic>
             {
                 movies
@@ -241,7 +241,6 @@ namespace BFH.EADN.Persistence.EF.Seed
                 movieQuestion2third
             };
 
-
             movieActorQuestion1.Topics = new HashSet<Topic>
             {
                 movies,
@@ -265,6 +264,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 Type = QuizType.Variable,
                 MinQuestionCount = 3,
                 MaxQuestionCount = 5,
+                LastUsed = DateTime.Now.AddDays(-10),
                 Questions = new HashSet<Question>
                 {
                     programmingQuestion1,

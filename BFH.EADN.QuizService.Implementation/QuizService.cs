@@ -218,6 +218,10 @@ namespace BFH.EADN.QuizService.Implementation
                 {
                     Question question = repo.Get(questionId);
                     List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
+                    if(answers == null)
+                    {
+                        return solutionsAnswers == null || solutionsAnswers.Count == 0;
+                    }
                     return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
                     //solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
                 }

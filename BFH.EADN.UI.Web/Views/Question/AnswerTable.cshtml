@@ -32,9 +32,9 @@
                             <td>@answer.Text</td>
                             <td>@answer.IsSolution</td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { controller = "Answer", id = answer.Id, questionId = answer.QuestionId }) |
-                                @Html.ActionLink("Details", "Details", new { controller = "Answer", id = answer.Id, questionId = answer.QuestionId }) |
-                                @Html.ActionLink("Delete", "Delete", new { controller = "Answer", id = answer.Id, questionId = answer.QuestionId })
+                                @Html.ActionLink("Edit", "Edit", new { controller = "Answer", id = answer.Id, questionId = Model.Id }) |
+                                @Html.ActionLink("Details", "Details", new { controller = "Answer", id = answer.Id, questionId = Model.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { controller = "Answer", id = answer.Id, questionId = Model.Id })
                             </td>
                         </tr>
                     }
