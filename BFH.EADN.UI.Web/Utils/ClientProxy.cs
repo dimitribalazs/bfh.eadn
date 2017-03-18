@@ -1,16 +1,15 @@
 ﻿using BFH.EADN.Common.Wcf.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Web;
 
 namespace BFH.EADN.UI.Web.Utils
 {
+    /// <summary>
+    /// Provides methods for client proxy creation
+    /// </summary>
     public static class ClientProxy
     {
         /// <summary>
-        /// Establishes a connection to the server
+        /// Establishes a connection to the management service
         /// </summary>
         /// <typeparam name="T">service type T</typeparam>
         /// <returns>a service of type T</returns>
@@ -24,6 +23,11 @@ namespace BFH.EADN.UI.Web.Utils
             return service.GetProxy();
         }
 
+        /// <summary>
+        /// Establishes a connection to the play service
+        /// </summary>
+        /// <typeparam name="T">service type T</typeparam>
+        /// <returns>a service of type T</returns>
         public static T GetQuizProxy<T>() where T : class
         {
             string nameOfProxy = typeof(T).Name;
