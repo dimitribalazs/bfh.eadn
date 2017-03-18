@@ -34,7 +34,6 @@ namespace BFH.EADN.Persistence.EF.Seed
             Question movieQuestion2 = new Question { Text = "Are those Lord of the Rings characters?", IsMultipleChoice = true };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
 
-
             Answer programmingAnwers1Yes = new Answer { Text = "Yes", IsSolution = true };
             Answer programmingAnwers1No = new Answer { Text = "No" };
 
@@ -338,6 +337,18 @@ namespace BFH.EADN.Persistence.EF.Seed
             }
 
             context.SaveChanges();
+
+
+            //question without topic
+            Question withoutQuestion = new Question
+            {
+                IsMultipleChoice = true,
+                Text = "Without question"
+            };
+
+            context.Questions.Add(withoutQuestion);
+            context.SaveChanges();
+
             base.Seed(context);
         }
     }

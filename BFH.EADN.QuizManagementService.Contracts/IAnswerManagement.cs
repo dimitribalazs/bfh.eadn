@@ -43,11 +43,19 @@ namespace BFH.EADN.QuizManagementService.Contracts
         Answer GetAnswer(Guid id);
 
         /// <summary>
-        /// Gets all topics
+        /// Gets all answers
         /// </summary>
         /// <returns></returns>
         [OperationContract(Name = "GetAnswers")]
         [FaultContract(typeof(ServiceFault))]
         List<Answer> GetAnswers();
+
+        /// <summary>
+        /// Gets all answers by its ids
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract(Name = "GetAnswersByIds")]
+        [FaultContract(typeof(ServiceFault))]
+        List<Answer> GetAnswersByIds(List<Guid> ids);
     }
 }

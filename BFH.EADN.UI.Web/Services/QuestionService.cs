@@ -69,10 +69,6 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="newQuestion"></param>
         public void Create(Question newQuestion)
         {
-            //if (newQuestion.Id == default(Guid))
-            //{
-            //    newQuestion.Id = Guid.NewGuid();
-            //}
             ContractTypes.Question contractQuestion = Mapper.Map<ContractTypes.Question>(newQuestion);
             List<ContractTypes.Topic> topics  = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(newQuestion.SelectedTopicIds.ToList());
             contractQuestion.Topics = topics;
@@ -90,8 +86,15 @@ namespace BFH.EADN.UI.Web.Services
             ContractTypes.Question contractQuestion = ClientProxy.GetProxy<IQuestionManagement>().GetQuestion(id);
             contractQuestion = Mapper.Map(question, contractQuestion);
 
+            //set topics
             List<ContractTypes.Topic> topics = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(question.SelectedTopicIds.ToList());
             contractQuestion.Topics = topics;
+
+            //set answers
+            List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(question.SelectedAnswerIds.ToList());
+            contractQuestion.Answers = answers;
+
+
             ClientProxy.GetProxy<IQuestionManagement>().UpdateQuestion(contractQuestion);
         }
 
@@ -102,6 +105,28 @@ namespace BFH.EADN.UI.Web.Services
         public void Delete(Guid id)
         {
             ClientProxy.GetProxy<IQuestionManagement>().DeleteQuestion(id);
+        }
+
+        /// <summary>
+        /// Validates edit and creat calls
+        /// </summary>
+        /// <param name="state">ModelStateDictionary</param>
+        /// <param name="question">current Question</param>
+        public void Validation(ModelStateDictionary state, Question question)
+        {
+            if(question.IsMultipleChoice == false)
+            {
+                List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(question.SelectedAnswerIds.ToList());
+                int answerIsSolutionCount = answers != null ? answers.Where(a => a.IsSolution).ToList().Count : 0;
+                if (answerIsSolutionCount > 1)
+                {
+                    state.AddModelError("SelectedAnswerIds", "You cannot set more than one answer as solution");
+                }
+                else if(answerIsSolutionCount == 0 )
+                {
+                    state.AddModelError("SelectedAnswerIds", "You must set at least one answer as solution");
+                }
+            }
         }
     }
 }

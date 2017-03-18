@@ -104,6 +104,11 @@ namespace BFH.EADN.UI.Web.Services
             ClientProxy.GetProxy<IQuizManagement>().DeleteQuiz(id);
         }
 
+        /// <summary>
+        /// Validates edit and creat calls
+        /// </summary>
+        /// <param name="state">ModelStateDictionary</param>
+        /// <param name="quiz">current quiz</param>
         public void Validation(ModelStateDictionary state, Quiz quiz)
         {
             if (quiz.MinQuestionCount > quiz.MaxQuestionCount)
@@ -118,7 +123,6 @@ namespace BFH.EADN.UI.Web.Services
                     state.AddModelError("SelectedQuestionIds", "Too few questions selected");
                 }
             }
-
         }
     }
 }

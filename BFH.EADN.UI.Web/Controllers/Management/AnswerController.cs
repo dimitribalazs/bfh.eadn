@@ -104,7 +104,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                 try
                 {
                     _service.Edit(id, answer);
-                    return RedirectToAction("Details", new { id = answer.QuestionId });
+                    return RedirectToAction("Edit", "Question", new { id = answer.QuestionId });
                 }
                 catch(Exception ex)
                 {

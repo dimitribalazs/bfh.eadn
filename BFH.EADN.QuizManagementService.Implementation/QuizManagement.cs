@@ -249,6 +249,23 @@ namespace BFH.EADN.QuizManagementService.Implementation
         }
 
         ///<inheritdoc />
+        public List<Answer> GetAnswersByIds(List<Guid> ids)
+        {
+            try
+            {
+                using (IRepository<Answer, Guid> repo = AnswerRepository)
+                {
+                    return repo.GetListByIds(ids);
+                }
+            }
+            catch (Exception ex)
+            {
+                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting answers by ids");
+                throw new FaultException<ServiceFault>(fault);
+            }
+        }
+
+        ///<inheritdoc />
         public void CreateQuestion(Question question)
         {
             try

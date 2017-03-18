@@ -53,6 +53,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         [ValidateAntiForgeryToken]
         public ActionResult Create(Question question)
         {
+            _service.Validation(ModelState, question);
             if (ModelState.IsValid)
             {
                 try
@@ -66,7 +67,12 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                     throw;
                 }
             }
-            return View(_service.Get());
+
+            Question dataFromDb = _service.Get();
+            dataFromDb.IsMultipleChoice = question.IsMultipleChoice;
+            dataFromDb.Hint = question.Hint;
+            dataFromDb.Text = question.Text;
+            return View(dataFromDb);
         }
 
         /// <summary>
@@ -91,6 +97,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Question question)
         {
+            _service.Validation(ModelState, question);
             if (ModelState.IsValid)
             {
                 try
@@ -104,6 +111,10 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                     throw;
                 }
             }
+
+            Question dataFromDb = _service.Get(id);
+            question.Answers = dataFromDb.Answers;
+            question.Topics = dataFromDb.Topics;
             return View(question);
         }
 
@@ -139,6 +150,11 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                 //here should be loggin
                 throw;
             }
+        }
+
+        public ActionResult WithoutTopic()
+        {
+            return View(_service.GetQuestionsWithoutTopics());
         }
     }
 }
