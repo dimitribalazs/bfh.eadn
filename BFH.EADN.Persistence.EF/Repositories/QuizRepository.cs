@@ -59,7 +59,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             List<Entities.Quiz> quizzes = Context.Quizzes.ToList();
             List<CommonContracts.Quiz> contractQuizzes = Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
-            contractQuizzes.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+            contractQuizzes.ForEach(q => q.CanBeDeleted = CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
             return contractQuizzes;
         }
 

@@ -34,6 +34,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             {
                 throw new InvalidOperationException("Cannot delete quiz because time threshold is not reached yet");
             }
+            Context.Answers.RemoveRange(question.Answers);
             Context.Questions.Remove(question);
             Context.SaveChanges();
         }
@@ -52,7 +53,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             List<Entities.Question> questions = Context.Questions.ToList();
             List<CommonContracts.Question> contractQuestions = Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(questions);
-            contractQuestions.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+            contractQuestions.ForEach(q => q.CanBeDeleted = CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
             return contractQuestions;
         }
 

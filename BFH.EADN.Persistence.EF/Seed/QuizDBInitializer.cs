@@ -10,7 +10,7 @@ namespace BFH.EADN.Persistence.EF.Seed
     /// <summary>
     /// Seeds the example data. Used for unit tests and also for "human" tets
     /// </summary>
-    internal class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
+    internal class QuizDBInitializer : DropCreateDatabaseAlways<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {
@@ -27,7 +27,7 @@ namespace BFH.EADN.Persistence.EF.Seed
             Question programmingQuestion7 = new Question { Text = "5 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion8 = new Question { Text = "6 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion9 = new Question { Text = "7 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion10 = new Question { Text = "8 Which are a linux system?", IsMultipleChoice = true };
+            Question programmingQuestion10 = new Question { Text = "8 Which are a linux system?", IsMultipleChoice = true, LastUsed = new DateTime(2015, 1, 12)};
             Question programmingQuestion11 = new Question { Text = "9 Which are a linux system?", IsMultipleChoice = true };
             Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true };
             Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
@@ -263,7 +263,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 Type = QuizType.Variable,
                 MinQuestionCount = 3,
                 MaxQuestionCount = 5,
-                LastUsed = DateTime.Now.AddDays(-10),
+                LastUsed = new DateTime(2016, 1, 22),
                 Questions = new HashSet<Question>
                 {
                     programmingQuestion1,
@@ -287,7 +287,7 @@ namespace BFH.EADN.Persistence.EF.Seed
                 Type = QuizType.Fix,
                 MinQuestionCount = 1,
                 MaxQuestionCount = 5,
-                LastUsed = DateTime.Now.AddDays(-10),
+                LastUsed = new DateTime(2017, 2, 22),
                 Questions = new HashSet<Question>
                 {
                     movieQuestion1,

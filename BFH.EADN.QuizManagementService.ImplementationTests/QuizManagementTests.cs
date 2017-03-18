@@ -288,7 +288,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             IQuestionManagement service = new QuizManagement(_factoryPersistence);
             List<Question> results = service.GetQuestions();
             int count = results.Count;
-            Guid toDelete = results.Last().Id;
+            Guid toDelete = results.First(q => q.CanBeDeleted).Id;
             service.DeleteQuestion(toDelete);
 
             Assert.AreEqual(count - 1, service.GetQuestions().Count, "Count of questions not the same");
@@ -432,7 +432,7 @@ namespace BFH.EADN.QuizManagementService.Implementation.Tests
             List<Quiz> results = service.GetQuizzes();
             int count = results.Count;
 
-            Guid toDelete = results.Last().Id;
+            Guid toDelete = results.Last(q => q.CanBeDeleted).Id;
             service.DeleteQuiz(toDelete);
 
             Assert.AreEqual(count - 1, service.GetQuizzes().Count, "Count of quizzes not the same");
