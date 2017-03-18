@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Common.Wcf.Client
 {
+    /// <summary>
+    /// Creates a wcf client
+    /// </summary>
     public static class WcfClientFactory
     {
-        public static WcfClient<TServiceContract> CreateClient<TServiceContract>(EndpointAddress endpointAddress, Binding binding) where TServiceContract : class
+        public static WcfClient<TServiceContract> CreateClient<TServiceContract>(EndpointAddress endpointAddress, Binding binding) 
+            where TServiceContract : class
         {
             return new WcfClient<TServiceContract>(endpointAddress, binding);
         }

@@ -12,7 +12,7 @@ namespace BFH.EADN.UI.Web.Services
 {
     /// <summary>
     /// Quiz service which provides UI methods to convert data from contracts to viewmodels,
-    /// call service methods, validations.
+    /// call service methods, validations
     /// </summary>
     public sealed class QuizService : IService<Quiz, Guid>
     {

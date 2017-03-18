@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace BFH.EADN.Common.Wcf.Client
 {
-    public abstract class WcfClientBase<TServiceContract> where TServiceContract : class
+    /// <summary>
+    /// Client
+    /// </summary>
+    /// <typeparam name="TServiceContract"></typeparam>
+    public abstract class WcfBaseClient<TServiceContract> 
+        where TServiceContract : class
     {
         /// <summary>
         ///The endpoint address of the server
@@ -25,17 +30,22 @@ namespace BFH.EADN.Common.Wcf.Client
         /// </summary>
         protected TServiceContract Proxy { get; set; }
 
-
-        public WcfClientBase(EndpointAddress endpointAddress, Binding binding)
+        public WcfBaseClient(EndpointAddress endpointAddress, Binding binding)
         {
-            if (endpointAddress == null) { throw new ArgumentNullException(nameof(endpointAddress) + "cannot be null"); }
-            if (binding == null) { throw new ArgumentNullException(nameof(binding) + "cannot be null"); }
-            EndpointAddress = endpointAddress;
-            Binding = binding;
+            EndpointAddress = endpointAddress ?? throw new ArgumentNullException(nameof(endpointAddress) + "cannot be null");
+            Binding = binding ?? throw new ArgumentNullException(nameof(binding) + "cannot be null");
         }
 
+        /// <summary>
+        /// Creates a channel factory of type TServiceContract
+        /// </summary>
+        /// <returns>ChannelFactory of tpye TServiceContract</returns>
         protected abstract ChannelFactory<TServiceContract> CreateChannelFactory();
 
+        /// <summary>
+        /// Get the proxy of type TServiceContract
+        /// </summary>
+        /// <returns>a proxy of type TServiceContract</returns>
         public TServiceContract GetProxy()
         {
             IChannel channel = Proxy as IClientChannel;
