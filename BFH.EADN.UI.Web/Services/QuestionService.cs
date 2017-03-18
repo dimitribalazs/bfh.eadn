@@ -10,7 +10,11 @@ using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
-    public sealed class QuestionService : BaseService, IService<Question, Guid>
+    /// <summary>
+    /// Question service which provides UI methods to convert data from contracts to viewmodels,
+    /// call service methods, validations
+    /// </summary>
+    public sealed class QuestionService : IService<Question, Guid>
     {
         /// <summary>
         /// Get all questions

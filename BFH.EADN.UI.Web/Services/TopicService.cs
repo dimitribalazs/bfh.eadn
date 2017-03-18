@@ -11,7 +11,7 @@ using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
-    public sealed class TopicService : BaseService, IService<Topic, Guid>
+    public sealed class TopicService : IService<Topic, Guid>
     {
         /// <summary>
         /// Get all topics

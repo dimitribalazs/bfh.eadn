@@ -35,6 +35,7 @@ namespace BFH.EADN.UI.Web.Utils
                         new EndpointAddress("net.tcp://localhost:5011/" + nameOfProxy.Substring(1)),
                         new NetTcpBinding()
                     );
+
             return service.GetProxy();
         }
     }

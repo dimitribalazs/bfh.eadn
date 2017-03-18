@@ -11,7 +11,11 @@ using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
-    public sealed class AnswerService : BaseService, IService<Answer, Guid>
+    /// <summary>
+    /// Answer service which provides UI methods to convert data from contracts to viewmodels,
+    /// call service methods, validations
+    /// </summary>
+    public sealed class AnswerService : IService<Answer, Guid>
     {
         /// <summary>
         /// Get all topics

@@ -10,7 +10,11 @@ using ContractTypes = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.UI.Web.Services
 {
-    public class PlayService : BaseService
+    /// <summary>
+    /// Play service which provides UI methods to convert data from contracts to viewmodels,
+    /// call service methods, validations
+    /// </summary>
+    public sealed class PlayService
     {
         /// <summary>
         /// Groups toppics by its topics for list view
@@ -61,28 +65,48 @@ namespace BFH.EADN.UI.Web.Services
             return topicQuizzes.Values.ToList();
         }
 
+        /// <summary>
+        /// Validation of answers
+        /// </summary>
+        /// <param name="state">ModelStateDictionary to add errors</param>
+        /// <param name="questionId">question id</param>
+        /// <param name="answers">selected list of answer ids</param>
         public void Validation(ModelStateDictionary state, Guid questionId, List<Guid> answers)
         {
-            if (answers == null || answers.Count == 0)
-            {
-                state.AddModelError("answers", "To progress you must solve this question");
-            }
-            else if (CheckAnswers(questionId, answers) == false)
+            if (CheckAnswers(questionId, answers) == false)
             {
                 state.AddModelError("answers", "Wrong answers");
             }
         }
 
-        internal bool CheckAnswers(Guid questionId, List<Guid> answers)
+
+        /// <summary>
+        /// Checks answers against the service
+        /// </summary>
+        /// <param name="questionId">question id</param>
+        /// <param name="answers">selected list of answer ids</param>
+        /// <returns>true if answers are correct, else false</returns>
+        public bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
             return ClientProxy.GetQuizProxy<IPlay>().CheckAnswers(questionId, answers);
         }
 
+        /// <summary>
+        /// Get quiz from the service by its id
+        /// </summary>
+        /// <param name="quizId">quiz id</param>
+        /// <returns>contract type quiz</returns>
         public ContractTypes.Quiz GetContractQuiz(Guid quizId)
         {
             return ClientProxy.GetQuizProxy<IPlay>().GetQuiz(quizId);
         }
 
+        /// <summary>
+        /// Get the question by quiz 
+        /// </summary>
+        /// <param name="quiz"></param>
+        /// <param name="currentQuestionId"></param>
+        /// <returns></returns>
         public Question GetQuestion(ContractTypes.Quiz quiz, Guid currentQuestionId)
         {
             //get next element
@@ -184,24 +208,48 @@ namespace BFH.EADN.UI.Web.Services
             return quiz;
         }
         
+        /// <summary>
+        /// Saved the current state 
+        /// </summary>
+        /// <param name="questionAnswerStateId">question answer state id</param>
+        /// <param name="questionId">question id</param>
+        /// <param name="answers">answer id</param>
         public void SaveQuestionAnswerState(Guid questionAnswerStateId, Guid questionId, List<Guid> answers)
         {
             ClientProxy.GetQuizProxy<IPlay>().UpdateQuestionAnswerState(questionAnswerStateId, questionId, answers);
         }
 
+        /// <summary>
+        /// Delete the state
+        /// </summary>
+        /// <param name="questionAnswerStateId">question answer state id</param>
         public void DeleteQuestionAnswerState(Guid questionAnswerStateId)
         {
             ClientProxy.GetQuizProxy<IPlay>().DeleteQuestionAnswerState(questionAnswerStateId);
         }
 
+        /// <summary>
+        /// Get all saved questions answer states entries by id
+        /// </summary>
+        /// <param name="questionAnswerStateId">question answer state id</param>
+        /// <returns>list of QuestionAnswerStates</returns>
+        public List<ContractTypes.QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid questionAnswerStateId)
+        {
+            return ClientProxy.GetQuizProxy<IPlay>().GetAllSavedQuestionAnswerStates(questionAnswerStateId);
+        }
+
+        /// <summary>
+        /// Evaluate answers
+        /// </summary>
+        /// <param name="questionAnswerStateId">question answer state id</param>
+        /// <returns>List of complete items with question text and if was answered correctly</returns>
         public List<Complete> EvaluateAnswers(Guid questionAnswerStateId)
         {
             List<Complete> complete = new List<Complete>();
-            IPlay service = ClientProxy.GetQuizProxy<IPlay>();
-            List<ContractTypes.QuestionAnswerState> allQAS = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId);
+            List<ContractTypes.QuestionAnswerState> allQAS = GetAllSavedQuestionAnswerStates(questionAnswerStateId);
             foreach(ContractTypes.QuestionAnswerState qas in allQAS)
             {
-                bool isCorrect = service.CheckAnswers(qas.Question.Id, qas.Answers.Select(a => a.Id).ToList());
+                bool isCorrect = CheckAnswers(qas.Question.Id, qas.Answers.Select(a => a.Id).ToList());
                 complete.Add(new Complete
                 {
                     QuestionId = qas.Question.Id,

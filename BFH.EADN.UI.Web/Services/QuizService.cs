@@ -10,7 +10,11 @@ using BFH.EADN.UI.Web.Utils;
 
 namespace BFH.EADN.UI.Web.Services
 {
-    public sealed class QuizService : BaseService, IService<Quiz, Guid>
+    /// <summary>
+    /// Quiz service which provides UI methods to convert data from contracts to viewmodels,
+    /// call service methods, validations.
+    /// </summary>
+    public sealed class QuizService : IService<Quiz, Guid>
     {
         /// <summary>
         /// Get all topics

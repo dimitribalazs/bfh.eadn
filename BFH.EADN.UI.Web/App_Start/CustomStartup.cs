@@ -8,6 +8,9 @@ using ContractTypes = BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.UI.Web
 {
+    /// <summary>
+    /// Custom startup class
+    /// </summary>
 	public class CustomStartup
 	{
 		public static void Init()
