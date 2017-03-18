@@ -226,17 +226,17 @@ namespace BFH.EADN.QuizService.Implementation
         }
 
         ///<inheritdoc />
-        public void UpdateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
+        public void UpdateQuestionAnswerState(Guid questionAnswerStateId, Guid questionId, List<Guid> answers)
         {
             try
             {
-                //Guid quizStateId, Guid questionId, List<Guid> answers
+                //Guid questionAnswerStateId, Guid questionId, List<Guid> answers
                 using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
                 using (IRepository<Answer, Guid> answerRepo = AnswerRepository)
                 using (IRepository<Question, Guid> questionRepo = QuestionRepository)
                 {
                     QuestionAnswerState qas = new QuestionAnswerState();
-                    qas.QuestionAnswerStateId = quizStateId;
+                    qas.QuestionAnswerStateId = questionAnswerStateId;
                     qas.Question = questionRepo.Get(questionId);
                     qas.Answers = answerRepo.GetListByIds(answers);
                     repo.Update(qas);
@@ -250,13 +250,13 @@ namespace BFH.EADN.QuizService.Implementation
         }
 
         ///<inheritdoc />
-        public void DeleteQuestionAnswerState(Guid quizStateId)
+        public void DeleteQuestionAnswerState(Guid questionAnswerStateId)
         {
             try
             {
                 using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
                 {
-                    repo.Delete(quizStateId);
+                    repo.Delete(questionAnswerStateId);
                 }
             }
             catch (Exception ex)
@@ -267,14 +267,14 @@ namespace BFH.EADN.QuizService.Implementation
         }
 
         ///<inheritdoc />
-        public List<QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid quizStateId)
+        public List<QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid questionAnswerStateId)
         {
             try
             {
 
                 using (IRepository<QuestionAnswerState, Guid> repo = QuestionAnswerStateRepository)
                 {
-                    return repo.GetAll().Where(q => q.QuestionAnswerStateId == quizStateId).ToList();
+                    return repo.GetAll().Where(q => q.QuestionAnswerStateId == questionAnswerStateId).ToList();
                 }
             }
             catch (Exception ex)

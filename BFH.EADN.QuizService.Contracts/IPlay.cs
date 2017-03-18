@@ -58,12 +58,12 @@ namespace BFH.EADN.QuizService.Contracts
         /// <summary>
         /// Updates/Creates a QuestiosAnswersState. Which is used for saving the play state
         /// </summary>
-        /// <param name="quizStateId">quiz state id. Created within the client</param>
+        /// <param name="questionAnswerStateId">quiz state id. Created within the client</param>
         /// <param name="questionId">current question id</param>
         /// <param name="answers">list of selected answers</param>
         [OperationContract(Name = "UpdateQuestionAnswerState")]
         [FaultContract(typeof(ServiceFault))]
-        void UpdateQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers);
+        void UpdateQuestionAnswerState(Guid questionAnswerStateId, Guid questionId, List<Guid> answers);
 
         /// <summary>
         /// Deletes all quiz state entries by its ids

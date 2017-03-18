@@ -173,30 +173,30 @@ namespace BFH.EADN.QuizService.Implementation.Tests
         public void UpdateAndGetAllSavedQuestionAnswerStateSuccess()
         {
             Tuple<Guid, Guid, List<Guid>> data = CreateQuestionAnswerState();
-            Guid quizStateId = data.Item1;
+            Guid questionAnswerStateId = data.Item1;
             Guid questionId = data.Item2;
             List<Guid> firstAnswers = data.Item3;
 
             IPlay service = new QuizService(_factoryPersistence);
 
-            List<QuestionAnswerState> qasList = service.GetAllSavedQuestionAnswerStates(quizStateId);
+            List<QuestionAnswerState> qasList = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId);
 
             foreach(QuestionAnswerState qas in qasList)
             {
-                Assert.AreEqual(quizStateId, qas.QuestionAnswerStateId);
+                Assert.AreEqual(questionAnswerStateId, qas.QuestionAnswerStateId);
                 Assert.AreEqual(questionId, qas.Question.Id);
                 bool answersInDb = firstAnswers.Intersect(qas.Answers.Select(a => a.Id)).ToList().Count == firstAnswers.Count;
                 Assert.IsTrue(answersInDb);
             }
 
             //check updated data
-            service.UpdateQuestionAnswerState(quizStateId, questionId, null);
+            service.UpdateQuestionAnswerState(questionAnswerStateId, questionId, null);
 
-            qasList = service.GetAllSavedQuestionAnswerStates(quizStateId);
+            qasList = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId);
 
             foreach (QuestionAnswerState qas in qasList)
             {
-                Assert.AreEqual(quizStateId, qas.QuestionAnswerStateId);
+                Assert.AreEqual(questionAnswerStateId, qas.QuestionAnswerStateId);
                 Assert.AreEqual(questionId, qas.Question.Id);
                 bool answersInDb = qas.Answers.Count == 0;
                 Assert.IsTrue(answersInDb);
@@ -215,14 +215,14 @@ namespace BFH.EADN.QuizService.Implementation.Tests
         public void DeleteQuestionAnswerStateSuccess()
         {
             Tuple<Guid, Guid, List<Guid>> data = CreateQuestionAnswerState();
-            Guid quizStateId = data.Item1;
+            Guid questionAnswerStateId = data.Item1;
             Guid questionId = data.Item2;
             List<Guid> firstAnswers = data.Item3;
 
             IPlay service = new QuizService(_factoryPersistence);
-            service.DeleteQuestionAnswerState(quizStateId);
+            service.DeleteQuestionAnswerState(questionAnswerStateId);
 
-            bool deletionSuccess = service.GetAllSavedQuestionAnswerStates(quizStateId).Count == 0;
+            bool deletionSuccess = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId).Count == 0;
             Assert.IsTrue(deletionSuccess);
         }
 
@@ -238,12 +238,12 @@ namespace BFH.EADN.QuizService.Implementation.Tests
         public void GetAllSavedQuestionAnswerStatesSuccess()
         {
             Tuple<Guid, Guid, List<Guid>> data = CreateQuestionAnswerState();
-            Guid quizStateId = data.Item1;
+            Guid questionAnswerStateId = data.Item1;
             Guid questionId = data.Item2;
             List<Guid> firstAnswers = data.Item3;
 
             IPlay service = new QuizService(_factoryPersistence);
-            bool entryCountIsSame = service.GetAllSavedQuestionAnswerStates(quizStateId).First().Answers.Count == firstAnswers.Count;
+            bool entryCountIsSame = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId).First().Answers.Count == firstAnswers.Count;
             Assert.IsTrue(entryCountIsSame);
         }
 
@@ -258,11 +258,11 @@ namespace BFH.EADN.QuizService.Implementation.Tests
         /// <summary>
         /// Creates a new QuestionAnswerState entry
         /// </summary>
-        /// <returns>Tuple with quizStateId, questionId, List of Answer Ids</returns>
+        /// <returns>Tuple with questionAnswerStateId, questionId, List of Answer Ids</returns>
         private Tuple<Guid, Guid, List<Guid>> CreateQuestionAnswerState()
         {
             IPlay service = new QuizService(_factoryPersistence);
-            Guid quizStateId = Guid.NewGuid();
+            Guid questionAnswerStateId = Guid.NewGuid();
 
             Quiz quiz = service.GetQuizzes().First(q => q.Questions.Count > 0);
 
@@ -282,9 +282,9 @@ namespace BFH.EADN.QuizService.Implementation.Tests
 
 
             //creates new entry
-            service.UpdateQuestionAnswerState(quizStateId, questionId, firstAnswers);
+            service.UpdateQuestionAnswerState(questionAnswerStateId, questionId, firstAnswers);
 
-            return new Tuple<Guid, Guid, List<Guid>>(quizStateId, questionId, firstAnswers);
+            return new Tuple<Guid, Guid, List<Guid>>(questionAnswerStateId, questionId, firstAnswers);
         }
     }
 }

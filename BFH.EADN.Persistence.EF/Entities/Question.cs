@@ -28,7 +28,7 @@ namespace BFH.EADN.Persistence.EF.Entities
         public string Hint { get; set; }
         
         /// <summary>
-        /// If it is a yes or not question. If false, then its an multiple choice
+        /// If it is a yes or not question. If false, then its not an multiple choice
         /// </summary>
         public bool IsMultipleChoice { get; set; }
 

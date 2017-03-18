@@ -183,15 +183,15 @@ namespace BFH.EADN.UI.Web.Services
             }
             return quiz;
         }
-
-        public void SaveQuestionAnswerState(Guid quizStateId, Guid questionId, List<Guid> answers)
+        
+        public void SaveQuestionAnswerState(Guid questionAnswerStateId, Guid questionId, List<Guid> answers)
         {
-            ClientProxy.GetQuizProxy<IPlay>().UpdateQuestionAnswerState(quizStateId, questionId, answers);
+            ClientProxy.GetQuizProxy<IPlay>().UpdateQuestionAnswerState(questionAnswerStateId, questionId, answers);
         }
 
-        public void DeleteQuestionAnswerState(Guid quizStateId)
+        public void DeleteQuestionAnswerState(Guid questionAnswerStateId)
         {
-            ClientProxy.GetQuizProxy<IPlay>().DeleteQuestionAnswerState(quizStateId);
+            ClientProxy.GetQuizProxy<IPlay>().DeleteQuestionAnswerState(questionAnswerStateId);
         }
 
         public List<Complete> EvaluateAnswers(Guid questionAnswerStateId)

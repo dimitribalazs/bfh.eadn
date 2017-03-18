@@ -16,7 +16,7 @@ namespace BFH.EADN.Common.Types.Contracts
         /// <summary>
         /// QuestionAnswerStateId created by the client
         /// </summary>
-        [DataMember(Order = 0, Name = "QuizStateId")]
+        [DataMember(Order = 0, Name = "QuestionAnswerStateId")]
         public Guid QuestionAnswerStateId { get; set; }
 
         /// <summary>

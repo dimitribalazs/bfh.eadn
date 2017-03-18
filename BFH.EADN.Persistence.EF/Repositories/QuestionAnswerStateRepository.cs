@@ -15,6 +15,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         ///<inheritdoc />
         public override void Create(CommonContracts.QuestionAnswerState data)
         {
+            //if there are answers create one entry per answer
             if (data.Answers != null && data.Answers.Count > 0)
             {
                 foreach (CommonContracts.Answer answer in data.Answers)
@@ -26,6 +27,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                     Context.QuestionAnswerStates.Add(newQuestionAnswerState);
                 }
             }
+            //if no anser is selected, set relation to answer to null
             else
             {
                 Entities.QuestionAnswerState newQuestionAnswerState = Mapper.Map<Entities.QuestionAnswerState>(data);
@@ -36,10 +38,14 @@ namespace BFH.EADN.Persistence.EF.Repositories
             Context.SaveChanges();
         }
 
-        ///<inheritdoc />
-        public override void Delete(Guid quizStateId)
+        /// <summary>
+        /// Deletes all entries by its QuestionAnswerStateId
+        /// </summary>
+        /// <param name="questionAnswerStateId"></param>
+        public override void Delete(Guid questionAnswerStateId)
         {
-            List<Entities.QuestionAnswerState> entities = Context.QuestionAnswerStates.Where(q => q.QuestionAnswerStateId == quizStateId).ToList();
+            //remove all entries by 
+            List<Entities.QuestionAnswerState> entities = Context.QuestionAnswerStates.Where(q => q.QuestionAnswerStateId == questionAnswerStateId).ToList();
             Context.QuestionAnswerStates.RemoveRange(entities);
             Context.SaveChanges();
         }
@@ -61,9 +67,12 @@ namespace BFH.EADN.Persistence.EF.Repositories
             CommonContracts.QuestionAnswerState qas = null;
             foreach (Entities.QuestionAnswerState result in results.OrderBy(r => r.QuestionAnswerStateId))
             {
+                //create only one contract QuestionAswerState object 
                 bool createNewState = oldQuestionId.HasValue == false
                                         || oldQuestionId.Value != result.Question.Id
+                                        || oldQuestionAnswerStateId.HasValue == false
                                         || oldQuestionAnswerStateId.Value != result.QuestionAnswerStateId;
+                //new question
                 if(createNewState)
                 {
                     oldQuestionId = result.Question.Id;
@@ -83,7 +92,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                     };
                     returnData.Add(qas);
                 }
-                //case where nothing was selected
+                //if has answers. add to list of before created object
                 if (result.Answer != null)
                 {
                     qas.Answers.Add(new CommonContracts.Answer
@@ -103,7 +112,11 @@ namespace BFH.EADN.Persistence.EF.Repositories
             throw new NotImplementedException();
         }
 
-        ///<inheritdoc />
+        /// <summary>
+        /// Update QuestionAnswerStates. First old entries will be deleted and then 
+        /// the new ones will be created
+        /// </summary>
+        /// <param name="data"></param>
         public override void Update(CommonContracts.QuestionAnswerState data)
         {
             //delete old entries
