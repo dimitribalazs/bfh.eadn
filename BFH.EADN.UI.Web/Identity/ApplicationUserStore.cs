@@ -51,29 +51,34 @@ namespace BFH.EADN.UI.Web.Identity
         }
 
         public Task<User> FindByNameAsync(string userName)
-        {//Users.FirstOrDefault(account => string.Equals(account.UserName, userName, StringComparison.InvariantCultureIgnoreCase
+        {
             return Task<User>.Factory.StartNew(
-                () =>
-                {
-                    ISession session = ClientProxy.GetProxy<ISession>();
-                    Common.Types.Contracts.User user = session.GetUserByName(userName);
-                    User retUser = null;
-                    if (user != null)
-                    {
-                        retUser = new User
-                        {
-                            Id = user.Id,
-                            Password = user.Password,
-                            UserName = user.Name
-                        };
-                    }
-                    return retUser;
-                });
+                () => Users.FirstOrDefault(account => string.Equals(account.UserName, userName, StringComparison.InvariantCultureIgnoreCase)
+           ));
         }
+        //{
+            //return Task<User>.Factory.StartNew(
+            //    () =>
+            //    {
+            //        ISession session = ClientProxy.GetProxy<ISession>();
+            //        Common.Types.Contracts.User user = session.GetUserByName(userName);
+            //        User retUser = null;
+            //        if (user != null)
+            //        {
+            //            retUser = new User
+            //            {
+            //                Id = user.Id,
+            //                Password = user.Password,
+            //                UserName = user.Name
+            //            };
+            //        }
+            //        return retUser;
+            //    });
+        //}
 
         public Task<string> GetPasswordHashAsync(User user)
         {
-            //return Task<string>.Factory.StartNew(() => Users.Single(account => account.Id == user.Id).Password);
+            return Task<string>.Factory.StartNew(() => Users.Single(account => account.Id == user.Id).Password);
             return Task<string>.Factory.StartNew(() => 
             {
                 ISession session = ClientProxy.GetProxy<ISession>();

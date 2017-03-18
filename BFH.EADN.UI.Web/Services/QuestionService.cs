@@ -91,7 +91,8 @@ namespace BFH.EADN.UI.Web.Services
             contractQuestion.Topics = topics;
 
             //set answers
-            List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(question.SelectedAnswerIds.ToList());
+            List<Guid> selectedAnswerIds = question.SelectedAnswerIds?.ToList();
+            List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(selectedAnswerIds);
             contractQuestion.Answers = answers;
 
 
@@ -112,11 +113,14 @@ namespace BFH.EADN.UI.Web.Services
         /// </summary>
         /// <param name="state">ModelStateDictionary</param>
         /// <param name="question">current Question</param>
-        public void Validation(ModelStateDictionary state, Question question)
+        public void Validation(ModelStateDictionary state, Question question, bool isEdit)
         {
+            
+            //checks if there is a single answer the solution
             if(question.IsMultipleChoice == false)
             {
-                List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(question.SelectedAnswerIds.ToList());
+                List<Guid> selectedAnswerIds = question.SelectedAnswerIds != null ? question.SelectedAnswerIds.ToList() : null;
+                List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(selectedAnswerIds);
                 int answerIsSolutionCount = answers != null ? answers.Where(a => a.IsSolution).ToList().Count : 0;
                 if (answerIsSolutionCount > 1)
                 {
@@ -125,6 +129,14 @@ namespace BFH.EADN.UI.Web.Services
                 else if(answerIsSolutionCount == 0 )
                 {
                     state.AddModelError("SelectedAnswerIds", "You must set at least one answer as solution");
+                }
+            }
+
+            if(isEdit)
+            {
+                if(question.SelectedAnswerIds == null || question.SelectedAnswerIds.Length == 0)
+                {
+                    state.AddModelError("SelectedAnswerIds", "Add at least one answer");
                 }
             }
         }

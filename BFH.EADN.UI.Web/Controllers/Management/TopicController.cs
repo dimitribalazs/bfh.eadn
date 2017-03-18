@@ -8,6 +8,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
     /// <summary>
     /// Handles CRUD operations for the topic area
     /// </summary>
+    [Authorize(Roles = Common.Constants.AdminRoleName)]
     public class TopicController : Controller
     {
         private TopicService _service = new TopicService();

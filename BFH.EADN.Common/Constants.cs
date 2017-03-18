@@ -17,5 +17,10 @@ namespace BFH.EADN.Common
         /// Defines the threshold wenn data can be deleted
         /// </summary>
         public const int DeletionThreshold = 5;
+
+        /// <summary>
+        /// Role name used for authorization in web controller
+        /// </summary>
+        public const string AdminRoleName = "QuizAdmin";
     }
 }

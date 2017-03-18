@@ -11,6 +11,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
     /// <summary>
     /// Handles CRUD operations for the question area
     /// </summary>
+    [Authorize(Roles = Common.Constants.AdminRoleName)]
     public class QuestionController : Controller
     {
         private QuestionService _service = new QuestionService();
@@ -53,7 +54,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         [ValidateAntiForgeryToken]
         public ActionResult Create(Question question)
         {
-            _service.Validation(ModelState, question);
+            _service.Validation(ModelState, question, false);
             if (ModelState.IsValid)
             {
                 try
@@ -97,7 +98,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, Question question)
         {
-            _service.Validation(ModelState, question);
+            _service.Validation(ModelState, question, true);
             if (ModelState.IsValid)
             {
                 try

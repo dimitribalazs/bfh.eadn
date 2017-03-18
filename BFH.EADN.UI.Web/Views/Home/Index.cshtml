@@ -1,10 +1,14 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
 }
 
-<div class="row">
-    <div class="col-offset-md-4 col-md-4">
-        @Html.ActionLink("Play", "Play", "Index", null, new { @class="btn btn-primary" })
-        @Html.ActionLink("Logon", "Logon", "Session", null, new { @class = "btn btn-success" })
-    </div>        
+<h1>
+    Welcome to the quiz platform
+</h1>
+<div class="well center-block">
+    @Html.ActionLink("Play", "Index", "Play", null, new { @class = "btn btn-lg btn-default btn-block" })
+    @Html.ActionLink("Manage Quizzes", "Index", "Quiz", null, new { @class = "btn btn-lg btn-primary btn-block" })
 </div>
+
+

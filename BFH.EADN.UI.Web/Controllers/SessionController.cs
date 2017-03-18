@@ -30,7 +30,7 @@ namespace BFH.EADN.UI.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Logon(string returnUrl)
+        public ActionResult LogOn(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -39,7 +39,7 @@ namespace BFH.EADN.UI.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Logon(LogOn logonData, string returnUrl)
+        public async Task<ActionResult> LogOn(LogOn logonData, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace BFH.EADN.UI.Web.Controllers
                     var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
                     // Add more custom claims here if you want. 
-                    identity.AddClaim(new Claim(ClaimTypes.Role, "QuizAdmin"));
+                    identity.AddClaim(new Claim(ClaimTypes.Role, Common.Constants.AdminRoleName));
 
                     AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = logonData.RememberMe }, identity);
                     if(string.IsNullOrEmpty(returnUrl))

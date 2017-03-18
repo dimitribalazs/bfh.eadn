@@ -8,9 +8,9 @@ using System;
 namespace BFH.EADN.Persistence.EF.Seed
 {
     /// <summary>
-    /// Seeds the example data. Used for unit tests and also for "human" tets
+    /// Seeds the example data. Used for unit tests and also for "human" tests
     /// </summary>
-    internal class QuizDBInitializer : DropCreateDatabaseAlways<QuizDataContext>
+    internal class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {

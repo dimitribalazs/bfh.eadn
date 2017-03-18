@@ -7,6 +7,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
     /// <summary>
     /// Handles CRUD operations for the quiz area
     /// </summary>
+    [Authorize(Roles = Common.Constants.AdminRoleName)]
     public class QuizController : Controller
     {
         private Services.QuizService _service = new Services.QuizService();

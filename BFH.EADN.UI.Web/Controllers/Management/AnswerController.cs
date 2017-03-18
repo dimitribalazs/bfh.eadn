@@ -12,6 +12,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
     /// <summary>
     /// Handles CRUD operations for the answer area
     /// </summary>
+    [Authorize(Roles = Common.Constants.AdminRoleName)]
     public class AnswerController : Controller
     {
         private AnswerService _service = new AnswerService();
