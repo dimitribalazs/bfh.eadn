@@ -24,7 +24,7 @@ namespace BFH.EADN.UI.Web.Services
         {
             //only get quizzes which have a question and the max question count is > 0
             //because if max question is 0, nothing is going to be selected
-            List<ContractTypes.Quiz> quizzes = ClientProxy.GetQuizProxy<IPlay>()
+            List<ContractTypes.Quiz> quizzes = ClientProxy.GetProxy<IPlay>()
                                                             .GetQuizzes()
                                                                 .Where(q => 
                                                                     q.Questions.Count > 0
@@ -88,7 +88,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>true if answers are correct, else false</returns>
         public bool CheckAnswers(Guid questionId, List<Guid> answers)
         {
-            return ClientProxy.GetQuizProxy<IPlay>().CheckAnswers(questionId, answers);
+            return ClientProxy.GetProxy<IPlay>().CheckAnswers(questionId, answers);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>contract type quiz</returns>
         public ContractTypes.Quiz GetContractQuiz(Guid quizId)
         {
-            return ClientProxy.GetQuizProxy<IPlay>().GetQuiz(quizId);
+            return ClientProxy.GetProxy<IPlay>().GetQuiz(quizId);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="answers">answer id</param>
         public void SaveQuestionAnswerState(Guid questionAnswerStateId, Guid questionId, List<Guid> answers)
         {
-            ClientProxy.GetQuizProxy<IPlay>().UpdateQuestionAnswerState(questionAnswerStateId, questionId, answers);
+            ClientProxy.GetProxy<IPlay>().UpdateQuestionAnswerState(questionAnswerStateId, questionId, answers);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="questionAnswerStateId">question answer state id</param>
         public void DeleteQuestionAnswerState(Guid questionAnswerStateId)
         {
-            ClientProxy.GetQuizProxy<IPlay>().DeleteQuestionAnswerState(questionAnswerStateId);
+            ClientProxy.GetProxy<IPlay>().DeleteQuestionAnswerState(questionAnswerStateId);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <returns>list of QuestionAnswerStates</returns>
         public List<ContractTypes.QuestionAnswerState> GetAllSavedQuestionAnswerStates(Guid questionAnswerStateId)
         {
-            return ClientProxy.GetQuizProxy<IPlay>().GetAllSavedQuestionAnswerStates(questionAnswerStateId);
+            return ClientProxy.GetProxy<IPlay>().GetAllSavedQuestionAnswerStates(questionAnswerStateId);
         }
 
         /// <summary>

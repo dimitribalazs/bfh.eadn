@@ -24,7 +24,7 @@ namespace BFH.EADN.Common.Wcf.Client
         {
             ChannelFactory<TServiceContract> cf;
             //if configuration is not set Binding and EndpointAddress from property
-            if(Binding == null || EndpointAddress == null)
+            if(Binding != null && EndpointAddress != null)
             {
                 cf = new ChannelFactory<TServiceContract>(Binding, EndpointAddress);
             }

@@ -28,7 +28,7 @@ namespace BFH.EADN.QuizManagementService.Host
         {
             try
             {
-                _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("net.tcp://localhost:5002"));
+                _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("net.tcp://localhost:5001"));
                 //_quizManagementHost.AddServiceEndpoint(
                 //    typeof(IQuizManagement), 
                 //    new BasicHttpBinding(), 
