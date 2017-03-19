@@ -1,5 +1,7 @@
-﻿using BFH.EADN.UI.Web.Identity;
+﻿using BFH.EADN.QuizManagementService.Contracts;
+using BFH.EADN.UI.Web.Identity;
 using BFH.EADN.UI.Web.Models;
+using BFH.EADN.UI.Web.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -49,8 +51,8 @@ namespace BFH.EADN.UI.Web.Controllers
                     AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                     var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
-                    // Add more custom claims here if you want. 
-                    identity.AddClaim(new Claim(ClaimTypes.Role, Common.Constants.AdminRoleName));
+                    Claim roleClaim = ClientProxy.GetProxy<ISession>().LogIn();
+                    identity.AddClaim(roleClaim);
 
                     AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = logonData.RememberMe }, identity);
                     if(string.IsNullOrEmpty(returnUrl))

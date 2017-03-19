@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,10 @@ namespace BFH.EADN.Common.Wcf.Client
     public abstract class WcfBaseClient<TServiceContract>
         where TServiceContract : class
     {
+        /// <summary>
+        /// Add own custom behavior
+        /// </summary>
+        public IEndpointBehavior CustomBehavior { get; set; } 
 
         /// <summary>
         /// Key to read configuration from config
@@ -79,7 +84,13 @@ namespace BFH.EADN.Common.Wcf.Client
             {
                 channel.Abort();
             }
-            Proxy = CreateChannelFactory().CreateChannel();
+            ChannelFactory<TServiceContract> cf = CreateChannelFactory();
+
+            if(CustomBehavior != null)
+            {
+                cf.Endpoint.EndpointBehaviors.Add(CustomBehavior);
+            }
+            Proxy = cf.CreateChannel();
             return Proxy;
         }
     }

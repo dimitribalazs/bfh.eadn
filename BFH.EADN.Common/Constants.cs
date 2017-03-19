@@ -22,5 +22,15 @@ namespace BFH.EADN.Common
         /// Role name used for authorization in web controller
         /// </summary>
         public const string AdminRoleName = "QuizAdmin";
+
+        /// <summary>
+        /// Session Id key for Message Inspection
+        /// </summary>
+        public const string SessionId = "SessionId";
+
+        /// <summary>
+        /// UserName for Message Inspection
+        /// </summary>
+        public const string UserName = "UserName";
     }
 }

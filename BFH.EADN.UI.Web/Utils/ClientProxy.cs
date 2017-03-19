@@ -17,6 +17,7 @@ namespace BFH.EADN.UI.Web.Utils
         {
             string nameOfConfiguration = typeof(T).Name.Substring(1);
             WcfClient<T> service = WcfClientFactory.CreateClient<T>(nameOfConfiguration);
+            service.CustomBehavior = new CustomBehavior();
             return service.GetProxy();
         }
     }

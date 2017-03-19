@@ -7,7 +7,7 @@ using BFH.EADN.Common.Types.Contracts;
 
 namespace BFH.EADN.QuizManagementService.Contracts
 {
-    [ServiceContract(Namespace = Constants.XMLNamespace, Name = "IQuestionManagement")]
+    [ServiceContract(Namespace = Constants.XMLNamespace, Name = "QuestionManagement")]
     public interface IQuestionManagement
     {
         /// <summary>

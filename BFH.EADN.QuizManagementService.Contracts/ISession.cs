@@ -3,28 +3,26 @@ using BFH.EADN.Common.Types.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizManagementService.Contracts
 {
-    [ServiceContract(Namespace = Constants.XMLNamespace, Name = "ISession")]
+    [ServiceContract(Namespace = Constants.XMLNamespace, Name = "Session")]
     public interface ISession
     {
-        [OperationContract]
-        bool Test(bool test);
+        [OperationContract(Name = "LogIn")]
+        [FaultContract(typeof(ServiceFault))]
+        Claim LogIn();
 
-        //[OperationContract]
-        //void LogIn(string name, string password);
+        [OperationContract(Name = "LogOut")]
+        [FaultContract(typeof(ServiceFault))]
+        void LogOut();
 
-        //[OperationContract]
-        //void LogOut();
-
-        [OperationContract]
+        [OperationContract(Name = "GetUserByName")]
+        [FaultContract(typeof(ServiceFault))]
         User GetUserByName(string name);
-
-        [OperationContract]
-        User GetUserById(Guid id);
     }
 }

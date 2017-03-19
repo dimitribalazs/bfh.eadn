@@ -11,11 +11,12 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace BFH.EADN.QuizManagementService.Implementation
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, Namespace = Constants.XMLNamespace, Name = "QuizManagement")]
-    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement//, ISession
+    public class QuizManagement : IAnswerManagement, ITopicManagement, IQuestionManagement, IQuizManagement, ISession
     {
         /// <summary>
         /// Holds the persistence factory during the call
@@ -47,7 +48,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         /// </summary>
         public QuizManagement()
         {
-            _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();   
+            _persistenceFactory = Factory.CreateInstance<IFactoryPersistence>();
         }
 
         /// <summary>
@@ -486,13 +487,6 @@ namespace BFH.EADN.QuizManagementService.Implementation
             }
         }
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
-        /*
-        private static Dictionary<string, string> loginSessions = new Dictionary<string, string>();
-        private static List<Admin> admins = new List<Admin>
-        {
-            new Admin()
-        };
 
         public User GetUserByName(string name)
         {
@@ -509,57 +503,26 @@ namespace BFH.EADN.QuizManagementService.Implementation
             return null;
         }
 
-        public User GetUserById(Guid id)
+        public Claim LogIn()
+             => new Claim(ClaimTypes.Role, Constants.AdminRoleName);
+
+
+        public void LogOut()
         {
-            Admin admin = admins.FirstOrDefault(a => a.Id == id);
-            User user = null;
-            if (admin != null)
-            {
-                user = new User
-                {
-                    Id = admin.Id,
-                    Name = admin.Name,
-                    Password = admin.Password
-                };
-            }
-            return user;
+            throw new NotImplementedException();
         }
-        */
-        //public static void LogIn(string name, string password)
-        //{
-        //    if(adminLogins.ContainsKey(name) && adminLogins[name].Equals(password))
-        //    { 
-        //        string sessionId = OperationContext.Current.SessionId;
-        //        loginSessions.Add(sessionId, name);
-        //}
-        //}
 
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
-        //public static void LogOut()
-        //{
-        //    string sessionId = OperationContext.Current.SessionId;
-        //    if (IsLoggedIn(sessionId))
-        //    {
-        //        loginSessions.Remove(sessionId);
-        //    }
-        //}
+               
+        private static List<Admin> admins = new List<Admin>
+        {
+            new Admin()
+        };
 
-        //
-        //[PrincipalPermission(SecurityAction.Demand, Role = "QuizAdmin")]
-        //public static bool IsLoggedIn(string key)
-        //{
-        //    return loginSessions.ContainsKey(key);
-        //}
-
+        private class Admin
+        {
+            public Guid Id => Guid.Parse("61408abc-df3e-4f97-b501-4e9720530ff7");
+            public string Name => "Admin";
+            public string Password => "AAorcLme9Z/b9oJF5rbRcchQyM+j+SkjkOldeEIVXTx/eT4b6eDQmbyyhifxsqIYBw==";
+        }
     }
-
-    internal class Admin
-    {
-        public Guid Id => Guid.Parse("61408abc-df3e-4f97-b501-4e9720530ff7");
-        public string Name => "Admin";
-        public string Password => "AAorcLme9Z/b9oJF5rbRcchQyM+j+SkjkOldeEIVXTx/eT4b6eDQmbyyhifxsqIYBw==";
-
-    }
-
-
 }

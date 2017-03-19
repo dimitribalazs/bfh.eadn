@@ -29,20 +29,10 @@ namespace BFH.EADN.QuizManagementService.Host
             try
             {
                 _quizManagementHost = new ServiceHost(typeof(QuizManagement), new Uri("net.tcp://localhost:5001"));
-                //_quizManagementHost.AddServiceEndpoint(
-                //    typeof(IQuizManagement), 
-                //    new BasicHttpBinding(), 
-                //    "QuizManagement");
-
-
-                //ServiceEndpoint sessionEndpoint = _quizManagementHost.AddServiceEndpoint(typeof(ISession), new NetTcpBinding(), "Session");
-                //endpoint.EndpointBehaviors.Add(new CustomBehavior());
-                //foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
-                //{
-                   
-                //    endpoint.EndpointBehaviors.Add(new CustomBehavior());
-                //}
-                //_quizManagementHost.
+                foreach (ServiceEndpoint endpoint in _quizManagementHost.Description.Endpoints)
+                {
+                    endpoint.EndpointBehaviors.Add(new CustomBehavior());
+                }
                 _quizManagementHost.Open();
             }
             catch (Exception ex)

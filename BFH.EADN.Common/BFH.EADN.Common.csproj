@@ -45,8 +45,7 @@
   <ItemGroup>
     <Compile Include="Types\Contracts\Play\QuestionAnswerState.cs" />
     <Compile Include="Types\Contracts\Play\PlayQuestion.cs" />
-    <Compile Include="Wcf\Client\ClientMessageInspector.cs" />
-    <Compile Include="Wcf\Client\CustomBehavior.cs" />
+    <Compile Include="Wcf\WcfUtil.cs" />
     <Compile Include="Wcf\Client\WcfClient.cs" />
     <Compile Include="Wcf\Client\WcfBaseClient.cs" />
     <Compile Include="Wcf\Client\WcfClientFactory.cs" />

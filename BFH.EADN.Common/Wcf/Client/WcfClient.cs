@@ -33,8 +33,6 @@ namespace BFH.EADN.Common.Wcf.Client
                 //at least configuration must be set
                 cf = new ChannelFactory<TServiceContract>(ConfigurationName);    
             }
-
-            cf.Endpoint.EndpointBehaviors.Add(new CustomBehavior());
             return cf;
             
         }

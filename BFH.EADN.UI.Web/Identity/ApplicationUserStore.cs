@@ -24,6 +24,8 @@ namespace BFH.EADN.UI.Web.Identity
             }
         };
 
+        private Common.Types.Contracts.User _currentUser;
+
         #region IUserStore
         public Task CreateAsync(User user)
         {
@@ -52,44 +54,43 @@ namespace BFH.EADN.UI.Web.Identity
 
         public Task<User> FindByNameAsync(string userName)
         {
+            // return Task<User>.Factory.StartNew(
+            //     () => Users.FirstOrDefault(account => string.Equals(account.UserName, userName, StringComparison.InvariantCultureIgnoreCase)
+            //));
             return Task<User>.Factory.StartNew(
-                () => Users.FirstOrDefault(account => string.Equals(account.UserName, userName, StringComparison.InvariantCultureIgnoreCase)
-           ));
+                () => {
+                    ISession session = ClientProxy.GetProxy<ISession>();
+                    Common.Types.Contracts.User user = session.GetUserByName(userName);
+                    _currentUser = user;
+
+                    User retUser = null;
+                    if (user != null)
+                    {
+                        retUser = new User
+                        {
+                            Id = user.Id,
+                            Password = user.Password,
+                            UserName = user.Name
+                        };
+                    }
+                    return retUser;
+                });
         }
-        //{
-            //return Task<User>.Factory.StartNew(
-            //    () =>
-            //    {
-            //        ISession session = ClientProxy.GetProxy<ISession>();
-            //        Common.Types.Contracts.User user = session.GetUserByName(userName);
-            //        User retUser = null;
-            //        if (user != null)
-            //        {
-            //            retUser = new User
-            //            {
-            //                Id = user.Id,
-            //                Password = user.Password,
-            //                UserName = user.Name
-            //            };
-            //        }
-            //        return retUser;
-            //    });
-        //}
 
         public Task<string> GetPasswordHashAsync(User user)
         {
-            return Task<string>.Factory.StartNew(() => Users.Single(account => account.Id == user.Id).Password);
-            return Task<string>.Factory.StartNew(() => 
-            {
-                ISession session = ClientProxy.GetProxy<ISession>();
-                Common.Types.Contracts.User contractUser = session.GetUserById(user.Id);
-                if(user == null)
-                {
-                    throw new InvalidOperationException("no user found with id");
-                }
+            return Task<string>.Factory.StartNew(() => _currentUser.Password);
+            //return Task<string>.Factory.StartNew(() => 
+            //{
+            //    ISession session = ClientProxy.GetProxy<ISession>();
+            //    Common.Types.Contracts.User contractUser = session.GetUserById();
+            //    if(user == null)
+            //    {
+            //        throw new InvalidOperationException("no user found with id");
+            //    }
 
-                return user.Password;                
-            });
+            //    return user.Password;                
+            //});
         }
 
         public Task<bool> HasPasswordAsync(User user)

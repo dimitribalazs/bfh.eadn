@@ -1,14 +1,11 @@
 ﻿using BFH.EADN.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using BFH.EADN.Common.Wcf;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace BFH.EADN.QuizManagementService.Implementation
 {
@@ -16,27 +13,37 @@ namespace BFH.EADN.QuizManagementService.Implementation
     {
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
-            //Guid token = request.Headers.GetHeader<Guid>("token", Constants.XMLNamespace);
-            // Generische identität herstellen
-            GenericIdentity MyIdentity = new GenericIdentity("MyIdentity", "QuizAdmin");
+            //todo not working yet
+            return null;
+            
+            string sessionId;
+            string userName; 
+            request.Headers.TryGetHeader(Constants.SessionId, Constants.XMLNamespace, out sessionId);
 
-            // Generischer Prinzipal herstellen
-            string[] astrRoles = { "QuizAdmin" };
+            if (request.Headers.TryGetHeader(Constants.UserName, Constants.XMLNamespace, out userName))
+            {
+                Claim claim = new Claim(ClaimTypes.Role, Constants.AdminRoleName);
+                GenericIdentity genericIdentity = new GenericIdentity("genericQuizIdentity", Constants.AdminRoleName);
 
-            GenericPrincipal objGenericPrinzipal = new GenericPrincipal(MyIdentity, astrRoles);
+                //Generischer Prinzipal herstellen
+                string[] roles = { Constants.AdminRoleName };
+                GenericPrincipal objGenericPrincipal = new GenericPrincipal(genericIdentity, roles);
 
-            // Generischer Prinzipal mit dem Thread verbinden
-
-            Thread.CurrentPrincipal = objGenericPrinzipal;
+                //Generischer Prinzipal mit dem Thread verbinden
+                Thread.CurrentPrincipal = objGenericPrincipal;
+            }
             return null;
 
         }
 
         public void BeforeSendReply(ref Message reply, object correlationState)
         {
-            MessageHeader header = MessageHeader.CreateHeader("token", Constants.XMLNamespace, OperationContext.Current.SessionId);
-            reply.Headers.Add(header);
-            Console.WriteLine("Bye reply");
+            //    MessageHeader header = MessageHeader.CreateHeader("token", Constants.XMLNamespace, OperationContext.Current.SessionId);
+            //    reply.Headers.Add(header);
+            //    Console.WriteLine("Bye reply");
         }
     }
+
+
 }
+

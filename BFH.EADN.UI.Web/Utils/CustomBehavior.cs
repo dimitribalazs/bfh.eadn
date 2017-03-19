@@ -3,7 +3,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace BFH.EADN.Common.Wcf.Client
+namespace BFH.EADN.UI.Web.Utils
 {
     public class CustomBehavior : IEndpointBehavior
     {
@@ -16,10 +16,8 @@ namespace BFH.EADN.Common.Wcf.Client
             clientRuntime.ClientMessageInspectors.Add(new ClientMessageInspector());
         }
 
-        public void ApplyDispatchBehavior(ServiceEndpoint endpoint,
-        System.ServiceModel.Dispatcher.EndpointDispatcher endpointDispatcher)
+        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, System.ServiceModel.Dispatcher.EndpointDispatcher endpointDispatcher)
         {
-           // endpointDispatcher.DispatchRuntime.MessageInspectors.Add(new ServiceMessageInspector());
         }
         public void Validate(ServiceEndpoint endpoint) { }
         
