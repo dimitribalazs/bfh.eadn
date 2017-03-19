@@ -26,7 +26,5 @@ namespace BFH.EADN.UI.Web
             //own startup configuration
             CustomStartup.Init();
         }
-
-        protected void Session_Start(object sender, EventArgs e) { }
     }
 }
