@@ -134,7 +134,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                 _service.Delete(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
                 //here should be loggin
                 throw;

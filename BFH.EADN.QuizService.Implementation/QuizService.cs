@@ -79,8 +79,9 @@ namespace BFH.EADN.QuizService.Implementation
                     else if (quiz.Type == QuizType.Variable)
                     {
                         List<Question> questions = quiz.Questions.Take(quiz.MaxQuestionCount).ToList();
-                        Random random = new Random();
                         List<Question> randomizedList = new List<Question>(quiz.MaxQuestionCount);
+
+                        Random random = new Random();
 
                         while (randomizedList.Count < quiz.MaxQuestionCount && questions.Any())
                         {

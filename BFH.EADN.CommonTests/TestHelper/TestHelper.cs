@@ -133,7 +133,6 @@ namespace BFH.EADN.CommonTests.TestHelper
 
         public static void TestProperty<TInstance, TPropertyType>(PropertyInfo property, TInstance instance, TPropertyType input)
             where TInstance : class
-            //where TPropertyType : struct
         {
             property.SetValue(instance, input);
             TPropertyType output = (TPropertyType)property.GetValue(instance);
