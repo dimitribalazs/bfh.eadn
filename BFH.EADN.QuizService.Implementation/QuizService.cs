@@ -219,11 +219,12 @@ namespace BFH.EADN.QuizService.Implementation
                 {
                     Question question = repo.Get(questionId);
                     List<Guid> solutionsAnswers = question.Answers.Where(a => a.IsSolution).Select(a => a.Id).ToList();
-                    if(answers == null)
+                    if(answers == null || answers.Count == 0)
                     {
                         return solutionsAnswers == null || solutionsAnswers.Count == 0;
                     }
-                    return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
+                    //return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
+                    return solutionsAnswers.Aggregate(true, (acc, answerId) => acc & answers.Contains(answerId));
                 }
             }
             catch (Exception ex)
