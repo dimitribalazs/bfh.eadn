@@ -24,15 +24,15 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// Minimium question count
         /// </summary>
         [Required]
-        [Range(0, int.MaxValue)]
-        public int MinQuestionCount { get; set; }
+        [Range(1, int.MaxValue)]
+        public int MinQuestionCount { get; set; } = 1;
 
         /// <summary>
         /// Maximum question count
         /// </summary>
         [Required]
         [Range(1, int.MaxValue)]
-        public int MaxQuestionCount { get; set; }
+        public int MaxQuestionCount { get; set; } = 1;
 
         /// <summary>
         /// Quiz type (variable, fix, dynamic)
@@ -43,7 +43,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// <summary>
         /// Selected question ids
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "A question must be selected")]
         public Guid[] SelectedQuestionIds { get; set; }
 
         /// <summary>

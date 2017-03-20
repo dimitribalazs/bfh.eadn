@@ -33,7 +33,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// <summary>
         /// Selected topic ids
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "A topic must be selected")]
         public Guid[] SelectedTopicIds { get; set; }
 
         /// <summary>

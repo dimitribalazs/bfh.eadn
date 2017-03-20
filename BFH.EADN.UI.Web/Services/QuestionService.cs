@@ -57,7 +57,7 @@ namespace BFH.EADN.UI.Web.Services
             questionModel.SelectedTopicIds = questionModel.Topics.Select(q => q.Id).ToArray();
             //get whole list for selection
             questionModel.Topics = ClientProxy.GetProxy<ITopicManagement>().GetTopics();
-                        
+
             questionModel.SelectedAnswerIds = questionModel.Answers.Select(a => a.Id).ToArray();
             questionModel.Answers = questionModel.Answers;
             return questionModel;
@@ -70,7 +70,7 @@ namespace BFH.EADN.UI.Web.Services
         public void Create(Question newQuestion)
         {
             ContractTypes.Question contractQuestion = Mapper.Map<ContractTypes.Question>(newQuestion);
-            List<ContractTypes.Topic> topics  = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(newQuestion.SelectedTopicIds.ToList());
+            List<ContractTypes.Topic> topics = ClientProxy.GetProxy<ITopicManagement>().GetTopicsByIds(newQuestion.SelectedTopicIds.ToList());
             contractQuestion.Topics = topics;
             ClientProxy.GetProxy<IQuestionManagement>().CreateQuestion(contractQuestion);
 
@@ -82,7 +82,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="id">id of an existing question</param>
         /// <param name="question">question with the new values</param>
         public void Edit(Guid id, Question question)
-        { 
+        {
             ContractTypes.Question contractQuestion = ClientProxy.GetProxy<IQuestionManagement>().GetQuestion(id);
             contractQuestion = Mapper.Map(question, contractQuestion);
 
@@ -115,9 +115,9 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="question">current Question</param>
         public void Validation(ModelStateDictionary state, Question question, bool isEdit)
         {
-            
+
             //checks if there is a single answer the solution
-            if(question.IsMultipleChoice == false)
+            if (question.IsMultipleChoice == false)
             {
                 List<Guid> selectedAnswerIds = question.SelectedAnswerIds != null ? question.SelectedAnswerIds.ToList() : null;
                 List<ContractTypes.Answer> answers = ClientProxy.GetProxy<IAnswerManagement>().GetAnswersByIds(selectedAnswerIds);
@@ -126,17 +126,17 @@ namespace BFH.EADN.UI.Web.Services
                 {
                     state.AddModelError("SelectedAnswerIds", "You cannot set more than one answer as solution");
                 }
-                else if(answerIsSolutionCount == 0 )
+                else if (answers.Count > 0 && answerIsSolutionCount == 0)
                 {
                     state.AddModelError("SelectedAnswerIds", "You must set at least one answer as solution");
                 }
             }
 
-            if(isEdit)
+            if (isEdit)
             {
-                if(question.SelectedAnswerIds == null || question.SelectedAnswerIds.Length == 0)
+                if (question.SelectedAnswerIds == null || question.SelectedAnswerIds.Length == 0)
                 {
-                    state.AddModelError("SelectedAnswerIds", "Add at least one answer");
+                    state.AddModelError("SelectedAnswerIds", "A answer must be added");
                 }
             }
         }
