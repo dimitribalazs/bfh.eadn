@@ -223,8 +223,8 @@ namespace BFH.EADN.QuizService.Implementation
                     {
                         return solutionsAnswers == null || solutionsAnswers.Count == 0;
                     }
-                    //return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
-                    return solutionsAnswers.Aggregate(true, (acc, answerId) => acc & answers.Contains(answerId));
+                    return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
+                    
                 }
             }
             catch (Exception ex)

@@ -10,10 +10,16 @@ namespace BFH.EADN.Persistence.EF.Seed
     /// <summary>
     /// Seeds the example data. Used for unit tests and also for "human" tests
     /// </summary>
-    internal class QuizDBInitializer : DropCreateDatabaseIfModelChanges<QuizDataContext>
+    internal class QuizDBInitializer : DropCreateDatabaseAlways<QuizDataContext>
     {
         protected override void Seed(QuizDataContext context)
         {
+            //check if seed should be executed
+            bool seedingActive = Common.Common.GetConfigValue<bool>(Common.Constants.SeedingActive); 
+            if(seedingActive == false)
+            {
+                return;
+            }
             Topic programming = new Topic { Name = "Programming", Description = "All about programming" };
             Topic movies = new Topic { Name = "Movies", Description = "All about movies" };
             Topic actors = new Topic { Name = "Actors", Description = "All about actory" };

@@ -32,5 +32,10 @@ namespace BFH.EADN.Common
         /// UserName for Message Inspection
         /// </summary>
         public const string UserName = "UserName";
+
+        /// <summary>
+        /// Name to defined if seed be made
+        /// </summary>
+        public const string SeedingActive = "SeedingActive";
     }
 }

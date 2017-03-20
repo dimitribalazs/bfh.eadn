@@ -8,6 +8,7 @@ using BFH.EADN.Common;
 using BFH.EADN.Common.Types.Contracts;
 using System.ServiceModel;
 using BFH.EADN.CommonTests.TestHelper;
+using System.IO;
 
 namespace BFH.EADN.QuizService.Implementation.Tests
 {
@@ -151,7 +152,7 @@ namespace BFH.EADN.QuizService.Implementation.Tests
 
             bool notCorrect = service.CheckAnswers(question.Id, allAnswers);
             bool allCorrect = service.CheckAnswers(question.Id, correctAnswers);
-
+            
             Assert.IsFalse(notCorrect);
             Assert.IsTrue(allCorrect);
         }
