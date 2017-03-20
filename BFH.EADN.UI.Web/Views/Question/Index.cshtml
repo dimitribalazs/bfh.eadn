@@ -23,7 +23,17 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+@if (Model == null || Model.FirstOrDefault() == null)
+{
+    <tr>
+        <td colspan="3">
+            No questions exists!
+        </td>
+    </tr>
+}
+else
+{
+    foreach (var item in Model)
     {
         <tr>
             <td>
@@ -42,5 +52,6 @@
             </td>
         </tr>
     }
+}
 
 </table>

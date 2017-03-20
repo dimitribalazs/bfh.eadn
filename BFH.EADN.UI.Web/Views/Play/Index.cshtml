@@ -8,7 +8,7 @@
 
 
 <div id="overview-index">
-    @if (string.IsNullOrEmpty(Model.First().ContinueQuizUrl) == false)
+    @if (Model.ToList().Count > 0 && string.IsNullOrEmpty(Model.First().ContinueQuizUrl) == false)
     {
         <div class="row">
             <div class="col-xs-6 col-md-offset-3 ">
@@ -17,22 +17,30 @@
         </div>
     }
 
-    @foreach (var item in Model)
+    @if(Model.ToList().Count >0 )
+    { 
+        foreach (var item in Model)
+        {
+            <h2>
+                @item.TopicName
+            </h2>
+            <table class="table">
+                <tbody>
+                    @for (var i = 0; i < item.QuizItems.Count; i++)
+                    {
+                        <tr>
+                            <td width="80%">@item.QuizItems[i].Text</td>
+                            <td width="20%">@Html.ActionLink("Play", "ValidationType", new { quizId = @item.QuizItems[i].QuizId })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    else
     {
-        <h2>
-            @item.TopicName
-        </h2>
-        <table class="table">
-            <tbody>
-                @for (var i = 0; i < item.QuizItems.Count; i++)
-                {
-                    <tr>
-                        <td width="80%">@item.QuizItems[i].Text</td>
-                        <td width="20%">@Html.ActionLink("Play", "ValidationType", new { quizId = @item.QuizItems[i].QuizId })</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <h2>No Quizzes found</h2>
+        <p>Try it later</p>
     }
 
 </div>

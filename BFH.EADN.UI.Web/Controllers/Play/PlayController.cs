@@ -34,7 +34,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             HttpCookie cookie = GetCookie(_quizState);
 
             //and check if there has already been a played quiz
-            if (string.IsNullOrEmpty(cookie.Values[_url]) == false)
+            if (overview.Count > 0 && string.IsNullOrEmpty(cookie.Values[_url]) == false)
             {
                 string url = HttpUtility.UrlDecode(cookie.Values[_url]);
                 if (_service.UrlIsStillValid(url))
