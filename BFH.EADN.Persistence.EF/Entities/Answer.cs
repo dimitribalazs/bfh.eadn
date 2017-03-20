@@ -20,6 +20,4 @@
         /// </summary>
         public bool IsSolution { get; set; }
     }
-
-
 }

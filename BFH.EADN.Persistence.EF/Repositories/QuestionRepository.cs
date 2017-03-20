@@ -30,10 +30,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Delete(Guid Id)
         {
             Entities.Question question = Context.Questions.Single(q => q.Id == Id);
-            if (CanBeDeleted(question.LastUsed, Common.Constants.DeletionThreshold) == false)
-            {
-                throw new InvalidOperationException("Cannot delete quiz because time threshold is not reached yet");
-            }
             Context.Answers.RemoveRange(question.Answers);
             Context.Questions.Remove(question);
             Context.SaveChanges();
@@ -44,7 +40,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             Entities.Question question = Context.Questions.Single(q => q.Id == Id);
             CommonContracts.Question contractQuestion = Mapper.Map<CommonContracts.Question>(question);
-            contractQuestion.CanBeDeleted = CanBeDeleted(question.LastUsed, Common.Constants.DeletionThreshold);
             return contractQuestion;
         }
 
@@ -53,7 +48,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             List<Entities.Question> questions = Context.Questions.ToList();
             List<CommonContracts.Question> contractQuestions = Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(questions);
-            contractQuestions.ForEach(q => q.CanBeDeleted = CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
             return contractQuestions;
         }
 
@@ -66,7 +60,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
             }
             List<Entities.Question> quetsions = Context.Questions.Where(q => ids.Contains(q.Id)).ToList();
             List<CommonContracts.Question> contractQuestions = Mapper.Map<List<Entities.Question>, List<CommonContracts.Question>>(quetsions);
-            contractQuestions.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
             return contractQuestions;
         }
 

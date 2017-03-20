@@ -35,10 +35,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
         public override void Delete(Guid Id)
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
-            if (CanBeDeleted(quiz.LastUsed, Common.Constants.DeletionThreshold) == false)
-            {
-                throw new InvalidOperationException("Cannot delete quiz because time threshold is not reached yet");
-            }
             //we wont delete the questions
             quiz.Questions = null;            
             Context.Quizzes.Remove(quiz);
@@ -50,7 +46,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             Entities.Quiz quiz = Context.Quizzes.Single(q => q.Id == Id);
             CommonContracts.Quiz contractQuiz = Mapper.Map<CommonContracts.Quiz>(quiz);
-            contractQuiz.CanBeDeleted = CanBeDeleted(quiz.LastUsed, Common.Constants.DeletionThreshold);
             return contractQuiz;
         }
 
@@ -59,7 +54,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             List<Entities.Quiz> quizzes = Context.Quizzes.ToList();
             List<CommonContracts.Quiz> contractQuizzes = Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
-            contractQuizzes.ForEach(q => q.CanBeDeleted = CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
             return contractQuizzes;
         }
 
@@ -72,7 +66,6 @@ namespace BFH.EADN.Persistence.EF.Repositories
             }
             List<Entities.Quiz> quizzes = Context.Quizzes.Where(q => ids.Contains(q.Id)).ToList();
             List<CommonContracts.Quiz> contractQuizzes = Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);
-            contractQuizzes.ForEach(q => CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
             return contractQuizzes;
         }
 
@@ -86,6 +79,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             quiz.MinQuestionCount = data.MinQuestionCount;
             quiz.LastUsed = DateTime.Now;
             
+            //update question list
             List<Guid> guids = data.Questions.Select(q => q.Id).ToList();
             foreach(var question in Context.Questions.ToList())
             {

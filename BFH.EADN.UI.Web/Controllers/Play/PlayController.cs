@@ -14,7 +14,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
     public class PlayController : Controller
     {
         private PlayService _service = new PlayService();
-        
+
         //keys used for cookies
         private static readonly string _quizState = "QuizState";
         private static readonly string _questionAnswerStateId = "QuestionAnswerStateId";
@@ -32,12 +32,16 @@ namespace BFH.EADN.UI.Web.Controllers.Play
 
             //get quizState cookie (already existing or new one)
             HttpCookie cookie = GetCookie(_quizState);
-            
+
             //and check if there has already been a played quiz
-            if (cookie.Values[_url] != null)
+            if (string.IsNullOrEmpty(cookie.Values[_url]) == false)
             {
-                //set already played quiz url. Displays button on page
-                overview.First().ContinueQuizUrl = HttpUtility.UrlDecode(cookie.Values[_url]);
+                string url = HttpUtility.UrlDecode(cookie.Values[_url]);
+                if (_service.UrlIsStillValid(url))
+                {
+                    //set already played quiz url. Displays button on page
+                    overview.First().ContinueQuizUrl = url;
+                }
             }
 
             //get the evaluation type of the already played quiz
@@ -68,7 +72,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
                 //create new questionAnswerStateId
                 cookie.Value = Guid.NewGuid().ToString();
             }
-            
+
             //update response
             HttpContext.Response.Cookies.Remove(_quizState);
             HttpContext.Response.Cookies.Set(cookie);
@@ -85,7 +89,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
             type.QuestionId = question.QuestionId;
             return View(type);
         }
-        
+
         /// <summary>
         /// Saves the validation type to session and cookie
         /// </summary>

@@ -10,7 +10,13 @@
 {
     @Html.AntiForgeryToken()
     @Html.DisplayFor(m => m.Text)
-    @Html.DisplayFor(m => m.Hint)
+
+    if(string.IsNullOrEmpty(Model.Hint) == false)
+    {
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="@Model.Hint ">
+           Hint
+       </button>
+    }
 
     <div class="quiz-validation">
         @Html.ValidationMessageFor(m => m.Answers, "", new { @class = "text-danger" })

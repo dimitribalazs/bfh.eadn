@@ -3,6 +3,7 @@ using BFH.EADN.UI.Web.Models.Play;
 using BFH.EADN.UI.Web.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,7 +27,7 @@ namespace BFH.EADN.UI.Web.Services
             //because if max question is 0, nothing is going to be selected
             List<ContractTypes.Quiz> quizzes = ClientProxy.GetProxy<IPlay>()
                                                             .GetQuizzes()
-                                                                .Where(q => 
+                                                                .Where(q =>
                                                                     q.Questions.Count > 0
                                                                     && q.MaxQuestionCount > 0
                                                                 ).ToList();
@@ -207,7 +208,7 @@ namespace BFH.EADN.UI.Web.Services
             }
             return quiz;
         }
-        
+
         /// <summary>
         /// Saved the current state 
         /// </summary>
@@ -247,7 +248,7 @@ namespace BFH.EADN.UI.Web.Services
         {
             List<Complete> complete = new List<Complete>();
             List<ContractTypes.QuestionAnswerState> allQAS = GetAllSavedQuestionAnswerStates(questionAnswerStateId);
-            foreach(ContractTypes.QuestionAnswerState qas in allQAS)
+            foreach (ContractTypes.QuestionAnswerState qas in allQAS)
             {
                 bool isCorrect = CheckAnswers(qas.Question.Id, qas.Answers.Select(a => a.Id).ToList());
                 complete.Add(new Complete
@@ -259,6 +260,27 @@ namespace BFH.EADN.UI.Web.Services
             }
 
             return complete;
+        }
+
+        /// <summary>
+        /// Checks if the url is still valid
+        /// </summary>
+        /// <param name="url">saved url</param>
+        /// <returns>true if url is still valid</returns>
+        public bool UrlIsStillValid(string url)
+        {
+            Uri uri = new Uri(url);
+            NameValueCollection queryString = HttpUtility.ParseQueryString(uri.Query);
+            Guid questionId = Guid.Parse(queryString["questionId"]);
+            Guid quizId = Guid.Parse(queryString["quizId"]);
+
+            ContractTypes.Quiz quiz = ClientProxy.GetProxy<IPlay>().GetQuizzes().SingleOrDefault(q => q.Id == quizId);
+            if(quiz != null)
+            {
+                return quiz.Questions.Any(q => q.Id == questionId);
+            }
+
+            return false;
         }
     }
 }

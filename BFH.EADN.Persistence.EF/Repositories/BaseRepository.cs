@@ -80,8 +80,5 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             Context?.Dispose();
         }
-
-        public bool CanBeDeleted(DateTime lastUsed, int lastUsedThresholdInDay)
-            => (DateTime.Now - lastUsed).Days > lastUsedThresholdInDay;
     }
 }

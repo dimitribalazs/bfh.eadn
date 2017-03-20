@@ -73,6 +73,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                     throw;
                 }
             }
+            ViewBag.QuestionId = answer.QuestionId;
             return View(answer);
         }
 
@@ -113,6 +114,7 @@ namespace BFH.EADN.UI.Web.Controllers.Management
                     throw;
                 }
             }
+            ViewBag.QuestionId = answer.QuestionId;
             return View(answer);
         }
 

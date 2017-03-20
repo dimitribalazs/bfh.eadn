@@ -224,7 +224,6 @@ namespace BFH.EADN.QuizService.Implementation
                         return solutionsAnswers == null || solutionsAnswers.Count == 0;
                     }
                     return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
-                    //solutionsAnswers.Aggregate(true, (acc, solutionId) => acc & answers.Contains(solutionId));
                 }
             }
             catch (Exception ex)

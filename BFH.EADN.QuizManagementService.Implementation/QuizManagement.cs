@@ -307,6 +307,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Question, Guid> repo = QuestionRepository)
                 {
+                    Question question = repo.Get(id);
+                    if (Util.CanBeDeleted(question.LastUsed, Constants.DeletionThreshold) == false)
+                    {
+                        throw new InvalidOperationException("Cannot delete question because time threshold is not reached yet");
+                    }
                     repo.Delete(id);
                 }
             }
@@ -324,7 +329,9 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Question, Guid> repo = QuestionRepository)
                 {
-                    return repo.Get(id);
+                    Question question = repo.Get(id);
+                    question.CanBeDeleted = Util.CanBeDeleted(question.LastUsed, Constants.DeletionThreshold);
+                    return question;
                 }
             }
             catch (Exception ex)
@@ -341,7 +348,9 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Question, Guid> repo = QuestionRepository)
                 {
-                    return repo.GetAll();
+                    List<Question> questions = repo.GetAll();
+                    questions.ForEach(q => q.CanBeDeleted = Util.CanBeDeleted(q.LastUsed, Constants.DeletionThreshold));
+                    return questions;
                 }
             }
             catch (Exception ex)
@@ -375,7 +384,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Question, Guid> repo = QuestionRepository)
                 {
-                    return repo.GetListByIds(ids);
+                    List<Question> questions = repo.GetListByIds(ids);
+                    questions.ForEach(q => q.CanBeDeleted = Util.CanBeDeleted(q.LastUsed, Constants.DeletionThreshold));
+                    return questions;
+                    
                 }
             }
             catch (Exception ex)
@@ -426,6 +438,11 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
+                    Quiz quiz = repo.Get(id);
+                    if(Util.CanBeDeleted(quiz.LastUsed, Constants.DeletionThreshold) == false)
+                    {
+                        throw new InvalidOperationException("Cannot delete quiz because time threshold is not reached yet");
+                    }
                     repo.Delete(id);
                 }
             }
@@ -443,7 +460,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
-                    return repo.Get(id);
+                    Quiz quiz = repo.Get(id);
+                    //set state if can be deleted
+                    quiz.CanBeDeleted = Util.CanBeDeleted(quiz.LastUsed, Constants.DeletionThreshold);
+                    return quiz;
                 }
             }
             catch (Exception ex)
@@ -460,7 +480,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
-                    return repo.GetAll();
+                    List<Quiz> quizzes = repo.GetAll();
+                    //set state if can be deleted
+                    quizzes.ForEach(q => q.CanBeDeleted = Util.CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+                    return quizzes;
                 }
             }
             catch (Exception ex)
@@ -477,7 +500,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
             {
                 using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
-                    return repo.GetListByIds(ids);
+                    List<Quiz> quizzes = repo.GetListByIds(ids);
+                    //set state if can be deleted
+                    quizzes.ForEach(q => q.CanBeDeleted = Util.CanBeDeleted(q.LastUsed, Common.Constants.DeletionThreshold));
+                    return quizzes;
                 }
             }
             catch (Exception ex)
@@ -488,6 +514,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         }
 
 
+        ///<inheritdoc />
         public User GetUserByName(string name)
         {
             Admin admin = admins.FirstOrDefault(a => a.Name.Equals(name));
@@ -503,21 +530,28 @@ namespace BFH.EADN.QuizManagementService.Implementation
             return null;
         }
 
+        ///<inheritdoc />
         public Claim LogIn()
              => new Claim(ClaimTypes.Role, Constants.AdminRoleName);
 
 
+        ///<inheritdoc />
         public void LogOut()
         {
             throw new NotImplementedException();
         }
 
-               
+        /// <summary>
+        /// List of all admins
+        /// </summary>
         private static List<Admin> admins = new List<Admin>
         {
             new Admin()
         };
 
+        /// <summary>
+        /// Admin user
+        /// </summary>
         private class Admin
         {
             public Guid Id => Guid.Parse("61408abc-df3e-4f97-b501-4e9720530ff7");
