@@ -179,11 +179,13 @@ namespace BFH.EADN.QuizService.Implementation
                             currentQuestion = questions[i];
                         }
 
+                        //has previous question
                         if (i > 0)
                         {
                             previousQuestion = questions[i - 1].Id;
                         }
 
+                        //has next question
                         if (i + 1 <= questions.Count - 1)
                         {
                             nextQuestion = questions[i + 1].Id;

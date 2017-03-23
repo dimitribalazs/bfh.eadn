@@ -1,4 +1,5 @@
-﻿using BFH.EADN.QuizService.Contracts;
+﻿using BFH.EADN.Common.Types.Contracts;
+using BFH.EADN.QuizService.Contracts;
 using BFH.EADN.UI.Web.Models.Play;
 using BFH.EADN.UI.Web.Utils;
 using System;
@@ -108,7 +109,7 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="quiz"></param>
         /// <param name="currentQuestionId"></param>
         /// <returns></returns>
-        public Question GetQuestion(ContractTypes.Quiz quiz, Guid currentQuestionId)
+        public Models.Play.Question GetQuestion(ContractTypes.Quiz quiz, Guid currentQuestionId)
         {
             //get next element
             ContractTypes.Question question = quiz.Questions.FirstOrDefault(q => q.Id == currentQuestionId);
@@ -130,7 +131,7 @@ namespace BFH.EADN.UI.Web.Services
                 previousQuestion = null;
             }
 
-            Question retQuestion = new Question
+            Models.Play.Question retQuestion = new Models.Play.Question
             {
                 QuizId = quiz.Id,
                 QuestionId = question.Id,
@@ -141,10 +142,10 @@ namespace BFH.EADN.UI.Web.Services
                 PreviousQuestion = previousQuestion
             };
 
-            retQuestion.Answers = new List<Answer>(question.Answers.Count);
+            retQuestion.Answers = new List<Models.Play.Answer>(question.Answers.Count);
             foreach (ContractTypes.Answer answer in question.Answers)
             {
-                Answer answerItem = new Answer
+                Models.Play.Answer answerItem = new Models.Play.Answer
                 {
                     Id = answer.Id,
                     Text = answer.Text,
@@ -156,7 +157,7 @@ namespace BFH.EADN.UI.Web.Services
             return retQuestion;
         }
 
-        public Question GetFirstQuestion(ContractTypes.Quiz quiz)
+        public Models.Play.Question GetFirstQuestion(ContractTypes.Quiz quiz)
         {
             ContractTypes.Question question = quiz.Questions.FirstOrDefault();
             if (question == null)
@@ -165,7 +166,7 @@ namespace BFH.EADN.UI.Web.Services
             }
             ContractTypes.Question nextQuestion = quiz.Questions.Skip(1).FirstOrDefault();
 
-            Question retQuestion = new Question
+            Models.Play.Question retQuestion = new Models.Play.Question
             {
                 QuizId = quiz.Id,
                 QuestionId = question.Id,
@@ -175,10 +176,10 @@ namespace BFH.EADN.UI.Web.Services
                 NextQuestion = nextQuestion?.Id
             };
 
-            retQuestion.Answers = new List<Answer>(question.Answers.Count);
+            retQuestion.Answers = new List<Models.Play.Answer>(question.Answers.Count);
             foreach (ContractTypes.Answer answer in question.Answers)
             {
-                Answer answerItem = new Answer
+                Models.Play.Answer answerItem = new Models.Play.Answer
                 {
                     Id = answer.Id,
                     Text = answer.Text,
@@ -197,13 +198,67 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="context">current HttpContextBase</param>
         /// <param name="quizId">current quiz id</param>
         /// <returns>current quiz</returns>
-        public ContractTypes.Quiz GetQuiz(HttpContextBase context, Guid quizId)
+        public ContractTypes.Quiz GetQuiz(HttpContextBase context, Guid quizId, Guid? questionAnswerStateId = null, string savedQuestionIdsString = null)
         {
             ContractTypes.Quiz quiz = context.Session.GetSessionContext().CurrentQuiz;
             //check if there is already a quiz in the session, or if the quiz changes
             if (quiz == null || quiz.Id != quizId)
             {
                 quiz = GetContractQuiz(quizId);
+
+                List<QuestionAnswerState> qas = new List<QuestionAnswerState>();
+                IPlay service = ClientProxy.GetProxy<IPlay>();
+                //check if there is a questionanswerstate
+                if (questionAnswerStateId.HasValue)
+                {
+                    qas = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId.Value);
+                }
+
+                if (string.IsNullOrEmpty(savedQuestionIdsString) == false)
+                {
+                    //delete all questions, because we add those from cookie
+                    quiz.Questions = new List<ContractTypes.Question>();
+
+                    string[] questionIds = savedQuestionIdsString.Split(',');
+                    for (int i = 0; i < questionIds.Length; i++)
+                    {
+                        string questionId = questionIds[i];
+                        Guid? previousQuestion = null;
+                        Guid? nextQuestion = null;
+
+                        //has previous question
+                        if (i > 0)
+                        {
+                            Guid localPreviousQuestion;
+                            if (Guid.TryParse(questionIds[i - 1], out localPreviousQuestion))
+                            {
+                                previousQuestion = localPreviousQuestion;
+                            }
+                        }
+
+                        //has next question
+                        if (i + 1 <= questionIds.Length - 1)
+                        {
+                            Guid localNextQuestion;
+                            if (Guid.TryParse(questionIds[i + 1], out localNextQuestion))
+                            {
+                                previousQuestion = localNextQuestion;
+                            }
+                        }
+
+
+                        Guid questionGuid;
+                        if (Guid.TryParse(questionId, out questionGuid))
+                        {
+                            //get question and reset
+                            PlayQuestion question = service.GetQuestion(quizId, questionGuid);
+                            question.PreviousQuestion = previousQuestion;
+                            question.NextQuestion = nextQuestion;
+                            quiz.Questions.Add(question);
+                        }
+                    }
+                }
+
                 context.Session.GetSessionContext().CurrentQuiz = quiz;
             }
             return quiz;
@@ -275,7 +330,7 @@ namespace BFH.EADN.UI.Web.Services
             Guid quizId = Guid.Parse(queryString["quizId"]);
 
             ContractTypes.Quiz quiz = ClientProxy.GetProxy<IPlay>().GetQuizzes().SingleOrDefault(q => q.Id == quizId);
-            if(quiz != null)
+            if (quiz != null)
             {
                 return quiz.Questions.Any(q => q.Id == questionId);
             }

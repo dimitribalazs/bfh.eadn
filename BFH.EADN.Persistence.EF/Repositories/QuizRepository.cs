@@ -62,7 +62,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             if (ids == null)
             {
-                return null;
+                return new List<CommonContracts.Quiz>();
             }
             List<Entities.Quiz> quizzes = Context.Quizzes.Where(q => ids.Contains(q.Id)).ToList();
             List<CommonContracts.Quiz> contractQuizzes = Mapper.Map<List<Entities.Quiz>, List<CommonContracts.Quiz>>(quizzes);

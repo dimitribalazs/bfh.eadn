@@ -11,10 +11,18 @@ namespace BFH.EADN.Persistence.EF
     /// </summary>
     internal class QuizDataContext : DbContext
     {
-        public QuizDataContext() : base("name=DefaultConnection")
+        static QuizDataContext()
         {
             Database.SetInitializer(new QuizDBInitializer());
-            Database.Log = Console.Write;
+        }
+        public QuizDataContext() : base("name=DefaultConnection")
+        {
+            //check if seed should be executed
+            bool seedingActive = Common.Common.GetConfigValue<bool>(Common.Constants.SeedingActive);
+            if (seedingActive == false)
+            {
+                Database.SetInitializer<DbContext>(null);
+            }
         }
 
         public DbSet<Quiz> Quizzes { get; set; }

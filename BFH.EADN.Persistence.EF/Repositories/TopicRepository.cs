@@ -47,7 +47,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
         {
             if (ids == null)
             {
-                return null;
+                return new List<CommonContracts.Topic>();
             }
             List<Entities.Topic> topic = Context.Topics.Where(t => ids.Contains(t.Id)).ToList();
             return Mapper.Map<List<Entities.Topic>, List<CommonContracts.Topic>>(topic);
