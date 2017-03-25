@@ -273,6 +273,8 @@ namespace BFH.EADN.UI.Web.Services
                         }
                     }
                 }
+                //set quiz to session
+                context.Session.GetSessionContext().CurrentQuiz = quiz;
             }
             return quiz;
         }
