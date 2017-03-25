@@ -67,6 +67,7 @@ namespace BFH.EADN.QuizService.Implementation
                     Quiz quiz = repo.Get(id);
 
                     //do that to update the LastUsed timestamp
+                    quiz.LastUsed = DateTime.Now;
                     repo.Update(quiz);
 
                     //fix always same questions and same order
@@ -74,7 +75,6 @@ namespace BFH.EADN.QuizService.Implementation
                     {
                         List<Question> questions = quiz.Questions.OrderBy(q => q.Id).Take(quiz.MaxQuestionCount).ToList();
                         quiz.Questions = questions;
-                        return quiz;
                     }
                     else if (quiz.Type == QuizType.Variable)
                     {
@@ -92,7 +92,6 @@ namespace BFH.EADN.QuizService.Implementation
                         }
 
                         quiz.Questions = randomizedList;
-                        return quiz;
                     }
                     else
                     {
@@ -109,8 +108,18 @@ namespace BFH.EADN.QuizService.Implementation
                         }
 
                         quiz.Questions = randomizedList;
-                        return quiz;
                     }
+
+                    using (IRepository<Question, Guid> questionRepo = QuestionRepository)
+                    { 
+                        foreach (Question question in quiz.Questions)
+                        {
+                            question.LastUsed = DateTime.Now;
+                            questionRepo.Update(question);
+                        }
+                    }
+
+                    return quiz;
                 }
             }
             catch (Exception ex)
@@ -146,7 +155,9 @@ namespace BFH.EADN.QuizService.Implementation
                 List<Question> questions;
                 using (IRepository<Quiz, Guid> repo = QuizRepository)
                 {
-                    questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
+                    Quiz quiz = repo.Get(quizId);
+                    questions = quiz.Questions.OrderBy(q => q.Id).ToList();
+                    
                 }
 
                 Question currentQuestion = null;

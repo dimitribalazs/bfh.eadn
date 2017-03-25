@@ -18,7 +18,7 @@ namespace BFH.EADN.QuizService.Implementation.Tests
         private static IFactoryPersistence _factoryPersistence = Factory.CreateInstance<IFactoryPersistence>();
 
 
-        [ClassInitialize]
+        [AssemblyInitialize]
         public static void InitLocal(TestContext context)
         {
             Init(context);

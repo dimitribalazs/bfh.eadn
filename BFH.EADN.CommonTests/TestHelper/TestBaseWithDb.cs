@@ -16,7 +16,7 @@ namespace BFH.EADN.CommonTests.TestHelper
         private static readonly string _quizDbLogName = "QuizDatabase_log.ldf";
 
         public static void Init(TestContext context)
-        {
+        { 
             File.Delete(_quizDbName);
             File.Delete(_quizDbLogName);
 

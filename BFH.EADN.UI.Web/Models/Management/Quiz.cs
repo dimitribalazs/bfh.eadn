@@ -49,7 +49,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// <summary>
         /// Last used timestamp
         /// </summary>
-        public DateTime LastUsed { get; set; }
+        public DateTime? LastUsed { get; set; }
 
         /// <summary>
         /// Questions to choose from
@@ -68,7 +68,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// Return true if it can be deleted
         /// </summary>
         public bool CanBeDeleted
-                => (DateTime.Now - LastUsed).Days > Common.Constants.DeletionThreshold;
+                => LastUsed.HasValue == false || ((DateTime.Now - LastUsed.Value).Days > Common.Constants.DeletionThreshold);
             
     }
 }

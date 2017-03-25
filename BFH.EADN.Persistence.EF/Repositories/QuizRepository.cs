@@ -21,11 +21,13 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 //Get all questions and set LastUsed state
                 List<Guid> questionIds = data.Questions.Select(dq => dq.Id).ToList();
                 List<Entities.Question> questions = Context.Questions.Where(q => questionIds.Contains(q.Id)).ToList();
-                questions.ForEach(q => q.LastUsed = DateTime.Now);
+                //questions.ForEach(q => q.LastUsed = DateTime.Now);
 
                 newQuiz.Questions = questions;
             }
-            newQuiz.LastUsed = DateTime.Now;
+
+            //should be deletable if its only created
+            //newQuiz.LastUsed = DateTime.Now;
 
             Context.Quizzes.Add(newQuiz);
             Context.SaveChanges();
@@ -77,7 +79,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             quiz.Type = data.Type;
             quiz.MaxQuestionCount = data.MaxQuestionCount;
             quiz.MinQuestionCount = data.MinQuestionCount;
-            quiz.LastUsed = DateTime.Now;
+            //quiz.LastUsed = DateTime.Now;
             
             //update question list
             List<Guid> guids = data.Questions.Select(q => q.Id).ToList();
@@ -89,7 +91,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 }
                 else
                 {
-                    question.LastUsed = DateTime.Now;
+                    //question.LastUsed = DateTime.Now;
                     quiz.Questions.Add(question);
                 }
             }

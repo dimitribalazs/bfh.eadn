@@ -349,7 +349,10 @@ namespace BFH.EADN.QuizManagementService.Implementation
                 using (IRepository<Question, Guid> repo = QuestionRepository)
                 {
                     List<Question> questions = repo.GetAll();
-                    questions.ForEach(q => q.CanBeDeleted = Util.CanBeDeleted(q.LastUsed, Constants.DeletionThreshold));
+                    questions.ForEach(q =>
+                    {
+                        q.CanBeDeleted = Util.CanBeDeleted(q.LastUsed, Constants.DeletionThreshold);
+                    });
                     return questions;
                 }
             }

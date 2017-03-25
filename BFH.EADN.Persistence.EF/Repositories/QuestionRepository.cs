@@ -21,7 +21,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
                 List<Guid> topicIds = data.Topics.Select(dq => dq.Id).ToList();
                 newQuestion.Topics = Context.Topics.Where(q => topicIds.Contains(q.Id)).ToList();
             }
-            newQuestion.LastUsed = DateTime.Now;
+            //newQuestion.LastUsed = DateTime.Now;
             Context.Questions.Add(newQuestion);
             Context.SaveChanges();
         }

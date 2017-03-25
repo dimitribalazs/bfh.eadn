@@ -38,7 +38,7 @@ namespace BFH.EADN.Persistence.EF.Entities
         /// <summary>
         /// When the quiz was last used
         /// </summary>
-        public DateTime LastUsed { get; set; } = DateTime.Now;
+        public DateTime? LastUsed { get; set; }
 
         /// <summary>
         /// Relations to questions

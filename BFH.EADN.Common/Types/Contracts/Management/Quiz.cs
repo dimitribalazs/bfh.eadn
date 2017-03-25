@@ -42,7 +42,7 @@ namespace BFH.EADN.Common.Types.Contracts
         /// When the quiz was last used
         /// </summary>
         [DataMember(Order = 0, Name = "LastUsed")]
-        public DateTime LastUsed { get; set; }
+        public DateTime? LastUsed { get; set; }
 
         /// <summary>
         /// Can be deleted

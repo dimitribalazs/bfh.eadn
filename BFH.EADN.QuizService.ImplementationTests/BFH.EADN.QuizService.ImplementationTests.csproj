@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BFH.EADN.CommonTests\BFH.EADN.CommonTests.csproj">
-      <Project>{98AA649D-5A36-4DF9-B127-C2EB8279E244}</Project>
+      <Project>{98aa649d-5a36-4df9-b127-c2eb8279e244}</Project>
       <Name>BFH.EADN.CommonTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">

@@ -48,6 +48,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -63,11 +64,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuizManagementTests.cs" />
+    <Compile Include="QuizManagementAnswerTests.cs" />
+    <Compile Include="QuizManagementQuizTests.cs" />
+    <Compile Include="QuizManagementTopicTests.cs" />
+    <Compile Include="QuizManagementQuestionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BFH.EADN.CommonTests\BFH.EADN.CommonTests.csproj">
-      <Project>{98AA649D-5A36-4DF9-B127-C2EB8279E244}</Project>
+      <Project>{98aa649d-5a36-4df9-b127-c2eb8279e244}</Project>
       <Name>BFH.EADN.CommonTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\BFH.EADN.Common\BFH.EADN.Common.csproj">

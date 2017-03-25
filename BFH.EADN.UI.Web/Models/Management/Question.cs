@@ -49,7 +49,7 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// <summary>
         /// Last used timestamp
         /// </summary>
-        public DateTime LastUsed { get; set; }
+        public DateTime? LastUsed { get; set; }
 
         /// <summary>
         /// Answer to choose from
@@ -70,12 +70,12 @@ namespace BFH.EADN.UI.Web.Models.Management
         /// <param name="id">answer id</param>
         /// <returns>true if is already selected</returns>
         public bool AnswerIsSelected(Guid id)
-            => SelectedAnswerIds != null && SelectedAnswerIds.Contains(id);
+            => (SelectedAnswerIds != null && SelectedAnswerIds.Contains(id));
 
         /// <summary>
         /// Return true if it can be deleted
         /// </summary>
         public bool CanBeDeleted
-                => (DateTime.Now - LastUsed).Days > Common.Constants.DeletionThreshold;
+                => LastUsed.HasValue == false || (DateTime.Now - LastUsed.Value).Days > Common.Constants.DeletionThreshold;
     }
 }

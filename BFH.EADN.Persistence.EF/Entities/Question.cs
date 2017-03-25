@@ -36,7 +36,7 @@ namespace BFH.EADN.Persistence.EF.Entities
         /// <summary>
         /// When the question was last used
         /// </summary>
-        public DateTime LastUsed { get; set; } = DateTime.Now;
+        public DateTime? LastUsed { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Relations to topic
