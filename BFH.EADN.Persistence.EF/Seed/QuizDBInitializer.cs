@@ -303,10 +303,20 @@ namespace BFH.EADN.Persistence.EF.Seed
                 movieActorQuestion1No
             };
 
+            mathQuestion1.Topics = new HashSet<Topic>
+            {
+                math
+            };
+
             mathQuestion1.Answers = new HashSet<Answer>
             {
                 mathAnswer1No,
                 mathAnswer1Yes,
+            };
+
+            mathQuestion2.Topics = new HashSet<Topic>
+            {
+                math
             };
 
             mathQuestion2.Answers = new HashSet<Answer>
@@ -315,10 +325,20 @@ namespace BFH.EADN.Persistence.EF.Seed
                 mathAnswer28,
             };
 
+            mathQuestion3.Topics = new HashSet<Topic>
+            {
+                math
+            };
+
             mathQuestion3.Answers = new HashSet<Answer>
             {
                 mathAnswer3Yes,
                 mathAnswer3No
+            };
+
+            mathQuestion4.Topics = new HashSet<Topic>
+            {
+                math
             };
 
             mathQuestion4.Answers = new HashSet<Answer>
@@ -328,10 +348,20 @@ namespace BFH.EADN.Persistence.EF.Seed
                 mathAnswer44
             };
 
+            mathQuestion5.Topics = new HashSet<Topic>
+            {
+                math
+            };
+
             mathQuestion5.Answers = new HashSet<Answer>
             {
                 mathAnswer5No,
                 mathAnswer5Yes
+            };
+
+            mathQuestion6.Topics = new HashSet<Topic>
+            {
+                math
             };
 
             mathQuestion6.Answers = new HashSet<Answer>
@@ -339,6 +369,11 @@ namespace BFH.EADN.Persistence.EF.Seed
                 mathAnswer6399,
                 mathAnswer6400,
                 mathAnswer6401
+            };
+
+            mathQuestion7.Topics = new HashSet<Topic>
+            {
+                math
             };
 
             mathQuestion7.Answers = new HashSet<Answer>
