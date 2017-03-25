@@ -556,6 +556,7 @@ namespace BFH.EADN.QuizManagementService.Implementation
         {
             public Guid Id => Guid.Parse("61408abc-df3e-4f97-b501-4e9720530ff7");
             public string Name => "Admin";
+            // PW: Test@22
             public string Password => "AAorcLme9Z/b9oJF5rbRcchQyM+j+SkjkOldeEIVXTx/eT4b6eDQmbyyhifxsqIYBw==";
         }
     }

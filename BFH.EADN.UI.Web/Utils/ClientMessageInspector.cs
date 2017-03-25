@@ -15,7 +15,6 @@ namespace BFH.EADN.UI.Web.Utils
     {
         public void AfterReceiveReply(ref Message reply, object correlationState)
         {
-            Console.WriteLine("got message");
         }
 
         public object BeforeSendRequest(ref Message request, IClientChannel channel)

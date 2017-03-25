@@ -13,23 +13,24 @@ namespace BFH.EADN.UI.Web.Identity
     public class ApplicationUserStore : IUserStore<User, Guid>, IUserPasswordStore<User, Guid>
     {
 
-        public static List<User> Users = new List<User>()
-        {
-            // PW: Test@22
-            new User
-            {
-                Id = Guid.NewGuid(),
-                UserName = "Admin",
-                Password = "AAorcLme9Z/b9oJF5rbRcchQyM+j+SkjkOldeEIVXTx/eT4b6eDQmbyyhifxsqIYBw=="
-            }
-        };
+        //public static List<User> Users = new List<User>()
+        //{
+        //    // PW: Test@22
+        //    new User
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        UserName = "Admin",
+        //        Password = "AAorcLme9Z/b9oJF5rbRcchQyM+j+SkjkOldeEIVXTx/eT4b6eDQmbyyhifxsqIYBw=="
+        //    }
+        //};
 
         private Common.Types.Contracts.User _currentUser;
 
         #region IUserStore
         public Task CreateAsync(User user)
         {
-            return Task.Factory.StartNew(() => Users.Add(user));
+            throw new NotImplementedException();
+            //return Task.Factory.StartNew(() => Users.Add(user));
         }
 
         public Task DeleteAsync(User user)
@@ -54,9 +55,6 @@ namespace BFH.EADN.UI.Web.Identity
 
         public Task<User> FindByNameAsync(string userName)
         {
-            // return Task<User>.Factory.StartNew(
-            //     () => Users.FirstOrDefault(account => string.Equals(account.UserName, userName, StringComparison.InvariantCultureIgnoreCase)
-            //));
             return Task<User>.Factory.StartNew(
                 () => {
                     ISession session = ClientProxy.GetProxy<ISession>();
@@ -80,17 +78,6 @@ namespace BFH.EADN.UI.Web.Identity
         public Task<string> GetPasswordHashAsync(User user)
         {
             return Task<string>.Factory.StartNew(() => _currentUser.Password);
-            //return Task<string>.Factory.StartNew(() => 
-            //{
-            //    ISession session = ClientProxy.GetProxy<ISession>();
-            //    Common.Types.Contracts.User contractUser = session.GetUserById();
-            //    if(user == null)
-            //    {
-            //        throw new InvalidOperationException("no user found with id");
-            //    }
-
-            //    return user.Password;                
-            //});
         }
 
         public Task<bool> HasPasswordAsync(User user)

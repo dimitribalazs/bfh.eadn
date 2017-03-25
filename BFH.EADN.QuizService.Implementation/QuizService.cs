@@ -137,25 +137,7 @@ namespace BFH.EADN.QuizService.Implementation
                 throw new FaultException<ServiceFault>(fault);
             }
         }
-
-        ///<inheritdoc />
-        public PlayQuestion GetFirstQuestion(Guid quizId)
-        {
-            try
-            {
-                using (IRepository<Quiz, Guid> repo = QuizRepository)
-                {
-                    List<Question> questions = repo.Get(quizId).Questions.OrderBy(q => q.Id).ToList();
-                    return GetQuestion(quizId, questions.First().Id);
-                }
-            }
-            catch (Exception ex)
-            {
-                ServiceFault fault = Common.Common.CreateServiceFault(ex, "Error while getting first question");
-                throw new FaultException<ServiceFault>(fault);
-            }
-        }
-
+        
         ///<inheritdoc />
         public PlayQuestion GetQuestion(Guid quizId, Guid questionId)
         {
@@ -225,7 +207,10 @@ namespace BFH.EADN.QuizService.Implementation
                     {
                         return solutionsAnswers == null || solutionsAnswers.Count == 0;
                     }
-                    return answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
+                    //count and selected answers must match
+                    return 
+                        answers.Count == solutionsAnswers.Count
+                        && answers.Aggregate(true, (acc, answerId) => acc & solutionsAnswers.Contains(answerId));
                     
                 }
             }

@@ -198,21 +198,36 @@ namespace BFH.EADN.UI.Web.Services
         /// <param name="context">current HttpContextBase</param>
         /// <param name="quizId">current quiz id</param>
         /// <returns>current quiz</returns>
-        public ContractTypes.Quiz GetQuiz(HttpContextBase context, Guid quizId, Guid? questionAnswerStateId = null, string savedQuestionIdsString = null)
+        public ContractTypes.Quiz GetQuiz(HttpContextBase context, Guid quizId)
+        {
+            ContractTypes.Quiz quiz = context.Session.GetSessionContext().CurrentQuiz;
+
+            //quiz changed, load from service
+            if (quiz == null || quizId != quiz.Id)
+            {
+                quiz = GetContractQuiz(quizId);
+            }
+
+            context.Session.GetSessionContext().CurrentQuiz = quiz;
+
+            return quiz;
+        }
+
+        /// <summary>
+        /// Get quiz if replay button has been clicked
+        /// </summary>
+        /// <param name="context">current HttpContextBase</param>
+        /// <param name="quizId">current quiz id</param>
+        /// <param name="savedQuestionIdsString">questionIds from cookie</param>
+        /// <returns>current quiz</returns>
+        public ContractTypes.Quiz GetQuizReplay(HttpContextBase context, Guid quizId, string savedQuestionIdsString = null)
         {
             ContractTypes.Quiz quiz = context.Session.GetSessionContext().CurrentQuiz;
             //check if there is already a quiz in the session, or if the quiz changes
-            if (quiz == null || quiz.Id != quizId)
+            if (quiz == null)
             {
                 quiz = GetContractQuiz(quizId);
-
-                List<QuestionAnswerState> qas = new List<QuestionAnswerState>();
                 IPlay service = ClientProxy.GetProxy<IPlay>();
-                //check if there is a questionanswerstate
-                if (questionAnswerStateId.HasValue)
-                {
-                    qas = service.GetAllSavedQuestionAnswerStates(questionAnswerStateId.Value);
-                }
 
                 if (string.IsNullOrEmpty(savedQuestionIdsString) == false)
                 {
@@ -258,8 +273,6 @@ namespace BFH.EADN.UI.Web.Services
                         }
                     }
                 }
-
-                context.Session.GetSessionContext().CurrentQuiz = quiz;
             }
             return quiz;
         }

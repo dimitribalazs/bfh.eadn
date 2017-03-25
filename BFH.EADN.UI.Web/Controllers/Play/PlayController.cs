@@ -78,7 +78,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
                 //create new questionAnswerStateId
                 cookie.Value = Guid.NewGuid().ToString();
             }
-            
+
             //clear old state
             Guid questionAnswerStateId = Guid.Parse(cookie.Value);
             _service.DeleteQuestionAnswerState(questionAnswerStateId);
@@ -87,7 +87,7 @@ namespace BFH.EADN.UI.Web.Controllers.Play
 
             //save questions in quiz
             quizStateCookie[_questionsInCurrentQuiz] = string.Join(",", quiz.Questions.Select(q => q.Id));
-            
+
             //update response
             HttpContext.Response.Cookies.Remove(_questionAnswerStateId);
             HttpContext.Response.Cookies.Set(cookie);
@@ -138,32 +138,41 @@ namespace BFH.EADN.UI.Web.Controllers.Play
         {
             //update cookie with new url
             HttpCookie cookie = GetCookie(_quizState);
-            cookie.Values[_url] = HttpUtility.UrlEncode(HttpContext.Request.Url.AbsoluteUri);
 
+            string uri = HttpContext.Request.Url.AbsoluteUri;
+            string updatedUri = uri.Replace("Play?", "Replay?");
+
+            cookie.Values[_url] = HttpUtility.UrlEncode(updatedUri);
+
+            HttpContext.Response.Cookies.Remove(_quizState);
+            HttpContext.Response.Cookies.Set(cookie);
+
+            //get quiz
+            ContractTypes.Quiz quiz = _service.GetQuiz(HttpContext, quizId);
+
+            Question question = _service.GetQuestion(quiz, questionId.Value);
+            return View(question);
+        }
+
+        /// <summary>
+        /// Replay quiz
+        /// </summary>
+        /// <param name="quizId">quiz id</param>
+        /// <param name="questionId">quiz id</param>
+        /// <returns>RedirectToActionResult("Play")</returns>
+        public ActionResult Replay(Guid quizId, Guid questionId)
+        {
+            //update cookie with new url
+            HttpCookie cookie = GetCookie(_quizState);
+            
             string questionIds = string.IsNullOrEmpty(cookie.Values[_questionsInCurrentQuiz]) == false
                                 ? cookie.Values[_questionsInCurrentQuiz]
                                 : null;
 
-            HttpCookie questionAnswerStateCookie = GetCookie(_questionAnswerStateId);
-            ContractTypes.Quiz quiz;
-            Guid questionAnswerStateId;
-            if (Guid.TryParse(questionAnswerStateCookie.Value, out questionAnswerStateId))
-            {
-                
-                quiz = _service.GetQuiz(HttpContext, quizId, questionAnswerStateId, questionIds);
-            }
-            else
-            {
-                quiz = _service.GetQuiz(HttpContext, quizId, null, questionIds);
-            }
-            
+            //get quiz, so its in the session again
+            ContractTypes.Quiz quiz = _service.GetQuizReplay(HttpContext, quizId, questionIds);
 
-
-            HttpContext.Response.Cookies.Remove(_quizState);
-            HttpContext.Response.Cookies.Set(cookie);
-            
-            Question question = _service.GetQuestion(quiz, questionId.Value);
-            return View(question);
+            return RedirectToAction("Play", new { quizId = quizId, questionId = questionId });
         }
 
         /// <summary>
