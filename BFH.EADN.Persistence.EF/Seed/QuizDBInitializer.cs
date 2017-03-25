@@ -14,25 +14,27 @@ namespace BFH.EADN.Persistence.EF.Seed
     {
         protected override void Seed(QuizDataContext context)
         {
-         
+
+            Topic math = new Topic { Name = "Math", Description = "Math questions" };
             Topic programming = new Topic { Name = "Programming", Description = "All about programming" };
             Topic movies = new Topic { Name = "Movies", Description = "All about movies" };
             Topic actors = new Topic { Name = "Actors", Description = "All about actory" };
 
             Question programmingQuestion1 = new Question { Text = "Is the C# syntax similiar to C?", IsMultipleChoice = false };
-            Question programmingQuestion2 = new Question { Text = "Is SQL an object oriented language" };
-            Question programmingQuestion3 = new Question { Text = "1 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion4 = new Question { Text = "2 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion5 = new Question { Text = "3 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion6 = new Question { Text = "4 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion7 = new Question { Text = "5 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion8 = new Question { Text = "6 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion9 = new Question { Text = "7 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion10 = new Question { Text = "8 Which are a linux system?", IsMultipleChoice = true, LastUsed = new DateTime(2015, 1, 12)};
-            Question programmingQuestion11 = new Question { Text = "9 Which are a linux system?", IsMultipleChoice = true };
-            Question programmingQuestion12 = new Question { Text = "10 Which are a linux system?", IsMultipleChoice = true };
+            Question programmingQuestion2 = new Question { Text = "Is SQL an object oriented language?" };
+            Question programmingQuestion3 = new Question { Text = "1 Which are linux systems?", IsMultipleChoice = true };
+            Question programmingQuestion4 = new Question { Text = "2 Which are linux systems?", IsMultipleChoice = true };
+            Question programmingQuestion5 = new Question { Text = "3 Which are linux systems?", IsMultipleChoice = true };
+            Question programmingQuestion6 = new Question { Text = "4 Which are linux systems?", IsMultipleChoice = true };
+            Question programmingQuestion7 = new Question { Text = "5 Which are linux systems?", IsMultipleChoice = true };
+            Question programmingQuestion8 = new Question { Text = "6 Which are linux systems? Can Be Deleted", IsMultipleChoice = true, LastUsed = new DateTime(2015, 1, 12) };
+            Question programmingQuestion9 = new Question { Text = "7 Which are linux systems? Can Be Deleted", IsMultipleChoice = true, LastUsed = new DateTime(2015, 1, 12) };
+            Question programmingQuestion10 = new Question { Text = "8 Which are linux systems? Can Be Deleted", IsMultipleChoice = true, LastUsed = new DateTime(2015, 1, 12) };
+            Question programmingQuestion11 = new Question { Text = "9 Which are linux systems?", IsMultipleChoice = true };
+            Question programmingQuestion12 = new Question { Text = "10 Which are linux systems?", IsMultipleChoice = true };
+
             Question movieQuestion1 = new Question { Text = "How many sequels does matrix have?" };
-            Question movieQuestion2 = new Question { Text = "Are those Lord of the Rings characters?", IsMultipleChoice = true };
+            Question movieQuestion2 = new Question { Text = "Are these Lord of the Rings characters?", IsMultipleChoice = true };
             Question movieActorQuestion1 = new Question { Text = "Does Keanu Reeves star in all Matrix movies?" };
 
             Answer programmingAnwers1Yes = new Answer { Text = "Yes", IsSolution = true };
@@ -56,7 +58,6 @@ namespace BFH.EADN.Persistence.EF.Seed
             Answer programmingAnwers11Ubuntu = new Answer { Text = "Ubuntu 8", IsSolution = true };
             Answer programmingAnwers12Ubuntu = new Answer { Text = "Ubuntu 9", IsSolution = true };
 
-
             Answer movieQuestion1first = new Answer { Text = "3" };
             Answer movieQuestion1second = new Answer { Text = "10" };
             Answer movieQuestion1third = new Answer { Text = "2", IsSolution = true };
@@ -68,6 +69,49 @@ namespace BFH.EADN.Persistence.EF.Seed
             Answer movieQuestion2second = new Answer { Text = "Spiderman" };
             Answer movieQuestion2third = new Answer { Text = "Saruman", IsSolution = true };
 
+            //math
+            Question mathQuestion1 = new Question { Text = "Is 1 + 1 = 2?", Hint = "Yes it is" };
+            Answer mathAnswer1Yes = new Answer { Text = "Yes", IsSolution = true };
+            Answer mathAnswer1No = new Answer { Text = "No" };
+
+            Question mathQuestion2 = new Question { Text = "What is 2 * 4?", Hint = "It is 8", IsMultipleChoice = true };
+            Answer mathAnswer27 = new Answer { Text = "7" };
+            Answer mathAnswer28 = new Answer { Text = "8" };
+
+            Question mathQuestion3 = new Question { Text = "Is 1 + 1 = 3?", Hint = "No it isnt" };
+            Answer mathAnswer3Yes = new Answer { Text = "Yes" };
+            Answer mathAnswer3No = new Answer { Text = "No", IsSolution = true };
+
+            Question mathQuestion4 = new Question { Text = "What is 2 ^ 3 ?", Hint = "8", IsMultipleChoice = true };
+            Answer mathAnswer44 = new Answer { Text = "4" };
+            Answer mathAnswer410 = new Answer { Text = "10" };
+            Answer mathAnswer411 = new Answer { Text = "11" };
+
+            Question mathQuestion5 = new Question { Text = "15 / 5 = 3?", Hint = "Yes it is" };
+            Answer mathAnswer5Yes = new Answer { Text = "Yes", IsSolution = true };
+            Answer mathAnswer5No = new Answer { Text = "No" };
+
+            Question mathQuestion6 = new Question { Text = "20 * 20?", Hint = "400", IsMultipleChoice = true };
+            Answer mathAnswer6399 = new Answer { Text = "399" };
+            Answer mathAnswer6400 = new Answer { Text = "400" };
+            Answer mathAnswer6401 = new Answer { Text = "401" };
+
+            Question mathQuestion7 = new Question { Text = "Can you divide without rest? 20 / x ?", IsMultipleChoice = true };
+            Answer mathAnswer710 = new Answer { Text = "10", IsSolution = true };
+            Answer mathAnswer73 = new Answer { Text = "3" };
+            Answer mathAnswer74 = new Answer { Text = "4", IsSolution = true };
+            Answer mathAnswer79 = new Answer { Text = "9" };
+
+            math.Questions = new HashSet<Question>
+            {
+                mathQuestion1,
+                mathQuestion2,
+                mathQuestion3,
+                mathQuestion4,
+                mathQuestion5,
+                mathQuestion6,
+                mathQuestion7
+            };
 
             programming.Questions = new HashSet<Question>
             {
@@ -112,6 +156,12 @@ namespace BFH.EADN.Persistence.EF.Seed
             {
                 programming
             };
+
+            programmingQuestion2.Answers = new HashSet<Answer>
+              {
+                  programmingAnwers2No,
+                  programmingAnwers2Yes
+              };
 
             programmingQuestion3.Topics = new HashSet<Topic>
             {
@@ -253,15 +303,61 @@ namespace BFH.EADN.Persistence.EF.Seed
                 movieActorQuestion1No
             };
 
+            mathQuestion1.Answers = new HashSet<Answer>
+            {
+                mathAnswer1No,
+                mathAnswer1Yes,
+            };
+
+            mathQuestion2.Answers = new HashSet<Answer>
+            {
+                mathAnswer27,
+                mathAnswer28,
+            };
+
+            mathQuestion3.Answers = new HashSet<Answer>
+            {
+                mathAnswer3Yes,
+                mathAnswer3No
+            };
+
+            mathQuestion4.Answers = new HashSet<Answer>
+            {
+                mathAnswer411,
+                mathAnswer410,
+                mathAnswer44
+            };
+
+            mathQuestion5.Answers = new HashSet<Answer>
+            {
+                mathAnswer5No,
+                mathAnswer5Yes
+            };
+
+            mathQuestion6.Answers = new HashSet<Answer>
+            {
+                mathAnswer6399,
+                mathAnswer6400,
+                mathAnswer6401
+            };
+
+            mathQuestion7.Answers = new HashSet<Answer>
+            {
+                mathAnswer710,
+                mathAnswer73,
+                mathAnswer74,
+                mathAnswer79
+            };
+
             HashSet<Topic> topics = new HashSet<Topic>
             {
-                programming, movies
+                programming, movies, math
             };
 
             Quiz quiz1 = new Quiz
             {
                 Text = "Programming quiz",
-                Type = QuizType.Variable,
+                Type = QuizType.Dynamic,
                 MinQuestionCount = 3,
                 MaxQuestionCount = 5,
                 LastUsed = new DateTime(2016, 1, 22),
@@ -323,13 +419,50 @@ namespace BFH.EADN.Persistence.EF.Seed
                 }
             };
 
+            Quiz quiz5 = new Quiz
+            {
+                Text = "Math quiz dynamic",
+                Type = QuizType.Dynamic,
+                MinQuestionCount = 2,
+                MaxQuestionCount = 4,
+                Questions = new HashSet<Question>
+                {
+                    mathQuestion1,
+                    mathQuestion2,
+                    mathQuestion3,
+                    mathQuestion4,
+                    mathQuestion5,
+                    mathQuestion6,
+                    mathQuestion7,
+                }
+            };
+
+            Quiz quiz6 = new Quiz
+            {
+                Text = "Math quiz fix",
+                Type = QuizType.Fix,
+                MinQuestionCount = 2,
+                MaxQuestionCount = 3,
+                Questions = new HashSet<Question>
+                {
+                    mathQuestion1,
+                    mathQuestion2,
+                    mathQuestion3,
+                    mathQuestion4,
+                    mathQuestion5,
+                    mathQuestion6,
+                    mathQuestion7,
+                }
+            };
 
             List<Quiz> quizzes = new List<Quiz>
             {
                 quiz1,
                 quiz2,
                 quiz3,
-                quiz4
+                quiz4,
+                quiz5,
+                quiz6
             };
 
             foreach (Quiz quiz in quizzes)
