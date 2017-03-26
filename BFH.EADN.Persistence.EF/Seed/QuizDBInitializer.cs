@@ -76,7 +76,7 @@ namespace BFH.EADN.Persistence.EF.Seed
 
             Question mathQuestion2 = new Question { Text = "What is 2 * 4?", Hint = "It is 8", IsMultipleChoice = true };
             Answer mathAnswer27 = new Answer { Text = "7" };
-            Answer mathAnswer28 = new Answer { Text = "8" };
+            Answer mathAnswer28 = new Answer { Text = "8", IsSolution = true };
 
             Question mathQuestion3 = new Question { Text = "Is 1 + 1 = 3?", Hint = "No it isnt" };
             Answer mathAnswer3Yes = new Answer { Text = "Yes" };
@@ -93,7 +93,7 @@ namespace BFH.EADN.Persistence.EF.Seed
 
             Question mathQuestion6 = new Question { Text = "20 * 20?", Hint = "400", IsMultipleChoice = true };
             Answer mathAnswer6399 = new Answer { Text = "399" };
-            Answer mathAnswer6400 = new Answer { Text = "400" };
+            Answer mathAnswer6400 = new Answer { Text = "400", IsSolution = true };
             Answer mathAnswer6401 = new Answer { Text = "401" };
 
             Question mathQuestion7 = new Question { Text = "Can you divide without rest? 20 / x ?", IsMultipleChoice = true };
