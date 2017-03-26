@@ -79,6 +79,7 @@ namespace BFH.EADN.Persistence.EF.Repositories
             quiz.Type = data.Type;
             quiz.MaxQuestionCount = data.MaxQuestionCount;
             quiz.MinQuestionCount = data.MinQuestionCount;
+            quiz.LastUsed = data.LastUsed;
             //quiz.LastUsed = DateTime.Now;
             
             //update question list
